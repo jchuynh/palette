@@ -6,7 +6,6 @@ import json
 import os # want to make a new directory/folder for each set of color palettes
 
 
-##### TESTING COLOR EXTRACTION #####
 
 img_path = 'https://images.metmuseum.org/CRDImages/ep/web-large/DP-17161-001.jpg'
 

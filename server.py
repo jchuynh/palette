@@ -1,31 +1,47 @@
 
-import jinja2
+# import jinja2
 
-From flask import Flask, render_template, redirect
-from flask_debugtoolbar import DebugToolbarExtension
+from flask import Flask, render_template, redirect
+# from flask_debugtoolbar import DebugToolbarExtension
+import requests
+import json     
 
-from model import connect_to_db, db
+app = Flask(__name__)
 
+# from model import connect_to_db, db
 
-app.secret_key  = 'whiteboardsareremarkable'
-
-app.jinja2_env.undefined = StrictUndefined
+# app.jinja2_env.undefined = StrictUndefined
 
 ##### API #####
 
-# need to save a JSON file
-#  
 
-url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects'
-
-
+url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
 response = requests.get(url)
 data = response.json()
 
 objects = json.dumps(data)
 
-for item in objects:
-    
+
+def get_JSON_data():
+
+    art_info = []
+
+    for item in objects:
+        art_info_dict = {}
+
+        art_info_dict['art_title'] = data.get('title')
+        art_info_dict['artist_name'] = data.get('artistDisplayName') 
+        art_info_dict['art_image'] = data.get('primaryImageSmall')
+        art_info_dict['type_code'] = data.get('classification')
+
+        art_info.append(art_info_dict)
+        print(art_info)
+
+
+
+
+
+
 
 
 
@@ -38,15 +54,13 @@ for item in objects:
 
 
 
-@app.route('/')
-def hompage():
+@app.route("/")
+def index():
     """Displays homepage."""
 
+    return render_template("templates/index.html")
 
-
-    return render_template('homepage.html')
-
-@app.route('/artwork/{artwork_id}')
+@app.route("/artwork/{artwork_id}")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
@@ -57,13 +71,13 @@ def artwork_detail(artwork_id):
     return render_template("artwork.html", artwork_id=artwork_id)
 
 
-if __name__ == "__main__":
-    app.debug = True
+# if __name__ == "__main__":
+#     app.debug = True
 
-    connect_to_db(app)
+#     connect_to_db(app)
 
-    DebugToolbarExtension(app)
+#     DebugToolbarExtension(app)
 
-    app.run(host="0.0.0.0")
+#     app.run(host="0.0.0.0")
 
 
