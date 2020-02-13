@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy 
 
-db = SQLALchemy()
+db = SQLAlchemy()
 
 
 class Artwork(db.Model):
@@ -33,17 +33,17 @@ class Artist(db.Model):
         return f"<artist name={self.artist_name}>"
 
 
-class TypeCode(db.Model):
-    """Art classification code."""
+# class TypeCode(db.Model):
+#     """Art classification code."""
 
-    __tablename__ = "type_codes"
+#     __tablename__ = "type_codes"
 
-    type_code = db.Column(db.Integer)
+#     type_code = db.Column(db.Integer)
 
-    def __repr__(self):
-        """Returns the art type."""
+#     def __repr__(self):
+#         """Returns the art type."""
 
-        return f"<art type={self.type_code}>"
+#         return f"<art type={self.type_code}>"
 
 #### Helper Functions 
 
@@ -51,8 +51,13 @@ def connect_to_db(app):
     """Connect the data base to our Flask app."""
 
     # Configure to use PostgreSQL database
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///ratings"
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = Falsedb.app = app
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///art"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config['SQLALCHEMY_ECHO'] = True
+    db.app = app
     db.init_app(app)
         
-
+if __name__ == "__main__":
+    from server import app
+    connect_to_db(app)
+    print("Connected to DB.")
