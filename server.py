@@ -1,29 +1,9 @@
 
 from haishoku.haishoku import Haishoku
+import haishoku.haillow
 from PIL import Image
 import requests
 import json
-
-
-##### TESTING COLOR EXTRACTION #####
-
-def new_image(mode, size, color):  # need to take into account percentage
-    return Image.new(mode, size, color)
-
-
-palette = Haishoku.getPalette('DT1567.jpg')
-print(palette) #prints percentage of color and RGB values
-
-Haishoku.showPalette('DT1567.jpg')
-
-h = Haishoku.loadHaishoku('DT1567.jpg')
-
-# pal = new_image('RGB', (100, 100), h.showPal)
-# pal.save("test.jpg", "JPEG")
-
-
-# .ppm (Portable Pixmap) file: a 24-bit color image formatted using a text format.
-# can also store the images width and height, maximum color value.
 
 
 
@@ -31,24 +11,57 @@ h = Haishoku.loadHaishoku('DT1567.jpg')
 
 
 
-url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/489064'
+# url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects'
 
 
-response = requests.get(url)
-data = response.json()
+# response = requests.get(url)
+# data = response.json()
 
-data.loads()
+# objects = json.dumps(data)
 
-# JSON.dumps dumos it back into a dictionary
+# for idx, val in enumerate(objects):
+#     if val = 
+        
 
-# JSON.loads loading it in? returns an obj
+
 
 # payload = {'title': art_title,
 #            'artistDisplayName': artist_name,
 #            'classification': art_media_code,
 #            'primaryImageSmall': art_image}
 
-print(data)
+
+
+
+##### TESTING COLOR EXTRACTION #####
+
+img_path = 'https://images.metmuseum.org/CRDImages/ep/web-large/DT1567.jpg'
+
+hai = Haishoku.loadHaishoku(img_path) 
+#returns a Haishoku instance, used to read the file
+
+palette = Haishoku.getPalette(img_path) # (percentage of color (RGB values))
+# print(palette)
+
+def new_image(mode, size, color):
+    return Image.new(mode, size, color)
+
+i = 1
+for item in palette:
+    # idx 0 is the percentage of color on the image
+    c_pal = item[1] # need to keep this as a tuple, RGB color codes
+    pal = new_image('RGB', (100, 100), c_pal)
+    # create a new image in in RGB mode, with 100X100 px, as the RGB color
+    file_name = f"static/color_palette/test{i}.jpg"
+    # save the file name 
+    i += 1 # increment the file names to prevent rewriting the file
+    pal.save(file_name, 'JPEG') # save color file as a jpeg    
+
+
+# .ppm (Portable Pixmap) file: a 24-bit color image formatted using a text format.
+# can also store the images width and height, maximum color value.
+
+
 
 
 

@@ -31,5 +31,13 @@ class Artist(db.Model):
 
         return f"<artist name={self.artist_name}>"
 
+
+class ArtMediaType(db.Model):
+    """Code on the type the object is"""
+
+    __tablename__ = "art_media"
+
+    art_media_code = db.Column(db.Integer)
+
         
 
