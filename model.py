@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy 
 
+
 db = SQLALchemy()
+
 
 class Artwork(db.Model):
     """Data for an art piece."""
@@ -9,7 +11,7 @@ class Artwork(db.Model):
 
     artwork_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     art_title = db.Column(db.String(100), nullable=False)
-    art_image = db.Column(db.String(300), nullable=False)
+    art_image = db.Column(db.String(300), nullable=False) # URL of the image.
     # color_pal = db.Column(db.) Type of data the color palette should be
 
     def __repr__(self):
@@ -32,12 +34,26 @@ class Artist(db.Model):
         return f"<artist name={self.artist_name}>"
 
 
-class ArtMediaType(db.Model):
-    """Code on the type the object is"""
+class TypeCode(db.Model):
+    """Art classification code."""
 
-    __tablename__ = "art_media"
+    __tablename__ = "type_codes"
 
-    art_media_code = db.Column(db.Integer)
+    type_code = db.Column(db.Integer)
 
+    def __repr__(self):
+        """Returns the art type."""
+
+        return f"<art type={self.type_code}>"
+
+#### Helper Functions 
+
+def connect_to_db(app):
+    """Connect the data base to our Flask app."""
+
+    # Configure to use PostgreSQL database
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///ratings"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = Falsedb.app = app
+    db.init_app(app)
         
 

@@ -1,27 +1,33 @@
 
-from haishoku.haishoku import Haishoku
-import haishoku.haillow
-from PIL import Image
-import requests
-import json
+import jinja2
+
+From flask import Flask, render_template, redirect
+from flask_debugtoolbar import DebugToolbarExtension
+
+from model import connect_to_db, db
 
 
+app.secret_key  = 'whiteboardsareremarkable'
+
+app.jinja2_env.undefined = StrictUndefined
 
 ##### API #####
 
+# need to save a JSON file
+#  
+
+url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects'
 
 
-# url = 'https://collectionapi.metmuseum.org/public/collection/v1/objects'
+response = requests.get(url)
+data = response.json()
+
+objects = json.dumps(data)
+
+for item in objects:
+    
 
 
-# response = requests.get(url)
-# data = response.json()
-
-# objects = json.dumps(data)
-
-# for idx, val in enumerate(objects):
-#     if val = 
-        
 
 
 
@@ -32,45 +38,32 @@ import json
 
 
 
-
-##### TESTING COLOR EXTRACTION #####
-
-img_path = 'https://images.metmuseum.org/CRDImages/ep/web-large/DT1567.jpg'
-
-hai = Haishoku.loadHaishoku(img_path) 
-#returns a Haishoku instance, used to read the file
-
-palette = Haishoku.getPalette(img_path) # (percentage of color (RGB values))
-# print(palette)
-
-def new_image(mode, size, color):
-    return Image.new(mode, size, color)
-
-i = 1
-for item in palette:
-    # idx 0 is the percentage of color on the image
-    c_pal = item[1] # need to keep this as a tuple, RGB color codes
-    pal = new_image('RGB', (100, 100), c_pal)
-    # create a new image in in RGB mode, with 100X100 px, as the RGB color
-    file_name = f"static/color_palette/test{i}.jpg"
-    # save the file name 
-    i += 1 # increment the file names to prevent rewriting the file
-    pal.save(file_name, 'JPEG') # save color file as a jpeg    
-
-
-# .ppm (Portable Pixmap) file: a 24-bit color image formatted using a text format.
-# can also store the images width and height, maximum color value.
+@app.route('/')
+def hompage():
+    """Displays homepage."""
 
 
 
+    return render_template('homepage.html')
+
+@app.route('/artwork/{artwork_id}')
+def artwork_detail(artwork_id):
+    """Displays more information on single artwork."""
+
+    artwork_id = Artwork.query.get(artwork_id)
+    art_title = Artwork.query.get(art_title)
+    art_image = Artwork.query.get(art_image)
+
+    return render_template("artwork.html", artwork_id=artwork_id)
 
 
+if __name__ == "__main__":
+    app.debug = True
 
-# @app.route('/')
-# def hompage():
-#     """Displays homepage."""
+    connect_to_db(app)
 
-#     return render_template('homepage.html')
+    DebugToolbarExtension(app)
 
+    app.run(host="0.0.0.0")
 
 
