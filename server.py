@@ -1,27 +1,24 @@
-
-from jinja2 import StrictUndefined
+from jinja2 import StrictUndefined  
 
 from flask import Flask, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db, db, Artwork, Artist 
+from model import Artwork, Artist, ArtType, connect_to_db, db
+
 import requests
-import json     
+import json 
+  
 
 app = Flask(__name__)
+
 app.secret_key = "whiteboardsareremarkable"
 
+url = "https://collectionapi.metmuseum.org/public/collection/v1/objects"
+response = requests.get(url)
+data = response.json() 
 
-# app.jinja2_env.undefined = StrictUndefined
-
-# def connect_to_db(app):
-#     """Connect the database to our Flask app."""
-
-#     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hackbright'
-#     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#     db.app = app
-#     db.init_app(app)
-
+for item in data:
+    new_url = 
 
 ##### API #####
 
@@ -60,12 +57,14 @@ app.secret_key = "whiteboardsareremarkable"
 #            'primaryImageSmall': art_image}
 
 
-
+ß
 @app.route("/")
 def index():
     """Displays homepage."""
 
-    return render_template("templates/index.html")
+    art_image = request.args.get("art_image")
+
+    return render_template("../templates/index.html", art_image=art_image)
 
 # @app.route("/artwork/{artwork_id}")
 # def artwork_detail(artwork_id):

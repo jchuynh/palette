@@ -1,5 +1,6 @@
-from model import Artwork, Artist, ArtType, connect_to_db, db
+from sqlalchemy import func
 
+from model import Artwork, Artist, ArtType, connect_to_db, db
 from server import app
 
 import requests

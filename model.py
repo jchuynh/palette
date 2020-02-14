@@ -3,9 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-
-
-
 class Artist(db.Model):
     """Data on the artist"""
 
