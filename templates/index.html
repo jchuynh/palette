@@ -1,16 +1,10 @@
 {% extends 'base.html' %}
 
 {% block title %}Color Palette{% endblock %}
-
-<html>
-<head>
-  <title>HOME</title>
-  <link rel="stylesheet" type="text/css" href="style.css" media="screen"/>
-</head>
-<body>
+{% block content %}
   <h1>The Artist's Color Palette</h1>
   
   <p>Here is the artwork:</p>
-  <p>{{ art_image }}
+  <p>{{ art_title.art_title }}</p> 
 
-</body>
+{% endblock %}
