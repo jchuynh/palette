@@ -8,7 +8,7 @@ import os # want to make a new directory/folder for each set of color palettes
 
 
 
-img_path = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
+img_path = "https://images.metmuseum.org/CRDImages/ep/web-large/DT1862.jpg"
 
 hai = Haishoku.loadHaishoku(img_path) 
 #returns a Haishoku instance, used to read the file
@@ -26,9 +26,9 @@ for item in palette:
     pal = new_image('RGB', (100, 100), c_pal)
     # create a new image in in RGB mode, with 100X100 px, as the RGB color
 
-    folder_name = "static/color_palette/{art_title}"
-
-    os.makedirs(folder_name)
+    # trying to save all color palette images in a folder named based on the artwork's title
+    # folder_name = "static/color_palette/{art_title}"
+    # os.makedirs(folder_name)
 
     file_name = f"static/color_palette/({c_pal}).jpg"
     # save the file name 
