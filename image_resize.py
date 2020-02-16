@@ -1,13 +1,15 @@
-import glob, os, sys
-import Image
+
 from PIL import Image
+import seed
+import glob, os
 
-size = 400, 400
+size = 350, 350
 
-infile = "static/images/DT1494.jpg"
 
-for infile in glob.glob("*.jpg"):
-    file, ext = os.path.splitest(infile)
-    im = Image.open(infile)
-    im.tumbnail(size)
-    im.save(file + ".thumbnail","JPEG")
+file = "static/images/DT1494.jpg"
+thumb_path = f"static/thumbnails/test2.jpg"
+
+im = Image.open(file)
+im.convert('RGB')
+im.thumbnail(size, Image.ANTIALIAS)
+im.save(thumb_path, 'JPEG', quality=80)
