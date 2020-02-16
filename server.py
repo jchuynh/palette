@@ -27,38 +27,20 @@ app.secret_key = "whiteboardsareremarkable"
 # objects = json.dumps(data)
 
 
-# def get_data():
-
-#     art_info = []
-
-#     for item in objects:
-#         art_info_dict = {}
-
-#         art_info_dict['art_title'] = data.get('title')
-#         art_info_dict['artist_name'] = data.get('artistDisplayName') 
-#         art_info_dict['art_image'] = data.get('primaryImageSmall')
-#         art_info_dict['type_code'] = data.get('classification')
-#         art_info.append(art_info_dict)
-#     return art_info
-
-
-
 @app.route("/")
 def index():
     """Displays homepage."""
 
-    art_title = Artwork.query.first() # gives object
+    artwork = Artwork.query.first() # gives an object
 
-    return render_template("index.html", art_title=art_title)
+    return render_template("index.html", artwork=artwork)
 
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
-    art = Artwork.query.get(artwork_id)
+    artwork = Artwork.query.get(artwork_id)
 
-    art.artwork_id
-    art.tilt
     return render_template("artwork.html", artwork_id=artwork_id)
 
 
