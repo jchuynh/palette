@@ -3,10 +3,14 @@ from sqlalchemy import func
 from model import Artwork, Artist, ArtType, connect_to_db, db
 from server import app
 
-import os, sys
+from PIL import Image
+
+import os, sys, glob
 from urllib.parse import urlparse
 import requests
 import json
+
+url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
 
 def load_art_types():
     """load the art classification"""
@@ -63,6 +67,24 @@ def load_artworks():
     db.session.add(artwork)
     db.session.commit()
 
+# def load_artwork_thumbnails():
+#     """Processing resizing of images"""
+
+#     size = 350, 350
+
+#     thumb_path = f"static/thumbnails/{ art_image }.jpg"
+
+#     im = Image.open(url)
+#     im.convert('RGB')
+#     im.thumbnail(size, Image.ANTIALIAS)
+#     im.save(thumb_path, 'JPEG')
+
+#     artwork = Artwork(art_thumb=art_thumb)
+    
+#     db.session.add(artwork)
+#     db.session.commit()
+
+
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -71,3 +93,4 @@ if __name__ == "__main__":
     load_artworks()
     load_artists()
     load_art_types()
+    load_artwork_thumbnails()

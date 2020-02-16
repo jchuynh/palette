@@ -1,13 +1,14 @@
+## moving function into seed.py
+
 
 from PIL import Image
-import seed
 import glob, os
 
 size = 350, 350
 
 
-file = "static/images/DT1494.jpg"
-thumb_path = f"static/thumbnails/test2.jpg"
+file = "static/images/DT1567.jpg"
+thumb_path = f"static/thumbnails/test.jpg"
 
 im = Image.open(file)
 im.convert('RGB')
