@@ -1,15 +1,16 @@
 
 from haishoku.haishoku import Haishoku
 from PIL import Image
-from model import Artwork, connect_to_db, db
+from seed import seed.load_artworks
 import requests
-
+import sys
 import json
 import os # want to make a new directory/folder for each set of color palettes
 
+load_artworks()
 
+img_path = "https://images.metmuseum.org/CRDImages/as/web-large/DP122117.jpg"
 
-img_path = "https://images.metmuseum.org/CRDImages/ep/web-large/DT1862.jpg"
 
 hai = Haishoku.loadHaishoku(img_path) 
 #returns a Haishoku instance, used to read the file

@@ -64,6 +64,8 @@ def load_artworks():
     artwork = Artwork(art_title=art_title, 
                       art_image=art_image)
 
+    print('hello')
+
     db.session.add(artwork)
     db.session.commit()
 
@@ -80,7 +82,7 @@ def load_artworks():
 #     im.save(thumb_path, 'JPEG')
 
 #     artwork = Artwork(art_thumb=art_thumb)
-    
+
 #     db.session.add(artwork)
 #     db.session.commit()
 
@@ -93,4 +95,4 @@ if __name__ == "__main__":
     load_artworks()
     load_artists()
     load_art_types()
-    load_artwork_thumbnails()
+    # load_artwork_thumbnails()
