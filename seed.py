@@ -6,18 +6,21 @@ from server import app
 from PIL import Image
 
 import os, sys, glob
+import urllib.request
 from urllib.parse import urlparse
 import requests
 import json
 
-url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
+url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/36530"
+response = requests.get(url)
+data = response.json() 
 
 def load_art_types():
     """load the art classification"""
 
-    url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
-    response = requests.get(url)
-    data = response.json() 
+    # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
+    # response = requests.get(url)
+    # data = response.json() 
 
     type_code = data.get("classification")
 
@@ -31,9 +34,9 @@ def load_art_types():
 def load_artists():
     """Load artist name from the Met to the database"""
 
-    url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
-    response = requests.get(url)
-    data = response.json()
+    # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
+    # response = requests.get(url)
+    # data = response.json()
 
     artist_name = data.get("artistDisplayName")
 
@@ -46,9 +49,9 @@ def load_artists():
 def load_artworks():
     """Load the jpg images location from the Met Museum APi to database"""
 
-    url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
-    response = requests.get(url)
-    data = response.json()
+    # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
+    # response = requests.get(url)
+    # data = response.json()
 
     # objects = json.dumps(data)
 
@@ -57,14 +60,17 @@ def load_artworks():
 
     art_image_url = data.get("primaryImageSmall")
 
+    # urllib.request.urlretrieve(art_image_url, "static/images/test1")
+
     art_image_name = urlparse(art_image_url)
     art_image = os.path.basename(art_image_url) # i.e. DT1494.jpg
 
+    img_data = requests.get(art_image_url).content
+    with open(f"static/images/{art_image}", 'wb') as handler:
+        handler.write(img_data)
 
     artwork = Artwork(art_title=art_title, 
                       art_image=art_image)
-
-    print('hello')
 
     db.session.add(artwork)
     db.session.commit()

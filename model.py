@@ -37,7 +37,8 @@ class Artwork(db.Model):
 
     artwork_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     art_title = db.Column(db.String(100), nullable=False)
-    art_image = db.Column(db.String(50), nullable=False) # image name
+    art_image = db.Column(db.String(200), nullable=False) # image url
+    # art_thumb_img = db.Column(db.String(100), nullable=False)
     # color_pal = db.Column(db.) Type of data the color palette should be
     type_code = db.Column(db.String(50), db.ForeignKey("art_types.type_code"))
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.artist_id"))

@@ -31,7 +31,7 @@ app.secret_key = "whiteboardsareremarkable"
 def index():
     """Displays homepage."""
 
-    artwork = Artwork.query.first() # gives an object
+    artwork = Artwork.query.all() # gives an object
 
     return render_template("index.html", artwork=artwork)
 
@@ -39,9 +39,9 @@ def index():
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
-    artwork = Artwork.query.get(artwork_id)
+    artwork = Artwork.query.all()
 
-    return render_template("artwork.html", artwork_id=artwork_id)
+    return render_template("artwork_detail.html", artwork=artwork)
 
 
 if __name__ == "__main__":
