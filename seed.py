@@ -11,9 +11,36 @@ from urllib.parse import urlparse
 import requests
 import json
 
-url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/36530"
-response = requests.get(url)
-data = response.json() 
+
+def read_list_met_obj():
+    met_obj_list = []
+    with open ("art_obj_id.txt", "r") as obj_file:
+        # met_id = obj_file.read().replace("\n", " ")
+        for line in obj_file:
+            new_line = line.rstrip()
+            met_obj_list.append(new_line)
+    return met_obj_list
+
+met_list = read_list_met_obj()
+
+def search_through_url():
+
+    met_json_list = []
+
+    for met_obj in met_list:
+        url = f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{met_obj}"
+        response = requests.get(url)
+        json_data = response.json()
+
+        met_json_list.append(json_data)
+
+    return met_json_list
+
+met_json = search_through_url()
+
+for j_file in met_json:
+    data = j_file
+
 
 def load_art_types():
     """load the art classification"""

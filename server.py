@@ -13,6 +13,8 @@ app = Flask(__name__)
 
 app.secret_key = "whiteboardsareremarkable"
 
+app.jinja_env.undefined = StrictUndefined
+
 # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects"
 # response = requests.get(url)
 # data = response.json() 
@@ -31,7 +33,9 @@ app.secret_key = "whiteboardsareremarkable"
 def index():
     """Displays homepage."""
 
-    artwork = Artwork.query.all() # gives an object
+    art_title = Artwork.query.first()
+
+    artwork = Artwork.query.first() # gives an object
 
     return render_template("index.html", artwork=artwork)
 
@@ -39,7 +43,8 @@ def index():
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
-    artwork = Artwork.query.all()
+    art_id = Artwork.query.get(artwork_id)
+    # artwork = Artwork.query.all()
 
     return render_template("artwork_detail.html", artwork=artwork)
 

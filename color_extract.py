@@ -1,13 +1,13 @@
 
 from haishoku.haishoku import Haishoku
 from PIL import Image
-from seed import seed.load_artworks
+# from seed import seed.load_artworks
 import requests
 import sys
 import json
 import os # want to make a new directory/folder for each set of color palettes
 
-load_artworks()
+# load_artworks()
 
 img_path = "https://images.metmuseum.org/CRDImages/as/web-large/DP122117.jpg"
 
@@ -26,6 +26,7 @@ def create_color_palette():
         # idx 0 is the percentage of color on the image
         c_pal = item[1] # need to keep this as a tuple, RGB color codes
         pal = new_image('RGB', (100, 100), c_pal)
+
         # create a new image in in RGB mode, with 100X100 px, as the RGB color
 
         # trying to save all color palette images in a folder named based on the artwork's title
