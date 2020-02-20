@@ -3,12 +3,23 @@
 {% block title %} The Artist's Color Palette {% endblock %}
 
 {% block content %}
-  <p>
-    <img src="static/images/{{ artwork.art_image }}" alt={{ artwork.art_image }}/>
-  </p>
+  <div>
+    <ul>
+      {% for image in images %}  
+        <li>
 
-  <h1>{{ artwork.art_title }}</h1>
+          <img src="static/images/{{ image.art_image }}" alt={{ image.art_image }}
+          />
+        </li>
+      {% endfor %}
 
-  <a href="/artwork/{{ artwork.artwork_id }}"> test link to detail art piece</a>
+      {% for title in titles %}
+        <li>
+          <h5>{{ title.art_title }}</h5>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
 
 {% endblock %}
