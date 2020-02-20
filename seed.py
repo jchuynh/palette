@@ -21,9 +21,8 @@ def read_list_met_obj():
             met_obj_list.append(new_line)
     return met_obj_list
 
-met_list = read_list_met_obj()
 
-def search_through_url():
+def search_through_url(met_list):
 
     met_json_list = []
 
@@ -31,39 +30,33 @@ def search_through_url():
         url = f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{met_obj}"
         response = requests.get(url)
         json_data = response.json()
-
         met_json_list.append(json_data)
+
+
+    # with open('met_list.json', 'w') as f:
+    #     f.write(json.dumps(met_json_list))
 
     return met_json_list
 
-met_json = search_through_url()
 
-for j_file in met_json:
-    data = j_file
-
-
-def load_art_types():
+def load_art_types(data):
     """load the art classification"""
 
-    # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
-    # response = requests.get(url)
-    # data = response.json() 
 
     type_code = data.get("classification")
 
+    # ArtType.query.filter(db.not_(ArtType.type_code.in_(type_code)))
+
+
     art_type = ArtType(type_code=type_code)
 
-    db.session.add(art_type)
+    db.session.merge(art_type)
     db.session.commit()
 
 
 
-def load_artists():
+def load_artists(data):
     """Load artist name from the Met to the database"""
-
-    # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
-    # response = requests.get(url)
-    # data = response.json()
 
     artist_name = data.get("artistDisplayName")
 
@@ -73,16 +66,9 @@ def load_artists():
     db.session.commit()
 
 
-def load_artworks():
+def load_artworks(data):
     """Load the jpg images location from the Met Museum APi to database"""
 
-    # url = "https://collectionapi.metmuseum.org/public/collection/v1/objects/436530"
-    # response = requests.get(url)
-    # data = response.json()
-
-    # objects = json.dumps(data)
-
-    # for item in objects:
     art_title = data.get("title")
 
     art_image_url = data.get("primaryImageSmall")
@@ -124,8 +110,11 @@ def load_artworks():
 if __name__ == "__main__":
     connect_to_db(app)
     db.create_all()
+    met_list = read_list_met_obj()
+    met_json = search_through_url(met_list)
 
-    load_artworks()
-    load_artists()
-    load_art_types()
+    for data in met_json:
+        load_artworks(data)
+        load_artists(data)
+        load_art_types(data)
     # load_artwork_thumbnails()

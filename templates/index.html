@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}The Artist's Color Palette{% endblock %}
+{% block title %} The Artist's Color Palette {% endblock %}
+
 {% block content %}
   <p>
-    <img src="static/images/{{ artwork.art_image}}" alt={{ artwork.art_image }}/>
+    <img src="static/images/{{ artwork.art_image }}" alt={{ artwork.art_image }}/>
   </p>
+
   <h1>{{ artwork.art_title }}</h1>
-  
+
+  <a href="/artwork/{{ artwork.artwork_id }}"> test link to detail art piece</a>
 
 {% endblock %}
