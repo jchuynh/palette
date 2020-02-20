@@ -1,5 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy 
 
+import sys
+
+# from image_resize import resize_image
+
 db = SQLAlchemy()
 
 
@@ -9,7 +13,7 @@ class Artist(db.Model):
     __tablename__ = "artists"
 
     artist_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    artist_name = db.Column(db.String(50), nullable=False)
+    artist_name = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
         """Returns artist name as object represenation."""
@@ -22,7 +26,7 @@ class ArtType(db.Model):
 
     __tablename__ = "art_types"
 
-    type_code = db.Column(db.String(50), primary_key=True)
+    type_code = db.Column(db.String(100), primary_key=True)
 
     def __repr__(self):
         """Returns the art type."""
@@ -36,11 +40,11 @@ class Artwork(db.Model):
     __tablename__ = "artworks"
 
     artwork_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    art_title = db.Column(db.String(100), nullable=False)
+    art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
-    # art_thumb_ismg = db.Column(db.String(100), nullable=False)
-    # color_pal = db.Column(db.) Type of data the color palette should be
-    type_code = db.Column(db.String(50), db.ForeignKey("art_types.type_code"))
+    # art_thumb = db.Column(db.String(200), nullable=False)
+    # color_pal = db.Column(db.String(200), nullable=False) 
+    type_code = db.Column(db.String(200), db.ForeignKey("art_types.type_code"))
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.artist_id"))
 
     art_type = db.relationship("ArtType", backref="artworks")

@@ -2,16 +2,28 @@
 ## working file
 
 from PIL import Image
-import glob, os
+import glob, os, sys
 
-size = 350, 350
+import model
 
 
-file = "static/images/DT1567.jpg"
-thumb_path = f"static/thumbnails/test.jpg"
+file = "static/images//"
+dirs = os.listdir(file)
 
 def resize_image():
-    im = Image.open(file)
-    im.convert('RGB')
-    im.thumbnail(size, Image.ANTIALIAS)
-    im.save(thumb_path, 'JPEG', quality=80)
+
+    size = 350, 350
+
+    for art_image in dirs:
+        if os.path.isfile(file+art_image):
+            if art_image == '.DS_Store':
+                 continue
+            im = Image.open(file+art_image)
+            im.convert('RGB')
+            im.thumbnail(size, Image.ANTIALIAS)
+
+            thumb_path = f"static/thumbnails/{ art_image }_thumb.jpg"
+
+            im.save(thumb_path, 'JPEG', quality=80)
+
+resize_image()

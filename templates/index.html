@@ -5,12 +5,14 @@
 {% block content %}
   <div>
     <ul>
-      {% for image in images %}  
+      {% for image in images %}
+<!--         {% for art_id in art_ids %}   -->
         <li>
-
-          <img src="static/images/{{ image.art_image }}" alt={{ image.art_image }}
-          />
+          <a href=/artwork/{{ art_id }}">
+          <img src="static/images/{{ image.art_image }}" alt={{ image.art_image }}>
+          <a/>
         </li>
+<!--         {% endfor %} -->
       {% endfor %}
 
       {% for title in titles %}

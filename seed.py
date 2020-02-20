@@ -50,7 +50,7 @@ def load_art_types(data):
 
     art_type = ArtType(type_code=type_code)
 
-    db.session.merge(art_type)
+    db.session.merge(art_type) # used merge so duplicates won't be an issue.
     db.session.commit()
 
 
@@ -62,7 +62,7 @@ def load_artists(data):
 
     art_person = Artist(artist_name=artist_name)
 
-    db.session.add(art_person)
+    db.session.merge(art_person)
     db.session.commit()
 
 
