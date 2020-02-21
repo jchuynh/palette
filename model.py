@@ -42,8 +42,9 @@ class Artwork(db.Model):
     artwork_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
-    art_thumb = db.Column(db.String(200), nullable=False)
+    art_thumb = db.Column(db.String(200), nullable=False) # image url
     # color_pal = db.Column(db.String(200), nullable=False) 
+
     type_code = db.Column(db.String(200), db.ForeignKey("art_types.type_code"))
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.artist_id"))
 
