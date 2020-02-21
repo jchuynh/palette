@@ -1,6 +1,3 @@
-## moving function into seed.py
-## working file
-
 from PIL import Image
 import glob, os, sys
 
@@ -10,13 +7,14 @@ import model
 file = "static/images//"
 dirs = os.listdir(file)
 
-def resize_image():
+def resize_image(art_image):
+    """Resizing artwork images within max size keeping the aspect ratio"""
 
     size = 350, 350
 
     for art_image in dirs:
         if os.path.isfile(file+art_image):
-            if art_image == '.DS_Store':
+            if art_image == '.DS_Store': 
                  continue
             im = Image.open(file+art_image)
             im.convert('RGB')

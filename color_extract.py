@@ -7,7 +7,6 @@ import sys
 import json
 import os # want to make a new directory/folder for each set of color palettes
 
-# load_artworks()
 
 img_path = "https://images.metmuseum.org/CRDImages/as/web-large/DP122117.jpg"
 

@@ -28,7 +28,7 @@ def index():
 
     images = db.session.query(Artwork).order_by("art_image").all()
     titles = db.session.query(Artwork).order_by("art_title").all()
-    art_id = Artwork.query.get(artwork_id).all()
+    # art = Artwork.query.get(artwork_id).all()
 
     return render_template("index.html", images=images,
                                          titles=titles)

@@ -2,27 +2,31 @@ from sqlalchemy import func
 
 from model import Artwork, Artist, ArtType, connect_to_db, db
 from server import app
-
+from haishoku.haishoku import Haishoku
 from PIL import Image
 
-import os, sys, glob
-import urllib.request
+# from image_resize import resize_image
+# from color_extract import new_image, create_color_palette
+
+import os, sys, glob, urllib.request, json
 from urllib.parse import urlparse
 import requests
-import json
 
 
 def read_list_met_obj():
+    """Read the object ids from a txt file"""
+
     met_obj_list = []
     with open ("art_obj_id.txt", "r") as obj_file:
-        # met_id = obj_file.read().replace("\n", " ")
         for line in obj_file:
             new_line = line.rstrip()
             met_obj_list.append(new_line)
+
     return met_obj_list
 
 
 def search_through_url(met_list):
+    """Add the JSON data into a list"""
 
     met_json_list = []
 
@@ -32,10 +36,6 @@ def search_through_url(met_list):
         json_data = response.json()
         met_json_list.append(json_data)
 
-
-    # with open('met_list.json', 'w') as f:
-    #     f.write(json.dumps(met_json_list))
-
     return met_json_list
 
 
@@ -44,9 +44,6 @@ def load_art_types(data):
 
 
     type_code = data.get("classification")
-
-    # ArtType.query.filter(db.not_(ArtType.type_code.in_(type_code)))
-
 
     art_type = ArtType(type_code=type_code)
 
@@ -62,7 +59,7 @@ def load_artists(data):
 
     art_person = Artist(artist_name=artist_name)
 
-    db.session.merge(art_person)
+    db.session.merge(art_person) # used merge so duplicates won't be an issue.
     db.session.commit()
 
 
@@ -71,41 +68,82 @@ def load_artworks(data):
 
     art_title = data.get("title")
 
+    # url from the Met API
     art_image_url = data.get("primaryImageSmall")
 
-    # urllib.request.urlretrieve(art_image_url, "static/images/test1")
+    # rename the image as the base id given
+    # i.e. DT1494.jpg
+    art_image = os.path.basename(art_image_url)
 
-    art_image_name = urlparse(art_image_url)
-    art_image = os.path.basename(art_image_url) # i.e. DT1494.jpg
-
+    # get the content from the art_image_url
     img_data = requests.get(art_image_url).content
+
+    # write and save the image file into the folder with the basename
     with open(f"static/images/{art_image}", 'wb') as handler:
-        handler.write(img_data)
+        img_path = handler.write(img_data)
 
     artwork = Artwork(art_title=art_title, 
                       art_image=art_image)
 
+
     db.session.add(artwork)
     db.session.commit()
 
-# def load_artwork_thumbnails():
-#     """Processing resizing of images"""
+    return img_path
 
-#     size = 350, 350
+def load_thumbnail(img_path):
+    """Load resized images (thumbnails)"""
 
-#     thumb_path = f"static/thumbnails/{ art_image }.jpg"
+    size = 350, 350
 
-#     im = Image.open(url)
-#     im.convert('RGB')
-#     im.thumbnail(size, Image.ANTIALIAS)
-#     im.save(thumb_path, 'JPEG')
+    # for art_image in dirs:
+    if os.path.isfile(img_path):
+        # if art_image == '.DS_Store': 
+        #     continue
+        im = Image.open(img_path)
+        im.convert('RGB')
+        im.thumbnail(size, Image.ANTIALIAS)
 
-#     artwork = Artwork(art_thumb=art_thumb)
+        thumb_path = f"static/thumbnails/{ art_image }_thumb.jpg"
 
-#     db.session.add(artwork)
-#     db.session.commit()
+        art_thumb = os.path(thumb_path)
+        print(art_thumb)
+
+        im.save(thumb_path, 'JPEG', quality=80)
+
+        thumb_art = Artwork(art_thumb=art_thumb)
+               
+
+        db.session.add(thumb_art)
+        db.session.commit()
 
 
+def return_haishoku(img_path):
+    hai = Haishoku.loadHaishoku(img_path)
+    palette = Haishoku.getPalette(img_path)
+
+    return palette
+
+
+def load_color_palette(palette):
+    """Create a list of RGB codes and thier percentage of use in artwork"""
+
+    color_pal = []
+
+    for item in palette:
+        # idx 0 is the percentage of color on the image
+        c_percent = item[0]
+        # A tuple of RGB color codes
+        c_pal = item[1]
+
+        color_pal.append(c_pal)
+
+
+        color_palette = Artwork(color_pal=color_pal)
+               
+        db.session.add(color_palette)
+        db.session.commit()
+    
 
 if __name__ == "__main__":
     connect_to_db(app)
@@ -117,4 +155,3 @@ if __name__ == "__main__":
         load_artworks(data)
         load_artists(data)
         load_art_types(data)
-    # load_artwork_thumbnails()
