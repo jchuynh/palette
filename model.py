@@ -2,9 +2,26 @@ from flask_sqlalchemy import SQLAlchemy
 
 import sys
 
-# from image_resize import resize_image
-
 db = SQLAlchemy()
+
+
+class Palette(db.Model):
+    """ """
+
+    __tablename__ = "palettes"
+
+    color_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+
+    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
+
+    c_percent = db.Column(db.String(50), nullable=False) # not currently utilized
+    c_palette = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        """ """
+
+        return f"<color palette={self.color_id}>"
+
 
 
 class Artist(db.Model):
@@ -39,17 +56,21 @@ class Artwork(db.Model):
 
     __tablename__ = "artworks"
 
+
     artwork_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    art_title = db.Column(db.String(200), nullable=False)
-    art_image = db.Column(db.String(200), nullable=False) # image url
-    art_thumb = db.Column(db.String(200), nullable=False) # image url
-    # color_pal = db.Column(db.String(200), nullable=False) 
 
     type_code = db.Column(db.String(200), db.ForeignKey("art_types.type_code"))
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.artist_id"))
 
     art_type = db.relationship("ArtType", backref="artworks")
     artist = db.relationship("Artist", backref="artworks")
+    full_pal = db.relationship("Palette", backref="artworks")
+
+    art_title = db.Column(db.String(200), nullable=False)
+    art_image = db.Column(db.String(200), nullable=False) # image url
+    art_thumb = db.Column(db.String(200), nullable=False) # image url
+
+
 
     def __repr__(self):
         """Returns art title as object representation."""
