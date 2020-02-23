@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %} {{artwork.art_title}} {% endblock %}
 
 {% block content %}
-  <h1>{{ artwork.art_title }}</h1>
-  <h2>{{ artwork.artist }}</h2>
-  <p>{{ artwork.art_image }}</p>
+
+  <h1>{{ art.art_title }}</h1>
+  <h2>{{ art.artist }}</h2>
+  <p>{{ art.art_image }}</p>
+
 {% endblock %}

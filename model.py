@@ -30,7 +30,7 @@ class Artist(db.Model):
     __tablename__ = "artists"
 
     artist_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    artist_name = db.Column(db.String(100), nullable=False)
+    artist_name = db.Column(db.String(100), nullable=False) # try unique=True
 
     def __repr__(self):
         """Returns artist name as object represenation."""

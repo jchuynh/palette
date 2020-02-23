@@ -26,6 +26,24 @@ def read_list_met_obj():
 def search_through_url(met_list):
     """Add the JSON data into a list"""
 
+    # using a hash map
+    # met_dict = set()
+
+    # for row in reversed(met_list):
+    #     artistDisplayName = row['artistDisplayName']
+
+    #     # classification = row['classification']
+
+    #     if artistDisplayName not in met_dict:
+    #         session.merge(Artists(hash=artistDisplayName))
+
+    # for met_obj in met_dict:
+    #     url = f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{met_obj}"
+    #     response = requests.get(url)
+    #     json_data = response.json()
+    #     new_met_dict.add(json_data)
+
+
     met_json_list = []
 
     for met_obj in met_list:
@@ -33,6 +51,7 @@ def search_through_url(met_list):
         response = requests.get(url)
         json_data = response.json()
         met_json_list.append(json_data)
+
 
     return met_json_list
 
@@ -42,9 +61,17 @@ def load_artists(data):
 
     artist_name = data.get("artistDisplayName")
 
+    ####
+    # get artist name
+    # if artist name is in the database
+    # skip -- don't add that name in    
+
     art_person = Artist(artist_name=artist_name)
 
-    db.session.merge(art_person) # used merge so duplicates won't be an issue.
+    # if artist_name not in db.session:
+
+    # db.session.merge(art_person) # used merge so duplicates won't be an issue.
+    db.session.merge(art_person)
     db.session.commit()
 
 def load_art_types(data):
@@ -178,12 +205,12 @@ if __name__ == "__main__":
     met_list = read_list_met_obj()
     met_json = search_through_url(met_list)
 
+    #maintain a global map
 
     for data in met_json:
         load_artists(data)
         load_art_types(data)
         load_artworks(data)
-
 
 
 

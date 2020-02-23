@@ -26,21 +26,23 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Displays homepage."""
 
-    images = db.session.query(Artwork).order_by("art_image").all()
-    titles = db.session.query(Artwork).order_by("art_title").all()
-    # art = Artwork.query.get(artwork_id).all()
+    arts = Artwork.query.all()
 
-    return render_template("index.html", images=images,
-                                         titles=titles)
+    # t_images = db.session.query(Artwork).order_by("art_thumb").all()
+    # titles = db.session.query(Artwork).order_by("art_title").all()
+
+    return render_template("index.html", arts=arts)
 
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
     art_id = Artwork.query.get(artwork_id)
+    arts = Artwork.query.all()
 
 
-    return render_template("artwork_detail.html", artwork=artwork)
+    return render_template("artwork_detail.html", art_id=art_id,
+                                                  arts=arts)
 
 
 if __name__ == "__main__":
