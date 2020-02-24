@@ -6,3 +6,10 @@
  h2 {
     font-family: Garamond;
  }
+
+ .gallery {
+    display: flex;
+    flex-direction: row;
+    flex: wrap;
+    justify-content: center;
+    align-content: center }

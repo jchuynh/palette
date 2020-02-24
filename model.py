@@ -5,25 +5,6 @@ import sys
 db = SQLAlchemy()
 
 
-class Palette(db.Model):
-    """ """
-
-    __tablename__ = "palettes"
-
-    color_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-
-    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
-
-    c_percent = db.Column(db.String(50), nullable=False) # not currently utilized
-    c_palette = db.Column(db.String(200), nullable=False)
-
-    def __repr__(self):
-        """ """
-
-        return f"<color palette={self.color_id}>"
-
-
-
 class Artist(db.Model):
     """Data on the artist"""
 
@@ -49,6 +30,24 @@ class ArtType(db.Model):
         """Returns the art type."""
 
         return f"<art type={self.type_code}>"
+
+
+class Palette(db.Model):
+    """ """
+
+    __tablename__ = "palettes"
+
+    color_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+
+    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
+
+    c_percent = db.Column(db.String(50), nullable=False) # not currently utilized
+    c_palette = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        """ """
+
+        return f"<color palette={self.color_id}>"
 
 
 class Artwork(db.Model):

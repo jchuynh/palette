@@ -38,11 +38,10 @@ def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
     art_id = Artwork.query.get(artwork_id)
-    arts = Artwork.query.all()
+    # arts = Artwork.query.all()
 
 
-    return render_template("artwork_detail.html", art_id=art_id,
-                                                  arts=arts)
+    return render_template("artwork_detail.html", art_id=art_id)
 
 
 if __name__ == "__main__":
