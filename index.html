@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} The Artist's Color Palette {% endblock %}
+
+
+{% block content %}
+  <div>
+    <div class="gallery">
+      {% for art in arts %}
+          <div class="col-md-3">
+          <a href="/artwork/{{ art.artwork_id }}">
+          <img src="{{ art.art_thumb }}" alt={{ art.art_image }}>
+          </a>
+            <h5>{{ art.art_title }}</h5>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+<script defer src="index.js" charset="utf-8"></script>
+
+{% endblock %}
