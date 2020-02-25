@@ -15,12 +15,13 @@ def read_list_met_obj():
 
     met_obj_list = []
 
+    # opens and reads text file of met object endpoints
     with open("art_obj_id.txt", "r") as obj_file:
         for line in obj_file:
             new_line = line.rstrip()
             met_obj_list.append(new_line)
 
-    return met_obj_list
+    return met_obj_list # returns met object list as items in an array
 
 
 def search_through_url(met_list):
@@ -29,9 +30,13 @@ def search_through_url(met_list):
     met_json_list = []
 
     for met_obj in met_list:
+
+        # add the object list into the Met Museusm's API URL
         url = f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{met_obj}"
         response = requests.get(url)
         json_data = response.json()
+
+        # Add each JSON file associated with the object into a list
         met_json_list.append(json_data)
 
     return met_json_list
@@ -42,10 +47,14 @@ def load_artists(data):
 
     artist_name = data.get("artistDisplayName")
 
+    # to check for duplicates in a name
+    # query and search for the first instances of the artist name
     artist_duplicate = Artist.query.filter_by(artist_name=artist_name).first()
 
     if not artist_duplicate:
 
+        # if you can't find the artist name, save the name and add it to the 
+        # database
         art_person = Artist(artist_name=artist_name)
 
         db.session.add(art_person)
@@ -61,10 +70,13 @@ def load_art_types(data):
 
     type_code = data.get("classification")
 
+    # to check for duplicates in a name
+    # query and search for the first instances of the artwork type
     type_duplicate = ArtType.query.get(type_code)
 
     if not type_duplicate:
-
+        # if you can't find the art type, save the type and add it to the 
+        # database
         art_type = ArtType(type_code=type_code)
 
         db.session.add(art_type)
@@ -82,8 +94,11 @@ def load_thumbnail(art_image):
 
     size = 350, 350
 
+    # Using PIL library to open a file and convert it to an RGB
     im = Image.open(file)
     im.convert("RGB")
+
+    # resize into a thumbnail format
     im.thumbnail(size, Image.ANTIALIAS)
 
     thumb_path = f"static/thumbnails/{art_image}_thumb.jpg"
@@ -118,20 +133,9 @@ def new_image(mode, size, color):
 def load_color_palette(c_pal):
     """Create a list of RGB codes and thier percentage of use in artwork"""
 
-    # color_pal = []
-
-    # for item in palette:
-        # A tuple of RGB color codes
-        # c_pal = item[1]
     pal = new_image('RGB', (100, 100), c_pal)
     file_name = f"static/color_palette/({c_pal}).jpg"
     pal.save(file_name, 'JPEG')
-
-        # color_pal.append(c_pal)
-
-    # return color_pal
-
-    # return Artwork.query(Palette.c_palette).append(Palette(color_pal))
 
 
 def display_haishoku(art_image, art_id):
@@ -140,15 +144,13 @@ def display_haishoku(art_image, art_id):
 
     hai = Haishoku.loadHaishoku(file)
     palette = Haishoku.getPalette(file)
-
-    # c_percent = load_color_percent(palette)
     
-    
+    # palette has two pieces of data, percent used in the color and RGB code
     for pal in palette:
         load_color_palette(pal[1])
         color = Palette(c_percent=pal[0],
-                    c_palette=pal[1],
-                    artwork_id=art_id)
+                        c_palette=pal[1],
+                        artwork_id=art_id)
 
         db.session.add(color)
         db.session.commit()
@@ -188,6 +190,7 @@ def load_artworks(data):
 
     db.session.add(artwork)
     db.session.commit()
+    
     full_pal = display_haishoku(art_image, artwork.artwork_id)
 
 
@@ -199,11 +202,7 @@ if __name__ == "__main__":
     met_list = read_list_met_obj()
     met_json = search_through_url(met_list)
 
-    #maintain a global map
-
     for data in met_json:
-        # load_artists(data)
-        # load_art_types(data)
         load_artworks(data)
 
 
