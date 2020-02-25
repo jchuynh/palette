@@ -40,6 +40,7 @@ class Palette(db.Model):
     color_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
+    artwork = db.relationship("Artwork", backref="palette")
 
     c_percent = db.Column(db.String(50), nullable=False) # not currently utilized
     c_palette = db.Column(db.String(200), nullable=False)
@@ -63,7 +64,7 @@ class Artwork(db.Model):
 
     art_type = db.relationship("ArtType", backref="artworks")
     artist = db.relationship("Artist", backref="artworks")
-    full_pal = db.relationship("Palette", backref="artworks")
+
 
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
