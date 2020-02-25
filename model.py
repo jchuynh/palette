@@ -24,7 +24,7 @@ class ArtType(db.Model):
 
     __tablename__ = "art_types"
 
-    type_code = db.Column(db.String(100), primary_key=True)
+    type_code = db.Column(db.String(200), primary_key=True)
 
     def __repr__(self):
         """Returns the art type."""
@@ -32,15 +32,27 @@ class ArtType(db.Model):
         return f"<art type={self.type_code}>"
 
 
+class ArtMedium(db.Model):
+    """Art medium/media description."""
+
+    __tablename__ = "art_mediums"
+
+    medium_code = db.Column(db.String(200), primary_key=True)
+
+    def __repr__(self):
+        """Returns the art type."""
+
+        return f"<art medium={self.medium_code}>"
+
+
 class Palette(db.Model):
-    """ """
+    """Dominant colors (8) and their precentages."""
 
     __tablename__ = "palettes"
 
     color_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
-    artwork = db.relationship("Artwork", backref="palette")
 
     c_percent = db.Column(db.String(50), nullable=False) # not currently utilized
     c_palette = db.Column(db.String(200), nullable=False)
@@ -60,10 +72,13 @@ class Artwork(db.Model):
     artwork_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
     type_code = db.Column(db.String(200), db.ForeignKey("art_types.type_code"))
+    medium_code = db.Column(db.String(200), db.ForeignKey("art_mediums.medium_code"))
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.artist_id"))
 
     art_type = db.relationship("ArtType", backref="artworks")
+    medium_type = db.relationship("ArtMedium", backref="artworks")
     artist = db.relationship("Artist", backref="artworks")
+    palette_code = db.relationship("Palette", backref="artworks")
 
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url

@@ -2,7 +2,7 @@ import os, sys, glob, urllib.request, json, requests
 
 from sqlalchemy import func
 
-from model import Artwork, Artist, ArtType, Palette, connect_to_db, db
+from model import Artwork, Artist, ArtType, ArtMedium, Palette, connect_to_db, db
 from server import app
 
 from haishoku.haishoku import Haishoku
@@ -87,6 +87,28 @@ def load_art_types(data):
     return type_duplicate.type_code
 
 
+def load_medium(data):
+    """load the art medium"""
+
+    medium_code = data.get("medium")
+
+    # to check for duplicates in a name
+    # query and search for the first instances of the artwork medium
+    medium_duplicate = ArtMedium.query.get(medium_code)
+
+    if not medium_duplicate:
+        # if you can't find the art type, save the type and add it to the 
+        # database
+        art_medium = ArtMedium(medium_code=medium_code)
+
+        db.session.add(art_medium)
+        db.session.commit()
+
+        return art_medium.medium_code
+
+    return medium_duplicate.medium_code
+
+
 def load_thumbnail(art_image):
     """Load resized images (thumbnails)"""
 
@@ -164,7 +186,7 @@ def load_artworks(data):
     art_title = data.get("title")
 
     # url from the Met API
-    art_image_url = data.get("primaryImageSmall")
+    art_image_url = data.get("primaryImage")
 
     # rename the image as the base id given
     # i.e. DT1494.jpg
@@ -181,13 +203,15 @@ def load_artworks(data):
 
     artist_id = load_artists(data)
     type_code = load_art_types(data)
+    medium_code = load_medium(data)
     art_thumb = load_thumbnail(art_image)
     
     artwork = Artwork(art_title=art_title,
                       art_image=art_piece,
                       art_thumb=art_thumb,
                       artist_id=artist_id,
-                      type_code=type_code)
+                      type_code=type_code,
+                      medium_code=medium_code)
 
     db.session.add(artwork)
     db.session.commit()
