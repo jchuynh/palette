@@ -12,12 +12,14 @@
   <h2>{{ art_id.artist }}</h2>
 
   <a  class="pop-up"
-  <a href="{{ art_id_art_image }}"><img src="{{ art_id.art_image }}" alt={{ art_id.art_image }}></a>
+  <a href="{{ art_id.art_image }}">
+    <img src="{{ art_id.art_image }}" alt={{ art_id.art_image }}>
+  </a>
 
   <div class= "swatches">
-    {% for code in art_id %}
+    {% for pal in pals%}
       <div class="single-row">
-        <p>{{ art_id.full_pal }}</p>
+        <p>{{ pals.c_percent }}</p>
       </div>
     {% endfor %}
   </div>

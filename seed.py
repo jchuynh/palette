@@ -182,6 +182,7 @@ def load_artworks(data):
     artist_id = load_artists(data)
     type_code = load_art_types(data)
     art_thumb = load_thumbnail(art_image)
+    
     artwork = Artwork(art_title=art_title,
                       art_image=art_piece,
                       art_thumb=art_thumb,
@@ -190,7 +191,7 @@ def load_artworks(data):
 
     db.session.add(artwork)
     db.session.commit()
-    
+
     full_pal = display_haishoku(art_image, artwork.artwork_id)
 
 

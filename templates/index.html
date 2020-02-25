@@ -3,20 +3,17 @@
 {% block title %} The Artist's Color Palette {% endblock %}
 
 {% block content %}
-    <div class="gallery">
-
+  <body>
       {% for art in arts %}
-        <div class="col-md-3">
           
           <a href="/artwork/{{ art.artwork_id }}">
-          <img src="{{ art.art_thumb }}" alt={{ art.art_title }}/>
+          <img src=" /{{ art.art_image }}" alt={{ art.art_title }}/>
           </a>
 
           <h5>{{ art.art_title }}</h5>
 
-        </div>
       {% endfor %}
 
-    </div>
-
+    <script src="/static/index.js"></script>
+  </body>
 {% endblock %}

@@ -12,4 +12,9 @@
     flex-direction: row;
     flex: wrap;
     justify-content: center;
-    align-content: center }
+    align-content: center 
+}
+.img:hover {
+    border: 10px;
+    border-color: black;
+}

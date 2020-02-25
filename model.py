@@ -48,7 +48,7 @@ class Palette(db.Model):
     def __repr__(self):
         """ """
 
-        return f"<color palette={self.color_id}>"
+        return f"<color palette={self.c_palette}>"
 
 
 class Artwork(db.Model):
@@ -64,7 +64,6 @@ class Artwork(db.Model):
 
     art_type = db.relationship("ArtType", backref="artworks")
     artist = db.relationship("Artist", backref="artworks")
-
 
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
