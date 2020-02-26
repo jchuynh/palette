@@ -112,19 +112,29 @@ def load_medium(data):
 def load_tag(data, art_id):
     """Load the art tags."""
 
-    tag_code = data.get("tags")
+    tag_lst = data.get("tags")
+
+    # tag_codes = ' '.join(tag_lst)
 
     # to check for duplicates in a name
     # query and search for the first instances of the artwork tags
-    tag_duplicate = ArtTag.query.filter_by(tag_code=tag_code).first()
 
-    for tag in tag_code:
-        if tag not in tag_duplicate:
-            art_tag = ArtTag(tag_code=tag_code,
+    # tag_duplicate = ArtTag.query.filter_by(tag_code=tag_code).first()
+
+    for tag in tag_lst:
+
+        tag_duplicate = db.session.query(ArtTag).filter(ArtTag.tag_code == tag).first()
+
+        if not tag_duplicate:
+            art_tag = ArtTag(tag_code=tag,
                              artwork_id=art_id)
 
             db.session.add(art_tag)
             db.session.commit()
+
+            return art_tag.tag_code
+
+        return tag_duplicate.tag_code
 
 
 
@@ -250,6 +260,7 @@ if __name__ == "__main__":
 
     for data in met_json:
         load_artworks(data)
+
 
 
 

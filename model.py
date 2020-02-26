@@ -50,9 +50,12 @@ class ArtTag(db.Model):
 
     __tablename__ = "art_tags"
 
-    tag_code = db.Column(db.String(100), primary_key=True)
+    tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
+
+    tag_code = db.Column(db.String(50), nullable=True)
+
 
     def __repr__(self):
         """Returns the art type."""
@@ -69,7 +72,7 @@ class Palette(db.Model):
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
 
-    c_percent = db.Column(db.String(50), nullable=False) # not currently utilized
+    c_percent = db.Column(db.String(50), nullable=False)
     c_palette = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):
