@@ -30,7 +30,6 @@ def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
     art_id = Artwork.query.get(artwork_id)
-    pals = art_id.
     
     # arts = Artwork.query.all()
 
