@@ -170,6 +170,7 @@ def display_haishoku(art_image, art_id):
     # palette has two pieces of data, percent used in the color and RGB code
     for pal in palette:
         load_color_palette(pal[1])
+        
         color = Palette(c_percent=pal[0],
                         c_palette=pal[1],
                         artwork_id=art_id)

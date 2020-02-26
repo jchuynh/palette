@@ -8,3 +8,5 @@ $(document).ready(function() {
     type: 'image'
     // other options
   });
+
+// To print out rgb codes next to the color swatches 

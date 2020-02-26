@@ -25,6 +25,17 @@ def index():
 
     return render_template("index.html", arts=arts)
 
+@app.route("/search", methods["GET", "POST"])
+def search():
+
+
+@app.route("/search_results/<query>")
+def search_results():
+    results = Artwork.query.all()
+
+    return render_template("search_results.html", query=query)
+
+
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""

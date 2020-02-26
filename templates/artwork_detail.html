@@ -14,14 +14,26 @@
   <a href="/{{ art_id.art_image }}">
     <img src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
   </a>
+
   <p>tags?</p>
-  <p>Medium: {{ art_id.medium_code }}</p>>
+  <p><b>Medium:</b> {{ art_id.medium_code }}</p>
   <p>Art Type: {{ art_id.type_code }}</p>
 
-  {% for rgb in art_id.palette_code %}
+  {% for rgb in art_id.palette_code[-5:] %}
     <div class="swatch" 
       style="background-color: rgb{{ rgb.c_palette }};">
-  </div>
+    </div>
+    <h5>{{ rgb.c_palette }}</h5>
+  {% endfor %}
+
+  <br/>
+  <br/>
+
+  {% for rgb in art_id.palette_code[:] %}
+      <div class="swatch" 
+        style="background-color: rgb{{ rgb.c_palette }};">
+      </div>
+      <h5>{{ rgb.c_palette }}</h5>
   {% endfor %}
 
   </div>
