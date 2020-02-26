@@ -1,5 +1,5 @@
  h1 {
-    color: red;
+    color: black;
     font-family: Garamond;
  }
 
@@ -17,4 +17,10 @@
 .img:hover {
     border: 10px;
     border-color: black;
+}
+
+.swatch {
+    width: 100px;
+    height: 100px;
+
 }
