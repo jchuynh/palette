@@ -25,15 +25,17 @@ def index():
 
     return render_template("index.html", arts=arts)
 
-@app.route("/search", methods["GET", "POST"])
-def search():
+### Attempting Search Function
+
+# @app.route("/search", methods["GET", "POST"])
+# def search():
 
 
-@app.route("/search_results/<query>")
-def search_results():
-    results = Artwork.query.all()
+# @app.route("/search_results/<query>")
+# def search_results():
+#     results = Artwork.query.all()
 
-    return render_template("search_results.html", query=query)
+#     return render_template("search_results.html", query=query)
 
 
 @app.route("/artwork/<int:artwork_id>")

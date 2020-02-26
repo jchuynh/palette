@@ -45,6 +45,21 @@ class ArtMedium(db.Model):
         return f"<art medium={self.medium_code}>"
 
 
+class ArtTag(db.Model):
+    """Art medium/media description."""
+
+    __tablename__ = "art_tags"
+
+    tag_code = db.Column(db.String(100), primary_key=True)
+
+    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
+
+    def __repr__(self):
+        """Returns the art type."""
+
+        return f"<art tag={self.tag_code}>"
+
+
 class Palette(db.Model):
     """Dominant colors (8) and their precentages."""
 
@@ -77,6 +92,7 @@ class Artwork(db.Model):
 
     art_type = db.relationship("ArtType", backref="artworks")
     medium_type = db.relationship("ArtMedium", backref="artworks")
+    tag_type = db.relationship("ArtTag", backref="artworks")
     artist = db.relationship("Artist", backref="artworks")
     palette_code = db.relationship("Palette", backref="artworks")
 

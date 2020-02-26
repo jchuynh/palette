@@ -2,7 +2,7 @@ import os, sys, glob, urllib.request, json, requests
 
 from sqlalchemy import func
 
-from model import Artwork, Artist, ArtType, ArtMedium, Palette, connect_to_db, db
+from model import Artwork, Artist, ArtType, ArtMedium, ArtTag, Palette, connect_to_db, db
 from server import app
 
 from haishoku.haishoku import Haishoku
@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 
 def read_list_met_obj():
-    """Read the object ids from a txt file"""
+    """Read the object ids from a txt file."""
 
     met_obj_list = []
 
@@ -25,7 +25,7 @@ def read_list_met_obj():
 
 
 def search_through_url(met_list):
-    """Add the JSON data into a list"""
+    """Add the JSON data into a list."""
 
     met_json_list = []
 
@@ -43,7 +43,7 @@ def search_through_url(met_list):
 
 
 def load_artists(data):
-    """Load artist name from the Met to the database"""
+    """Load artist name from the Met to the database."""
 
     artist_name = data.get("artistDisplayName")
 
@@ -66,7 +66,7 @@ def load_artists(data):
 
 
 def load_art_types(data):
-    """load the art classification"""
+    """Load the art classification."""
 
     type_code = data.get("classification")
 
@@ -88,7 +88,7 @@ def load_art_types(data):
 
 
 def load_medium(data):
-    """load the art medium"""
+    """Load the art Medium."""
 
     medium_code = data.get("medium")
 
@@ -97,7 +97,7 @@ def load_medium(data):
     medium_duplicate = ArtMedium.query.get(medium_code)
 
     if not medium_duplicate:
-        # if you can't find the art type, save the type and add it to the 
+        # if you can't find the art medium, save the type and add it to the 
         # database
         art_medium = ArtMedium(medium_code=medium_code)
 
@@ -109,12 +109,31 @@ def load_medium(data):
     return medium_duplicate.medium_code
 
 
+def load_tag(data, art_id):
+    """Load the art tags."""
+
+    tag_code = data.get("tags")
+
+    # to check for duplicates in a name
+    # query and search for the first instances of the artwork tags
+    tag_duplicate = ArtTag.query.filter_by(tag_code=tag_code).first()
+
+    for tag in tag_code:
+        if tag not in tag_duplicate:
+            art_tag = ArtTag(tag_code=tag_code,
+                             artwork_id=art_id)
+
+            db.session.add(art_tag)
+            db.session.commit()
+
+
+
 def load_thumbnail(art_image):
     """Load resized images (thumbnails)"""
 
     file = f"static/images/{art_image}"
 
-    size = 350, 350
+    size = 800, 800
 
     # Using PIL library to open a file and convert it to an RGB
     im = Image.open(file)
@@ -170,7 +189,7 @@ def display_haishoku(art_image, art_id):
     # palette has two pieces of data, percent used in the color and RGB code
     for pal in palette:
         load_color_palette(pal[1])
-        
+
         color = Palette(c_percent=pal[0],
                         c_palette=pal[1],
                         artwork_id=art_id)
@@ -217,6 +236,7 @@ def load_artworks(data):
     db.session.add(artwork)
     db.session.commit()
 
+    tag_mark = load_tag(data, artwork.artwork_id)
     full_pal = display_haishoku(art_image, artwork.artwork_id)
 
 
