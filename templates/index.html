@@ -4,6 +4,16 @@
 
 {% block content %}
   <body>
+
+    <!-- search bar test -->
+
+    <div class="search-box">
+        <input type="text" placeholder="artist">
+    </div>
+
+    <br>
+    <br>
+    
       {% for art in arts %}
           
           <a href="/artwork/{{ art.artwork_id }}">

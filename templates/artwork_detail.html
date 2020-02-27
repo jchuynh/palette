@@ -15,9 +15,11 @@
     <img src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
   </a>
 
-  <p>tags?</p>
-  <p><b>Medium:</b> {{ art_id.medium_code }}</p>
-  <p>Art Type: {{ art_id.type_code }}</p>
+  {% for item in art_id.tag_type %}
+    <p>{{ item.tag_code }}</p>
+    {% endfor %}
+      <p><b>Medium:</b> {{ art_id.medium_code }}</p>
+      <p><b>Art Type:</b> {{ art_id.type_code }}</p>
 
   {% for rgb in art_id.palette_code[-5:] %}
     <div class="swatch" 
