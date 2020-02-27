@@ -29,13 +29,17 @@ def index():
 
 @app.route("/search", methods["GET", "POST"])
 def search():
-    search = search_results()
+    search = search_artist()
 
     artists = db.session.query(Artist).filter_by(artist_name).all()
-    titles = db.session.query(Artworks).filter_by(artist_title).all()
-    desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
+    
+    # if search_artist.validate
 
-    if search_results.
+    
+
+    # titles = db.session.query(Artworks).filter_by(artist_title).all()
+    # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
+
 
 
 
