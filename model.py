@@ -72,7 +72,7 @@ class Palette(db.Model):
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
 
-    c_percent = db.Column(db.String(50), nullable=False)
+    c_percent = db.Column(db.String(50), nullable=False) 
     c_palette = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):

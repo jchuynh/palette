@@ -112,29 +112,35 @@ def load_medium(data):
 def load_tag(data, art_id):
     """Load the art tags."""
 
-    tag_lst = data.get("tags")
+    tag_lst = data.get("tags") # this is a list
+    # print(tag_lst, "\n\n\n\n")
 
     # tag_codes = ' '.join(tag_lst)
 
     # to check for duplicates in a name
     # query and search for the first instances of the artwork tags
 
-    # tag_duplicate = ArtTag.query.filter_by(tag_code=tag_code).first()
-
     for tag in tag_lst:
+        # print(tag, "\n\n\n\n")
+        tag_duplicates = db.session.query(ArtTag).filter(ArtTag.tag_code == tag).first()
 
-        tag_duplicate = db.session.query(ArtTag).filter(ArtTag.tag_code == tag).first()
-
-        if not tag_duplicate:
+        if not tag_duplicates:
             art_tag = ArtTag(tag_code=tag,
                              artwork_id=art_id)
 
             db.session.add(art_tag)
             db.session.commit()
 
-            return art_tag.tag_code
+        #     return art_tag.tag_code
 
-        return tag_duplicate.tag_code
+        # # return tag.duplicate.tag_code
+
+        # tag_lst2 = []
+
+        # for tag in tag_duplicates:
+        #     tag_lst2.append(tag.tag_code)
+
+        # return tag_lst2
 
 
 

@@ -3,7 +3,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import Artwork, Artist, ArtType, connect_to_db, db
+from model import Artwork, Artist, ArtType, ArtTag, connect_to_db, db
 
 
 import requests
