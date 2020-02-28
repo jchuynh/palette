@@ -3,7 +3,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import Artwork, Artist, ArtType, ArtTag, connect_to_db, db
+from model import Artwork, Artist, ArtType, ArtTag, Tag, connect_to_db, db
 
 # from search_form import SearchForm, connect_to_db, db
 
@@ -75,7 +75,7 @@ def all_tag(tag_code):
     tag = Tag.query.get(tag_code)
     # arts = Artwork.query.all()
 
-    return render_template("search_results.html", tag_codes=tag_code)
+    return render_template("search_results.html", tag=tag)
 
 if __name__ == "__main__":
     app.debug = True

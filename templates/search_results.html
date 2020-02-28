@@ -3,11 +3,15 @@
 {% block title %}  {% endblock %}
 {% block content %}
 
+{% for tag in tag.artworks %}
 
-  {% for tag in tag_codes %}
-        <p>{{ tag }}</p>
+        <a href="/artwork/{{ tag.artwork_id }}">
+  <img src=" /{{ tag.art_thumb }}" alt={{ tag.art_title }}/>
+  </a>
 
-  {% endfor %}
+  <h5>{{ tag.art_title }}</h5>
+{% endfor %}
+
 
 
   
