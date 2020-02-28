@@ -1,26 +1,27 @@
 
+// AJAX for populating items
 
-$(document).ready(function(){
-    $("#search").on("submit", function(evt) {
-    $.ajax({
-        data: {
-            tag:$("#tag").val()
-        },
-        type: "POST",
-        url: "/process"
-    })
-    .done(function(data1){
-        if (data1.error){
-            $("#result").text(data.error).show();
-        }
-        else {
-            $("#result").html(data.tag).show()
-        }
-    })
+// $(document).ready(function(){
+//     $("#search").on("submit", function(evt) {
+//         $.ajax({
+//             data: {
+//               tag : $("#tag").val()
+//         },
+//         type: "POST",
+//         url: "/process"
+//     })
+//     .done(function(data){
+//         if (data.error){
+//             $("#result").text(data.error).show();
+//         }
+//         else {
+//             $("#result").html(data.tag).show();
+//         }
+//     })
 
-    evt.preventDefault();
-});
-})
+//     evt.preventDefault();
+// });
+// })
 
 
 $(document).ready(function(){
@@ -40,8 +41,32 @@ $(document).ready(function(){
 
 searchTags();
 
-$("#tag").autocomplete({
-    source: tags,
-    });
+// $("#tag").autocomplete({
+//     source: tags,
+//     });
 
+
+
+
+
+$("tag").autocomplete({
+    lookup: tags,
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
