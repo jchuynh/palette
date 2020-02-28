@@ -1,8 +1,9 @@
-import os, sys, glob, urllib.request, json, requests
+import os, sys, glob, urllib.request, json
+import requests
 
 from sqlalchemy import func
 
-from model import Artwork, Artist, ArtType, ArtMedium, ArtTag, Palette, connect_to_db, db
+from model import Artwork, Artist, ArtType, ArtMedium, ArtTag, Palette, Tag, connect_to_db, db
 from server import app
 
 from haishoku.haishoku import Haishoku
@@ -109,7 +110,7 @@ def load_medium(data):
     return medium_duplicate.medium_code
 
 
-def load_tag(data, art_id):
+def load_tag(data, artwork):
     """Load the art tags."""
 
     tag_lst = data.get("tags") # this is a list
@@ -122,14 +123,14 @@ def load_tag(data, art_id):
 
     for tag in tag_lst:
         # print(tag, "\n\n\n\n")
-        tag_duplicates = db.session.query(ArtTag).filter(ArtTag.tag_code == tag).first()
+        art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
 
-        if not tag_duplicates:
-            art_tag = ArtTag(tag_code=tag,
-                             artwork_id=art_id)
+        if not art_tag:
+            art_tag = Tag(tag_code=tag)
+        artwork.tags.append(art_tag)
+        # db.session.add(art_tag)
+        db.session.commit()
 
-            db.session.add(art_tag)
-            db.session.commit()
 
         #     return art_tag.tag_code
 
@@ -252,7 +253,7 @@ def load_artworks(data):
     db.session.add(artwork)
     db.session.commit()
 
-    tag_mark = load_tag(data, artwork.artwork_id)
+    tag_mark = load_tag(data, artwork)
     full_pal = display_haishoku(art_image, artwork.artwork_id)
 
 

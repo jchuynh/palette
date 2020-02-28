@@ -45,6 +45,13 @@ class ArtMedium(db.Model):
         return f"<art medium={self.medium_code}>"
 
 
+class Tag(db.Model):
+    """ """
+    __tablename__ = "tags"
+
+    tag_code = db.Column(db.String, primary_key=True)
+    
+
 class ArtTag(db.Model):
     """Art medium/media description."""
 
@@ -54,7 +61,7 @@ class ArtTag(db.Model):
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
 
-    tag_code = db.Column(db.String(50), nullable=True)
+    tag_code = db.Column(db.String(50), db.ForeignKey("tags.tag_code"))
 
 
     def __repr__(self):
@@ -64,6 +71,8 @@ class ArtTag(db.Model):
 
     def as_dict(self):
         return {"tag": self.tag_code}
+
+
 
 
 class Palette(db.Model):
@@ -98,7 +107,8 @@ class Artwork(db.Model):
 
     art_type = db.relationship("ArtType", backref="artworks")
     medium_type = db.relationship("ArtMedium", backref="artworks")
-    tag_type = db.relationship("ArtTag", backref="artworks")
+    # secondary is calling table name
+    tags = db.relationship("Tag", secondary="art_tags", backref="artworks")
     artist = db.relationship("Artist", backref="artworks")
     palette_code = db.relationship("Palette", backref="artworks")
 

@@ -46,14 +46,16 @@ def tag_dict():
 
     descript = ArtTag.query.all()
     lst_tags = [r.as_dict() for r in descript]
+
     return jsonify(lst_tags)
-    # results = Artwork.query.all()
+    
 
 @app.route("/process", methods=["POST"])
 def process():
     tag = request.form["tag"]
     if tag:
         return jsonify({"tag": tag})
+
     return jsonify({"error": "missing data"})
 
 
@@ -63,11 +65,17 @@ def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
     art_id = Artwork.query.get(artwork_id)
-    
-    # arts = Artwork.query.all()
 
     return render_template("artwork_detail.html", art_id=art_id)
 
+
+@app.route("/tag/<tag_code>")
+def all_tag(tag_code):
+
+    tag = Tag.query.get(tag_code)
+    # arts = Artwork.query.all()
+
+    return render_template("search_results.html", tag_codes=tag_code)
 
 if __name__ == "__main__":
     app.debug = True

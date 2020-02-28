@@ -15,12 +15,15 @@
     <img src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
   </a>
 
-  {% for item in art_id.tag_type %}
-    <p>{{ item.tag_code }}</p>
+  {% for item in art_id.tags %}
+    <a href="/tag/{{ item.tag_code }}"><p>{{ item.tag_code }}</p></a>
     {% endfor %}
+
       <p><b>Medium:</b> {{ art_id.medium_code }}</p>
       <p><b>Art Type:</b> {{ art_id.type_code }}</p>
 
+  <!--To get the last 5 RGB codes from the color palette-->
+  <!--I personally perferred the last 5-->
   {% for rgb in art_id.palette_code[-5:] %}
     <div class="swatch" 
       style="background-color: rgb{{ rgb.c_palette }};">
@@ -30,8 +33,8 @@
 
   <br/>
   <br/>
-
-  {% for rgb in art_id.palette_code[:] %}
+  <!--To get the first 3 RGB codes from the swatch-->
+  {% for rgb in art_id.palette_code[:3] %}
       <div class="swatch" 
         style="background-color: rgb{{ rgb.c_palette }};">
       </div>
