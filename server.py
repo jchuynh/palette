@@ -1,10 +1,13 @@
 from jinja2 import StrictUndefined  
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from model import Artwork, Artist, ArtType, ArtTag, connect_to_db, db
 
+# from search_form import SearchForm, connect_to_db, db
+
+from search_form import SearchForm
 
 import requests
 import json 
@@ -27,27 +30,32 @@ def index():
 
 ### Attempting Search Function
 
-@app.route("/search", methods["GET", "POST"])
-def search():
-    search = search_artist()
+@app.route("/form")
+def form():
+    form = SearchForm()
 
-    artists = db.session.query(Artist).filter_by(artist_name).all()
-    
-    # if search_artist.validate
-
-    
-
-    # titles = db.session.query(Artworks).filter_by(artist_title).all()
     # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
+    # artists = db.session.query(Artist).filter_by(artist_name).all()
+    # titles = db.session.query(Artworks).filter_by(artist_title).all()
+
+    return render_template("search-form.html", form=form)
 
 
+@app.route("/tags")
+def tag_dict():
 
+    descript = ArtTag.query.all()
+    lst_tags = [r.as_dict() for r in descript]
+    return jsonify(lst_tags)
+    # results = Artwork.query.all()
 
-# @app.route("/search_results/<query>")
-# def search_results():
-#     results = Artwork.query.all()
+@app.route("/process", methods=["POST"])
+def process():
+    tag = request.form["tag"]
+    if tag:
+        return jsonify({"tag": tag})
+    return jsonify({"error": "missing data"})
 
-#     return render_template("search_results.html", query=query)
 
 
 @app.route("/artwork/<int:artwork_id>")

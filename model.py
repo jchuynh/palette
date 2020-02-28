@@ -62,6 +62,9 @@ class ArtTag(db.Model):
 
         return f"<art tag={self.tag_code}>"
 
+    def as_dict(self):
+        return {"tag": self.tag_code}
+
 
 class Palette(db.Model):
     """Dominant colors (8) and their precentages."""
