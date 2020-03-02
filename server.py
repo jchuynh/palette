@@ -30,9 +30,13 @@ def index():
 
 ### Attempting Search Function
 
-@app.route("/form")
+@app.route("/form") # methods=["GET", "POST"]
 def form():
     form = SearchForm()
+    # if request.method == "POST" and form.validate_on_submit():
+    #     return redirect((url_for("search_results", query=form.search)))
+    return render_template("search-form.html", form=form)
+
 
     # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
     # artists = db.session.query(Artist).filter_by(artist_name).all()
@@ -41,22 +45,26 @@ def form():
     return render_template("search-form.html", form=form)
 
 
-@app.route("/tags")
-def tag_dict():
+@app.route("/search_results/<query>")
+def search_results(query):
+    results = Artworks.query.all()
+    
+    return render_template("search-results.html", query=query)
+# def tag_dict(tag_code):
 
-    descript = ArtTag.query.all()
-    lst_tags = [r.as_dict() for r in descript]
+#     descript = ArtTag.query.all()
+#     lst_tags = [r.as_dict() for r in descript]
 
-    return jsonify(lst_tags)
+#     return jsonify(lst_tags)
     
 
-@app.route("/process", methods=["POST"])
-def process():
-    tag = request.form["tag"]
-    if tag:
-        return jsonify({"tag": tag})
+# @app.route("/process", methods=["POST"])
+# def process():
+#     tag = request.form["tag"]
+#     if tag:
+#         return jsonify({"tag": tag})
 
-    return jsonify({"error": "missing data"})
+#     return jsonify({"error": "missing data"})
 
 
 
@@ -75,7 +83,7 @@ def all_tag(tag_code):
     tag = Tag.query.get(tag_code)
     # arts = Artwork.query.all()
 
-    return render_template("search_results.html", tag=tag)
+    return render_template("tag_results.html", tag=tag)
 
 if __name__ == "__main__":
     app.debug = True

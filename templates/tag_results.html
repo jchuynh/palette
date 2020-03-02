@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}  {% endblock %}
+{% block content %}
+
+{% for tag in tag.artworks %}
+
+        <a href="/artwork/{{ tag.artwork_id }}">
+  <img src=" /{{ tag.art_thumb }}" alt={{ tag.art_title }}/>
+  </a>
+
+  <h5>{{ tag.art_title }}</h5>
+{% endfor %}
+
+
+
+  
+{% endblock %}

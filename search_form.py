@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField 
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length 
 from flask import Flask
 
@@ -11,8 +11,8 @@ app.config['SECRET_KEY'] = 'orangetoblue'
 
 class SearchForm(FlaskForm):
 
-    tag = StringField('Tag', validators=[DataRequired(), Length(max=20)], render_kw={"placeholder": "tag"})
-
+    search = StringField("search", validators=[DataRequired(), Length(max=20)], render_kw={"placeholder": "search"})
+    submit = SubmitField("search", render_kw={"class": "btn btn-success btn-block"})
 
 
 # class search_artist(Form):
