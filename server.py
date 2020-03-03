@@ -1,23 +1,34 @@
 from jinja2 import StrictUndefined  
 
-from flask import Flask, render_template, redirect, jsonify
+from flask import Flask, flash, render_template, redirect, jsonify, request, url_for
 from flask_debugtoolbar import DebugToolbarExtension
+from werkzeug.utils import secure_filename
 
 from model import Artwork, Artist, ArtType, ArtTag, Tag, connect_to_db, db
-
+import upload
 # from search_form import SearchForm, connect_to_db, db
 
-from search_form import SearchForm
+# from search_form import SearchForm
 
 import requests
 import json 
+import os
+
+# UPLOAD_FOLDER = "/static/user_images"
+ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
   
 
 app = Flask(__name__)
 
 app.secret_key = "whiteboardsareremarkable"
 
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 app.jinja_env.undefined = StrictUndefined
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/")
@@ -27,6 +38,33 @@ def index():
     arts = Artwork.query.all()
 
     return render_template("index.html", arts=arts)
+
+
+@app.route("/upload")
+def upload_image():
+    """Displays uploads page"""
+
+    return render_template("upload.html")
+
+
+@app.route("/upload", methods=["POST"])
+def upload_submit():
+    if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+    file = request.files['file']
+
+    if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.abspath(f"static/user_images/{filename}"))
+
+        return redirect("/")
+
+        # (url_for('uploaded_file', filename=filename))
 
 ### Attempting Search Function
 
@@ -49,11 +87,6 @@ def form():
 
 #     return render_template("search-results.html", query=query)
 
-
-@app.route("/upload")
-def upload_image():
-
-    return render_template("upload.html")
 
 @app.route("/tags") 
 def tag_dict():

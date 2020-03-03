@@ -1,48 +1,15 @@
 {% extends 'base.html' %}
 
+{% block title %} Upload Personal Image {% endblock %}
 
-{% block title %} User Upload {% endblock %}
+{% block head %} {% endblock %}
 
-{% block head %} 
-
-{% endblock %}
-<!-- Creating an input and submit button for user -->
 {% block content %}
-<body>
-
-<div id="filesubmit">
-  <input type="file" class="file-select" accept="image/*"/>
-  <button class="file-submit">SUBMIT</button>
-</div>
-
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
-
-    <script>
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyDOf5avCk8ACUwdyolnCyw2iizIp6ZkYZw",
-        authDomain: "hb-color-palette-demo.firebaseapp.com",
-        databaseURL: "https://hb-color-palette-demo.firebaseio.com",
-        projectId: "hb-color-palette-demo",
-        storageBucket: "hb-color-palette-demo.appspot.com",
-        messagingSenderId: "325828300448",
-        appId: "1:325828300448:web:e0a28c2ed15b50c0b103c5",
-        measurementId: "G-97LNLXM56E"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
-
-      // Variable for referencing  firebase storage service
-      const storageService = firebase.storage();
-      // Variable for referencing instantation of the service
-      const storageRef = storageService.ref();
-
-    </script>
+    <body>
+    <h1>Upload Personal Image</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
 </body>
 {% endblock %}
