@@ -42,29 +42,40 @@ def form():
     # artists = db.session.query(Artist).filter_by(artist_name).all()
     # titles = db.session.query(Artworks).filter_by(artist_title).all()
 
-    return render_template("search-form.html", form=form)
+
+# @app.route("/search_results/<query>")
+# def search_results(query):
+#     results = Artworks.query.all()
+
+#     return render_template("search-results.html", query=query)
 
 
-@app.route("/search_results/<query>")
-def search_results(query):
-    results = Artworks.query.all()
+@app.route("/upload")
+def upload_image():
+
+    return render_template("upload.html")
+
+@app.route("/tags") 
+def tag_dict():
+
+    tag_info = ArtTag.query.all()
+    # To get a list of 
+
+    for t in tag_info:
+        lst_tags = t.as_dict()
+
+    # lst_tags = [r.as_dict() for r in descript]
+
+    return jsonify(lst_tags)
     
-    return render_template("search-results.html", query=query)
-# def tag_dict(tag_code):
 
-#     descript = ArtTag.query.all()
-#     lst_tags = [r.as_dict() for r in descript]
+@app.route("/process", methods=["POST"])
+def process():
+    tag = request.form["tag"]
+    if tag:
+        return jsonify({"tag": tag})
 
-#     return jsonify(lst_tags)
-    
-
-# @app.route("/process", methods=["POST"])
-# def process():
-#     tag = request.form["tag"]
-#     if tag:
-#         return jsonify({"tag": tag})
-
-#     return jsonify({"error": "missing data"})
+    return jsonify({"error": "missing data"})
 
 
 
@@ -77,13 +88,37 @@ def artwork_detail(artwork_id):
     return render_template("artwork_detail.html", art_id=art_id)
 
 
-@app.route("/tag/<tag_code>")
+@app.route("/tags/<tag_code>")
 def all_tag(tag_code):
 
     tag = Tag.query.get(tag_code)
     # arts = Artwork.query.all()
 
     return render_template("tag_results.html", tag=tag)
+
+# @app.route("/title/<title>")
+# def all_tag(tag_code):
+
+#     title = Artwork.query.filter_by(art_title)
+#     # arts = Artwork.query.all()
+
+#     return render_template("title_results.html", title=title)
+
+# @app.route("/artist/<artist_name>")
+# def all_tag(tag_code):
+
+#     artist = Artwork.query.get(tag_code)
+#     # arts = Artwork.query.all()
+
+#     return render_template("artist_results.html", artist=artist)
+
+# @app.route("/medium/<medium_code>")
+# def all_tag(tag_code):
+
+#     medium = Artwork.query.get(tag_code)
+#     # arts = Artwork.query.all()
+
+#     return render_template("medium_results.html", medium=medium)
 
 if __name__ == "__main__":
     app.debug = True

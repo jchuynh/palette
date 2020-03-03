@@ -1,13 +1,20 @@
-document.querySelector('.file-select).addEventListener('change', handleFileUploadChange);
-document.querySelector('.file-submit).addEventListener('click', handleFileUploadSubmit);
+// File for uploading user images 
+
+// Event listeners for submiting file
+document.querySelector('.file-select)
+    .addEventListener('change', handleFileUploadChange);
+document.querySelector('.file-submit)
+    .addEventListener('click', handleFileUploadSubmit);
 
 let selectedFile;
-    handleFileUploadChange(e) {
-    selectedFile = e.target.files[0];
+    handleFileUploadChange(evt) {
+    // Keeps track of what file the user has inputted
+    selectedFile = evt.target.files[0];
 }
 
-handleFileUploadSubmit(e) {
-  const uploadTask = storageRef.child(`images/${selectedFile.name}`).put(selectedFile); //create a child directory called images, and place the file inside this directory
+handleFileUploadSubmit(evt) {
+  // location where user images are stored
+  const uploadTask = storageRef.child(`/static/user_images/${selectedFile.name}`).put(selectedFile); 
   uploadTask.on('state_changed', (snapshot) => {
   // Observe state change events such as progress, pause, and resume
   }, (error) => {

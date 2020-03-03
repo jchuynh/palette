@@ -18,6 +18,9 @@ class Artist(db.Model):
 
         return f"<artist name={self.artist_name}>"
 
+    def as_dict(self):
+        return {"artist": self.art_name}
+
 
 class ArtType(db.Model):
     """Art classification code."""
@@ -44,13 +47,16 @@ class ArtMedium(db.Model):
 
         return f"<art medium={self.medium_code}>"
 
+    def as_dict(self):
+        return {"medium": self.medium_code}
+
 
 class Tag(db.Model):
     """ """
     __tablename__ = "tags"
 
     tag_code = db.Column(db.String, primary_key=True)
-    
+
 
 class ArtTag(db.Model):
     """Art medium/media description."""
@@ -122,6 +128,9 @@ class Artwork(db.Model):
         """Returns art title as object representation."""
 
         return f"<art title={self.art_title}>"
+
+    def as_dict(self):
+        return {"artwork": self.art_title}
 
 #### Helper Functions 
 
