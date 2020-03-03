@@ -16,7 +16,7 @@
   </a>
 
   {% for item in art_id.tags %}
-    <a href="/tag/{{ item.tag_code }}"><p>{{ item.tag_code }}</p></a>
+    <a href="/tags/{{ item.tag_code }}"><p>{{ item.tag_code }}</p></a>
     {% endfor %}
 
       <p><b>Medium:</b> {{ art_id.medium_code }}</p>
