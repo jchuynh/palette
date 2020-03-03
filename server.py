@@ -1,5 +1,8 @@
 from jinja2 import StrictUndefined  
 
+from haishoku.haishoku import Haishoku
+from PIL import Image
+
 from flask import Flask, flash, render_template, redirect, jsonify, request, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
@@ -60,11 +63,30 @@ def upload_submit():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.abspath(f"static/user_images/{filename}"))
+        user_img = file.save(os.path.abspath(f"static/user_images/{filename}"))
 
-        return redirect("/")
+        return extract_user_palette(filename)
 
-        # (url_for('uploaded_file', filename=filename))
+@app.route("/upload/user-palette")
+def extract_user_palette(filename):
+
+    def new_image(mode, size, color):
+        return Image.new(mode, size, color)
+
+    file = f"static/user_images/{filename}"
+
+    hai = Haishoku.loadHaishoku(file)
+    palette = Haishoku.getPalette(file)
+
+    u_color_pal = []
+
+    for item in palette:
+        c_pal = item[1]
+        pal = new_image('RGB', (100, 100), c_pal)
+        u_color_pal.append(c_pal)
+
+
+    return render_template("user-palette.html", filename=filename, u_color_pal=u_color_pal)
 
 ### Attempting Search Function
 
