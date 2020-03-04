@@ -76,8 +76,8 @@ class ArtTag(db.Model):
         return f"<art tag={self.tag_code}>"
 
     def as_dict(self):
-        return {"tag": self.tag_code}
-
+        return {"id": self.tag_id,
+                "tag": self.tag_code}
 
 
 
@@ -121,7 +121,7 @@ class Artwork(db.Model):
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
     art_thumb = db.Column(db.String(200), nullable=False) # image url
-
+    obj_date = db.Column(db.String(200), nullable=True)
 
 
     def __repr__(self):

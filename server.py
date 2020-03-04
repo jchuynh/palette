@@ -34,7 +34,7 @@ def allowed_file(filename):
 
 @app.route("/")
 def index():
-    """Displays homepage."""
+    """Displays homepage"""
 
     arts = Artwork.query.all()
 
@@ -56,7 +56,8 @@ def upload_submit():
             return redirect(request.url)
     file = request.files['file']
 
-    if file.filename == '':
+    if not file.filename:
+    # if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
 
@@ -66,6 +67,8 @@ def upload_submit():
         user_img = file.save(os.path.abspath(f"static/user_images/{filename}"))
 
         return extract_user_palette(filename)
+
+    return "SOMETHING"
 
 @app.route("/upload/user-palette")
 def extract_user_palette(filename):
@@ -106,10 +109,14 @@ def extract_user_palette(filename):
 
 @app.route("/form") # methods=["GET", "POST"]
 def form():
-    form = SearchForm()
-    # if request.method == "POST" and form.validate_on_submit():
-    #     return redirect((url_for("search_results", query=form.search)))
-    return render_template("search-form.html", form=form)
+        tag_info = ArtTag.query.all()
+        # To get a list of 
+
+        lst_tags = [t.as_dict() for t in tag_info]
+
+        data = jsonify(lst_tags)
+
+        return render_template("search-form.html", data=data)
 
 
     # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
@@ -130,10 +137,7 @@ def tag_dict():
     tag_info = ArtTag.query.all()
     # To get a list of 
 
-    for t in tag_info:
-        lst_tags = t.as_dict()
-
-    # lst_tags = [r.as_dict() for r in descript]
+    lst_tags = [t.as_dict() for t in tag_info]
 
     return jsonify(lst_tags)
     

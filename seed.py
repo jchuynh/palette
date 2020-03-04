@@ -113,20 +113,24 @@ def load_medium(data):
 def load_tag(data, artwork):
     """Load the art tags."""
 
-    tag_lst = data.get("tags") # this is a list
+    tag_key = data.get("tags") 
+    # extract only the values associated with the 'term' key
 
-    # to check for duplicates in a name
-    # query and search for the first instances of the artwork tags
+    if tag_key is not None:
 
-    for tag in tag_lst:
-        # print(tag, "\n\n\n\n")
-        art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
+        for item in tag_key:
 
-        if not art_tag:
-            art_tag = Tag(tag_code=tag)
-        artwork.tags.append(art_tag)
-        # db.session.add(art_tag)
-        db.session.commit()
+            tag = item.get("term")
+            art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
+
+            # to check for duplicates in a name
+            # query and search for the first instances of the artwork tags
+            if not art_tag:
+                art_tag = Tag(tag_code=tag)
+
+            artwork.tags.append(art_tag)
+
+            db.session.commit()
 
 
 
@@ -180,7 +184,7 @@ def load_color_palette(c_pal):
     pal.save(file_name, 'JPEG')
 
 
-def display_haishoku(art_image, art_id):
+def display_haishoku(art_image, art_id=None):
     """Obtaining color palette and color percentage to add to database"""
 
     file = f"static/images/{art_image}"
@@ -191,21 +195,23 @@ def display_haishoku(art_image, art_id):
     # palette has two pieces of data, percent used in the color and RGB code
     for pal in palette:
         load_color_palette(pal[1])
-
+        # if art_id:
         color = Palette(c_percent=pal[0],
-                        c_palette=pal[1],
-                        artwork_id=art_id)
+                    c_palette=pal[1],
+                    artwork_id=art_id)
 
         db.session.add(color)
         db.session.commit()
 
-    return color
+    return color 
 
 
 def load_artworks(data):
     """Load the jpg images location from the Met Museum APi to database"""
 
     art_title = data.get("title")
+
+    obj_date = data.get("objectDate")
 
     # url from the Met API
     art_image_url = data.get("primaryImage")
@@ -233,7 +239,8 @@ def load_artworks(data):
                       art_thumb=art_thumb,
                       artist_id=artist_id,
                       type_code=type_code,
-                      medium_code=medium_code)
+                      medium_code=medium_code,
+                      obj_date=obj_date)
 
     db.session.add(artwork)
     db.session.commit()
