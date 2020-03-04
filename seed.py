@@ -114,9 +114,6 @@ def load_tag(data, artwork):
     """Load the art tags."""
 
     tag_lst = data.get("tags") # this is a list
-    # print(tag_lst, "\n\n\n\n")
-
-    # tag_codes = ' '.join(tag_lst)
 
     # to check for duplicates in a name
     # query and search for the first instances of the artwork tags
@@ -130,18 +127,6 @@ def load_tag(data, artwork):
         artwork.tags.append(art_tag)
         # db.session.add(art_tag)
         db.session.commit()
-
-
-        #     return art_tag.tag_code
-
-        # # return tag.duplicate.tag_code
-
-        # tag_lst2 = []
-
-        # for tag in tag_duplicates:
-        #     tag_lst2.append(tag.tag_code)
-
-        # return tag_lst2
 
 
 
@@ -167,24 +152,23 @@ def load_thumbnail(art_image):
 
 
 def load_color_percent(palette):
-    """ """
+    """Extract the value for color percentage in image"""
 
-    # file = "static/images//"
+
     color_per = []
 
     for item in palette:
-    # idx 0 is the percentage of color on the image
-        # cannot extend float
+        # idx 0 is the percentage of color on the image
         c_percent = item[0]
 
         color_per.append(c_percent)
 
     return color_per
 
-    # return Artwork.query(Palette.c_percent).append(Palette(color_per))
-
 
 def new_image(mode, size, color):
+    """Creating a new image function with the necessary parameters"""
+    
     return Image.new(mode, size, color)
 
 
@@ -197,6 +181,7 @@ def load_color_palette(c_pal):
 
 
 def display_haishoku(art_image, art_id):
+    """Obtaining color palette and color percentage to add to database"""
 
     file = f"static/images/{art_image}"
 

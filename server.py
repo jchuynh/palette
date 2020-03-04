@@ -17,19 +17,17 @@ import requests
 import json 
 import os
 
-# UPLOAD_FOLDER = "/static/user_images"
-ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
+ALLOWED_EXTENSIONS = {"jpg", "jpeg"} # For user upload
   
 
 app = Flask(__name__)
 
 app.secret_key = "whiteboardsareremarkable"
 
-# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 app.jinja_env.undefined = StrictUndefined
 
 def allowed_file(filename):
+    """Check user image upload to determine it uses .jpg or .jpeg"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -52,7 +50,8 @@ def upload_image():
 
 @app.route("/upload", methods=["POST"])
 def upload_submit():
-    if 'file' not in request.files:
+    """User uploading and submitting the image"""
+    if 'file' not in request.files: 
             flash('No file part')
             return redirect(request.url)
     file = request.files['file']
@@ -63,14 +62,17 @@ def upload_submit():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
+        # Save the images on the local machine/server
         user_img = file.save(os.path.abspath(f"static/user_images/{filename}"))
 
         return extract_user_palette(filename)
 
 @app.route("/upload/user-palette")
 def extract_user_palette(filename):
+    """Extracting color palette based on user's image upload"""
 
     def new_image(mode, size, color):
+        """Creating an Image parameters for color analysis"""
         return Image.new(mode, size, color)
 
     file = f"static/user_images/{filename}"
@@ -81,14 +83,26 @@ def extract_user_palette(filename):
     u_color_pal = []
 
     for item in palette:
-        c_pal = item[1]
+        c_pal = item[1] # Second item has the RGB codes
         pal = new_image('RGB', (100, 100), c_pal)
         u_color_pal.append(c_pal)
 
+    size = 800, 800 # Size for cropping the user's image for display
 
-    return render_template("user-palette.html", filename=filename, u_color_pal=u_color_pal)
+    # Open the file from remote and convert to RGB
+    im = Image.open(file)
+    im.convert("RGB")
 
-### Attempting Search Function
+    # Use PIL thumbnail method to crop the image
+    im.thumbnail(size, Image.ANTIALIAS)
+
+    # Save the file to display on the webpage
+    u_crop_img = im.save(file, quality=80)
+
+    return render_template("user-palette.html", filename=filename, 
+                                                u_color_pal=u_color_pal, 
+                                                u_crop_img=u_crop_img)
+
 
 @app.route("/form") # methods=["GET", "POST"]
 def form():
