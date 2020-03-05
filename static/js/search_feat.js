@@ -1,15 +1,18 @@
 
-// not sure how to implement this
-
-$("#select2").select2({
-    placeholder: "Select Option",
-    minimumInputLength: 2,
-    ajax: { 
-        url: "/servletToGetMyData",
-        dataType: 'json',
-        data: function (term, page) { return { term: term }; },
-        results: function (data, page) {  return { results: data.results} }
+$(".search").select2({
+    placeholder: "Search options..."
+  ajax: {
+    url: "tags.json"
+    dataType: "json",
+    type: "GET",
+    results: function (data) {
+        return {results: data}
     },
-    initSelection : function(element, callback){ callback(initialSelection); },     
-    escapeMarkup: function (m) { return m; }
-}); 
+    url: "tags.json",
+    data: function (term) {
+        return q: term
+    }
+  }
+});
+
+console.log(data)

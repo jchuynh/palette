@@ -9,7 +9,15 @@
 
 {% block content %}
 <body>
-<select class="search"></select>
+
+<select class="search" name="search-items" style="width: 50%">
+    {% for item in data %}
+  <option value="{{ item }}">{{ item }}</option>
+    {% endfor %}
+</select>
+
+<!-- Connect to external Javascript file -->
+<script type="text/javascript" src="jquery-3.3.1.js"></script>
 <script src="/static/js/search_feat.js"></script>
 </body>
 {% endblock %}

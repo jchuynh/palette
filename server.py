@@ -109,16 +109,13 @@ def extract_user_palette(filename):
                                                 u_crop_img=u_crop_img)
 
 
-@app.route("/search") # methods=["GET", "POST"]
+@app.route("/search", methods=["GET", "POST"])
 def form():
-        tag_info = ArtTag.query.all()
-        # To get a list of 
 
-        lst_tags = [t.as_dict() for t in tag_info]
+    test = request.args.get("tags")
+    data = jsonify(test)
 
-        data = jsonify(lst_tags)
-
-        return render_template("search-form.html", data=data)
+    return render_template("search-form.html", data=data)
 
 
     # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
@@ -133,11 +130,10 @@ def form():
 #     return render_template("search-results.html", query=query)
 
 
-@app.route("/tags") 
+@app.route("/tags.json") 
 def tag_dict():
 
     tag_info = ArtTag.query.all()
-    # To get a list of 
 
     lst_tags = [t.as_dict() for t in tag_info]
 
@@ -146,7 +142,7 @@ def tag_dict():
 
 @app.route("/process", methods=["POST"])
 def process():
-    tag = request.form["tags"]
+    tag = request.form["tags.json"]
     if tag:
         return jsonify({"text": tag})
 
