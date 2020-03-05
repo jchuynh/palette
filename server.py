@@ -144,13 +144,13 @@ def tag_dict():
     return jsonify(lst_tags)
     
 
-# @app.route("/process", methods=["POST"])
-# def process():
-#     tag = request.form["tag"]
-#     if tag:
-#         return jsonify({"tag": tag})
+@app.route("/process", methods=["POST"])
+def process():
+    tag = request.form["tags"]
+    if tag:
+        return jsonify({"text": tag})
 
-#     return jsonify({"error": "missing data"})
+    return jsonify({"error": "missing data"})
 
 
 

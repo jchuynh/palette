@@ -29,7 +29,7 @@ var data = [
     "id": 7, 
     "text": "Skeletons"
   }
-  ];
+  ]
 
 
 $(".search").select2({
