@@ -26,6 +26,7 @@ app.secret_key = "whiteboardsareremarkable"
 
 app.jinja_env.undefined = StrictUndefined
 
+
 def allowed_file(filename):
     """Check user image upload to determine it uses .jpg or .jpeg"""
     return '.' in filename and \
@@ -70,6 +71,7 @@ def upload_submit():
 
     return "SOMETHING"
 
+
 @app.route("/upload/user-palette")
 def extract_user_palette(filename):
     """Extracting color palette based on user's image upload"""
@@ -107,7 +109,7 @@ def extract_user_palette(filename):
                                                 u_crop_img=u_crop_img)
 
 
-@app.route("/form") # methods=["GET", "POST"]
+@app.route("/search") # methods=["GET", "POST"]
 def form():
         tag_info = ArtTag.query.all()
         # To get a list of 
@@ -142,13 +144,13 @@ def tag_dict():
     return jsonify(lst_tags)
     
 
-@app.route("/process", methods=["POST"])
-def process():
-    tag = request.form["tag"]
-    if tag:
-        return jsonify({"tag": tag})
+# @app.route("/process", methods=["POST"])
+# def process():
+#     tag = request.form["tag"]
+#     if tag:
+#         return jsonify({"tag": tag})
 
-    return jsonify({"error": "missing data"})
+#     return jsonify({"error": "missing data"})
 
 
 

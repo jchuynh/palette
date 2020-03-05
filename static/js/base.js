@@ -1,23 +1,37 @@
 
-// $(".search").select2({
-//   ajax: {
-//     url: '/tags',
-//     dataType: 'json'
-//     // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-//   }
-// });
+
+var data = [
+  {
+    "id": 1, 
+    "text": "Birds"
+  }, 
+  {
+    "id": 2, 
+    "text": "Lakes"
+  }, 
+  {
+    "id": 3, 
+    "text": "Mountains"
+  }, 
+  {
+    "id": 4, 
+    "text": "Boats"
+  }, 
+  {
+    "id": 5, 
+    "text": "Actors"
+  }, 
+  {
+    "id": 6, 
+    "text": "Swords"
+  }, 
+  {
+    "id": 7, 
+    "text": "Skeletons"
+  }
+  ];
 
 
 $(".search").select2({
-   data :  data
-});
-
-
-
-
-// $(".search").select2({
-//     data: {
-//             tag : $("#tag").val()
-//         },
-//         url: "/tags"
-//     });
+  data: data
+})

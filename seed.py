@@ -113,14 +113,13 @@ def load_medium(data):
 def load_tag(data, artwork):
     """Load the art tags."""
 
-    tag_key = data.get("tags") 
-    # extract only the values associated with the 'term' key
+    tag_key = data.get("tags") # tag_key is a list 
 
-    if tag_key is not None:
+    if tag_key is not None: # takes into account if there are no tags avaliable
 
         for item in tag_key:
-
-            tag = item.get("term")
+            tag = item.get("term") 
+            # extract only the values associated with the 'term' key
             art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
 
             # to check for duplicates in a name
