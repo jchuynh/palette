@@ -1,3 +1,6 @@
+
+// not sure how to implement this
+
 $("#select2").select2({
     placeholder: "Select Option",
     minimumInputLength: 2,
