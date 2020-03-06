@@ -1,5 +1,8 @@
 from jinja2 import StrictUndefined  
 
+from haishoku.haishoku import Haishoku
+from PIL import Image
+
 from flask import Flask, flash, render_template, redirect, jsonify, request, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
@@ -60,25 +63,39 @@ def upload_submit():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.abspath(f"static/user_images/{filename}"))
+        user_img = file.save(os.path.abspath(f"static/user_images/{filename}"))
 
-        return redirect("/")
+        return extract_user_palette(filename)
 
-        # (url_for('uploaded_file', filename=filename))
+
+@app.route("/upload/user-palette")
+def extract_user_palette(filename):
+
+    def new_image(mode, size, color):
+        return Image.new(mode, size, color)
+
+    file = f"static/user_images/{filename}"
+
+    hai = Haishoku.loadHaishoku(file)
+    palette = Haishoku.getPalette(file)
+
+    u_color_pal = []
+
+    for item in palette:
+        c_pal = item[1]
+        pal = new_image('RGB', (100, 100), c_pal)
+        u_color_pal.append(c_pal)
+
+    return render_template("user-palette.html", filename=filename, 
+                                                u_color_pal=u_color_pal)
+
 
 ### Attempting Search Function
 
-@app.route("/form") # methods=["GET", "POST"]
-def form():
-    form = SearchForm()
-    # if request.method == "POST" and form.validate_on_submit():
-    #     return redirect((url_for("search_results", query=form.search)))
-    return render_template("search-form.html", form=form)
+@app.route("/search") # methods=["GET", "POST"]
+def search():
 
-
-    # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
-    # artists = db.session.query(Artist).filter_by(artist_name).all()
-    # titles = db.session.query(Artworks).filter_by(artist_title).all()
+    return render_template("search-form.html")
 
 
 # @app.route("/search_results/<query>")
@@ -88,28 +105,34 @@ def form():
 #     return render_template("search-results.html", query=query)
 
 
-@app.route("/tags") 
+@app.route("/tags.json") 
 def tag_dict():
 
     tag_info = ArtTag.query.all()
-    # To get a list of 
-
-    for t in tag_info:
-        lst_tags = t.as_dict()
-
-    # lst_tags = [r.as_dict() for r in descript]
+    # Receiving information from the Model.py
+    lst_tags = [t.as_dict() for t in tag_info]
 
     return jsonify(lst_tags)
+
+
+
+@app.route("/types.json") 
+def type_dict():
+
+    type_info = ArtType.query.all()
+    # Receiving information from the Model.py
+    lst_type = [t.as_dict() for t in type_info]
+
+    return jsonify(lst_type)
     
 
-@app.route("/process", methods=["POST"])
-def process():
-    tag = request.form["tag"]
-    if tag:
-        return jsonify({"tag": tag})
+# @app.route("/process.json", methods=["POST"])
+# def process():
+#     tag = request.form["tags.json"]
+#     if tag:
+#         return jsonify({"text": tag})
 
-    return jsonify({"error": "missing data"})
-
+#     return jsonify({"error": "missing data"})
 
 
 @app.route("/artwork/<int:artwork_id>")
@@ -123,35 +146,12 @@ def artwork_detail(artwork_id):
 
 @app.route("/tags/<tag_code>")
 def all_tag(tag_code):
+    """When tags are selected in the artwork details page"""
 
     tag = Tag.query.get(tag_code)
-    # arts = Artwork.query.all()
 
     return render_template("tag_results.html", tag=tag)
 
-# @app.route("/title/<title>")
-# def all_tag(tag_code):
-
-#     title = Artwork.query.filter_by(art_title)
-#     # arts = Artwork.query.all()
-
-#     return render_template("title_results.html", title=title)
-
-# @app.route("/artist/<artist_name>")
-# def all_tag(tag_code):
-
-#     artist = Artwork.query.get(tag_code)
-#     # arts = Artwork.query.all()
-
-#     return render_template("artist_results.html", artist=artist)
-
-# @app.route("/medium/<medium_code>")
-# def all_tag(tag_code):
-
-#     medium = Artwork.query.get(tag_code)
-#     # arts = Artwork.query.all()
-
-#     return render_template("medium_results.html", medium=medium)
 
 if __name__ == "__main__":
     app.debug = True

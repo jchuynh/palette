@@ -113,35 +113,22 @@ def load_medium(data):
 def load_tag(data, artwork):
     """Load the art tags."""
 
-    tag_lst = data.get("tags") # this is a list
-    # print(tag_lst, "\n\n\n\n")
+    tag_key = data.get("tags") # this is a list
+    # extract only the values associated with the 'term' key
+    if tag_key is not None:
 
-    # tag_codes = ' '.join(tag_lst)
+        for item in tag_key:
+            tag = item.get("term")
+            art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
 
-    # to check for duplicates in a name
-    # query and search for the first instances of the artwork tags
+            # to check for duplicates in a name
+            # query and search for the first instances of the artwork tags
+            if not art_tag:
+                art_tag = Tag(tag_code=tag)
 
-    for tag in tag_lst:
-        # print(tag, "\n\n\n\n")
-        art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
+            artwork.tags.append(art_tag)
 
-        if not art_tag:
-            art_tag = Tag(tag_code=tag)
-        artwork.tags.append(art_tag)
-        # db.session.add(art_tag)
-        db.session.commit()
-
-
-        #     return art_tag.tag_code
-
-        # # return tag.duplicate.tag_code
-
-        # tag_lst2 = []
-
-        # for tag in tag_duplicates:
-        #     tag_lst2.append(tag.tag_code)
-
-        # return tag_lst2
+            db.session.commit()
 
 
 
@@ -222,6 +209,8 @@ def load_artworks(data):
 
     art_title = data.get("title")
 
+    obj_date = data.get("objectDate")
+
     # url from the Met API
     art_image_url = data.get("primaryImage")
 
@@ -248,7 +237,8 @@ def load_artworks(data):
                       art_thumb=art_thumb,
                       artist_id=artist_id,
                       type_code=type_code,
-                      medium_code=medium_code)
+                      medium_code=medium_code,
+                      obj_date=obj_date)
 
     db.session.add(artwork)
     db.session.commit()

@@ -1,4 +1,4 @@
-
+"use strict";
 // creating a border around an image during hover
 
 $("img").hover(

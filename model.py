@@ -18,8 +18,11 @@ class Artist(db.Model):
 
         return f"<artist name={self.artist_name}>"
 
+    # Casting the object into a dictionary
+    # Used for Select2 search boxes
     def as_dict(self):
-        return {"artist": self.art_name}
+        return {"id": self.artist_id,
+                "text": self.artist_name}
 
 
 class ArtType(db.Model):
@@ -33,6 +36,9 @@ class ArtType(db.Model):
         """Returns the art type."""
 
         return f"<art type={self.type_code}>"
+
+    def as_dict(self):
+        return {"text": self.type_code}
 
 
 class ArtMedium(db.Model):
@@ -48,7 +54,7 @@ class ArtMedium(db.Model):
         return f"<art medium={self.medium_code}>"
 
     def as_dict(self):
-        return {"medium": self.medium_code}
+        return {"text": self.medium_code}
 
 
 class Tag(db.Model):
@@ -66,7 +72,6 @@ class ArtTag(db.Model):
     tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.artwork_id"))
-
     tag_code = db.Column(db.String(50), db.ForeignKey("tags.tag_code"))
 
 
@@ -76,7 +81,8 @@ class ArtTag(db.Model):
         return f"<art tag={self.tag_code}>"
 
     def as_dict(self):
-        return {"tag": self.tag_code}
+        return {"id": self.tag_id,
+                "text": self.tag_code}
 
 
 
@@ -121,7 +127,7 @@ class Artwork(db.Model):
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
     art_thumb = db.Column(db.String(200), nullable=False) # image url
-
+    obj_date = db.Column(db.String(200), nullable=True)
 
 
     def __repr__(self):
@@ -130,7 +136,9 @@ class Artwork(db.Model):
         return f"<art title={self.art_title}>"
 
     def as_dict(self):
-        return {"artwork": self.art_title}
+        return { "id": self.artwork_id,
+                "text": self.art_title}
+
 
 #### Helper Functions 
 

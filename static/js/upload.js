@@ -1,3 +1,5 @@
+"use strict";
+
 // File for uploading user images 
 
 // Event listeners for submiting file

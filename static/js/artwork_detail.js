@@ -1,3 +1,4 @@
+"use strict";
 
 // To enlarge image into a new pop-up window
 $("img").ready(function() {
