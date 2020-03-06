@@ -1,23 +1,23 @@
 {% extends 'base.html' %}
 
 {% block title %} Search {% endblock %}
-
 {% block head %}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 {% endblock %}
-
-
 {% block content %}
 <body>
+  <form id="search" class="form-inline">
+    {{ form.csrf_token }} <!--Requires Flask's Secret Key to use form-->
+      <div class="form-group">
+        <!-- Bootstrap - form control-->
+        {{ form.search(class="form-control")}} <button type="submit" 
+        class="btn btn-info">Submit</button>
+      </div>
+  </form>
 
-<select class="search" name="search-items" style="width: 50%">
-    {% for item in data %}
-  <option value="{{ item }}">{{ item }}</option>
-    {% endfor %}
-</select>
-
-<!-- Connect to external Javascript file -->
-<script type="text/javascript" src="jquery-3.3.1.js"></script>
-<script src="/static/js/search_feat.js"></script>
+  <div id="result"></div>
+  <script type="text/javascript" src="/static/js/search.js"></script>
 </body>
+
 {% endblock %}

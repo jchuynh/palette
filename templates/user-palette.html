@@ -9,21 +9,36 @@
 
 <body>
 
+
+
+
     <img src="/static/user_images/{{ filename }}" alt={{ filename }}>
+
+
+
 
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
-  {% for item in u_color_pal %}
+  {% for rgb in art_id.palette_code[-5:] %}
     <div class="swatch" 
-      style="background-color: rgb{{ item }};">
+      style="background-color: rgb{{ rgb.c_palette }};">
     </div>
-    <h5>{{ item }}</h5>
+    <h5>{{ rgb.c_palette }}</h5>
   {% endfor %}
 
   <br/>
   <br/>
+  <!--To get the first 3 RGB codes from the swatch-->
+  {% for rgb in art_id.palette_code[:3] %}
+      <div class="swatch" 
+        style="background-color: rgb{{ rgb.c_palette }};">
+      </div>
+      <h5>{{ rgb.c_palette }}</h5>
+  {% endfor %}
 
-<!--   <script src="magnific-popup/jquery.magnific-popup.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+  </div>
+
+  <script src="magnific-popup/jquery.magnific-popup.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </body>
 {% endblock %}

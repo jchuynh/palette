@@ -113,23 +113,35 @@ def load_medium(data):
 def load_tag(data, artwork):
     """Load the art tags."""
 
-    tag_key = data.get("tags") # tag_key is a list 
+    tag_lst = data.get("tags") # this is a list
+    # print(tag_lst, "\n\n\n\n")
 
-    if tag_key is not None: # takes into account if there are no tags avaliable
+    # tag_codes = ' '.join(tag_lst)
 
-        for item in tag_key:
-            tag = item.get("term") 
-            # extract only the values associated with the 'term' key
-            art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
+    # to check for duplicates in a name
+    # query and search for the first instances of the artwork tags
 
-            # to check for duplicates in a name
-            # query and search for the first instances of the artwork tags
-            if not art_tag:
-                art_tag = Tag(tag_code=tag)
+    for tag in tag_lst:
+        # print(tag, "\n\n\n\n")
+        art_tag = db.session.query(Tag).filter(Tag.tag_code == tag).first()
 
-            artwork.tags.append(art_tag)
+        if not art_tag:
+            art_tag = Tag(tag_code=tag)
+        artwork.tags.append(art_tag)
+        # db.session.add(art_tag)
+        db.session.commit()
 
-            db.session.commit()
+
+        #     return art_tag.tag_code
+
+        # # return tag.duplicate.tag_code
+
+        # tag_lst2 = []
+
+        # for tag in tag_duplicates:
+        #     tag_lst2.append(tag.tag_code)
+
+        # return tag_lst2
 
 
 
@@ -155,23 +167,24 @@ def load_thumbnail(art_image):
 
 
 def load_color_percent(palette):
-    """Extract the value for color percentage in image"""
+    """ """
 
-
+    # file = "static/images//"
     color_per = []
 
     for item in palette:
-        # idx 0 is the percentage of color on the image
+    # idx 0 is the percentage of color on the image
+        # cannot extend float
         c_percent = item[0]
 
         color_per.append(c_percent)
 
     return color_per
 
+    # return Artwork.query(Palette.c_percent).append(Palette(color_per))
+
 
 def new_image(mode, size, color):
-    """Creating a new image function with the necessary parameters"""
-    
     return Image.new(mode, size, color)
 
 
@@ -183,8 +196,7 @@ def load_color_palette(c_pal):
     pal.save(file_name, 'JPEG')
 
 
-def display_haishoku(art_image, art_id=None):
-    """Obtaining color palette and color percentage to add to database"""
+def display_haishoku(art_image, art_id):
 
     file = f"static/images/{art_image}"
 
@@ -194,23 +206,21 @@ def display_haishoku(art_image, art_id=None):
     # palette has two pieces of data, percent used in the color and RGB code
     for pal in palette:
         load_color_palette(pal[1])
-        # if art_id:
+
         color = Palette(c_percent=pal[0],
-                    c_palette=pal[1],
-                    artwork_id=art_id)
+                        c_palette=pal[1],
+                        artwork_id=art_id)
 
         db.session.add(color)
         db.session.commit()
 
-    return color 
+    return color
 
 
 def load_artworks(data):
     """Load the jpg images location from the Met Museum APi to database"""
 
     art_title = data.get("title")
-
-    obj_date = data.get("objectDate")
 
     # url from the Met API
     art_image_url = data.get("primaryImage")
@@ -238,8 +248,7 @@ def load_artworks(data):
                       art_thumb=art_thumb,
                       artist_id=artist_id,
                       type_code=type_code,
-                      medium_code=medium_code,
-                      obj_date=obj_date)
+                      medium_code=medium_code)
 
     db.session.add(artwork)
     db.session.commit()

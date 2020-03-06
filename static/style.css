@@ -1,0 +1,26 @@
+ h1 {
+    color: black;
+    font-family: Garamond;
+ }
+
+ h2 {
+    font-family: Garamond;
+ }
+
+ .gallery {
+    display: flex;
+    flex-direction: row;
+    flex: wrap;
+    justify-content: center;
+    align-content: center 
+}
+.img:hover {
+    border: 10px;
+    border-color: black;
+}
+
+.swatch {
+    width: 100px;
+    height: 100px;
+
+}

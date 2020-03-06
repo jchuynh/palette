@@ -1,8 +1,5 @@
 from jinja2 import StrictUndefined  
 
-from haishoku.haishoku import Haishoku
-from PIL import Image
-
 from flask import Flask, flash, render_template, redirect, jsonify, request, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
@@ -17,25 +14,26 @@ import requests
 import json 
 import os
 
-ALLOWED_EXTENSIONS = {"jpg", "jpeg"} # For user upload
+# UPLOAD_FOLDER = "/static/user_images"
+ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
   
 
 app = Flask(__name__)
 
 app.secret_key = "whiteboardsareremarkable"
 
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 app.jinja_env.undefined = StrictUndefined
 
-
 def allowed_file(filename):
-    """Check user image upload to determine it uses .jpg or .jpeg"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/")
 def index():
-    """Displays homepage"""
+    """Displays homepage."""
 
     arts = Artwork.query.all()
 
@@ -51,71 +49,31 @@ def upload_image():
 
 @app.route("/upload", methods=["POST"])
 def upload_submit():
-    """User uploading and submitting the image"""
-    if 'file' not in request.files: 
+    if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
     file = request.files['file']
 
-    if not file.filename:
-    # if file.filename == '':
+    if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        # Save the images on the local machine/server
-        user_img = file.save(os.path.abspath(f"static/user_images/{filename}"))
+        file.save(os.path.abspath(f"static/user_images/{filename}"))
 
-        return extract_user_palette(filename)
+        return redirect("/")
 
-    return "SOMETHING"
+        # (url_for('uploaded_file', filename=filename))
 
+### Attempting Search Function
 
-@app.route("/upload/user-palette")
-def extract_user_palette(filename):
-    """Extracting color palette based on user's image upload"""
-
-    def new_image(mode, size, color):
-        """Creating an Image parameters for color analysis"""
-        return Image.new(mode, size, color)
-
-    file = f"static/user_images/{filename}"
-
-    hai = Haishoku.loadHaishoku(file)
-    palette = Haishoku.getPalette(file)
-
-    u_color_pal = []
-
-    for item in palette:
-        c_pal = item[1] # Second item has the RGB codes
-        pal = new_image('RGB', (100, 100), c_pal)
-        u_color_pal.append(c_pal)
-
-    size = 800, 800 # Size for cropping the user's image for display
-
-    # Open the file from remote and convert to RGB
-    im = Image.open(file)
-    im.convert("RGB")
-
-    # Use PIL thumbnail method to crop the image
-    im.thumbnail(size, Image.ANTIALIAS)
-
-    # Save the file to display on the webpage
-    u_crop_img = im.save(file, quality=80)
-
-    return render_template("user-palette.html", filename=filename, 
-                                                u_color_pal=u_color_pal, 
-                                                u_crop_img=u_crop_img)
-
-
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/form") # methods=["GET", "POST"]
 def form():
-
-    test = request.args.get("tags")
-    data = jsonify(test)
-
-    return render_template("search-form.html", data=data)
+    form = SearchForm()
+    # if request.method == "POST" and form.validate_on_submit():
+    #     return redirect((url_for("search_results", query=form.search)))
+    return render_template("search-form.html", form=form)
 
 
     # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
@@ -130,21 +88,25 @@ def form():
 #     return render_template("search-results.html", query=query)
 
 
-@app.route("/tags.json") 
+@app.route("/tags") 
 def tag_dict():
 
     tag_info = ArtTag.query.all()
+    # To get a list of 
 
-    lst_tags = [t.as_dict() for t in tag_info]
+    for t in tag_info:
+        lst_tags = t.as_dict()
+
+    # lst_tags = [r.as_dict() for r in descript]
 
     return jsonify(lst_tags)
     
 
 @app.route("/process", methods=["POST"])
 def process():
-    tag = request.form["tags.json"]
+    tag = request.form["tag"]
     if tag:
-        return jsonify({"text": tag})
+        return jsonify({"tag": tag})
 
     return jsonify({"error": "missing data"})
 
