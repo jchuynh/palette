@@ -42,6 +42,34 @@ def index():
 
     return render_template("index.html", arts=arts)
 
+# @app.route('/session/set')
+# def set_session():
+#     """Set value for session['fav_number']."""
+
+#     session['fav_number'] = 64
+
+#     return render_template('basic-set-session.html')
+
+
+@app.route('/session/get')
+def get_session():
+    """Get values out of the session."""
+
+    img = session['fav_number']
+
+    return render_template('base.html',
+                           img=img)
+
+
+@app.route('/handle-session')
+def handle_session():
+    """Return agreeable response and save to session."""
+
+    session['link'] = request.args['/artwork/<int:artwork_id>']
+    session['img'] = request.args['art_id.art_thumb']
+
+    return session['link'], session['img']
+
 
 @app.route("/upload")
 def upload_image():
