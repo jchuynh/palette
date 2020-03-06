@@ -19,8 +19,7 @@ class Artist(db.Model):
         return f"<artist name={self.artist_name}>"
 
     def as_dict(self):
-        return {"id": self.artist_id,
-                "text": self.art_name}
+        return {"artist": self.art_name}
 
 
 class ArtType(db.Model):
@@ -28,7 +27,6 @@ class ArtType(db.Model):
 
     __tablename__ = "art_types"
 
-    type_id = db.Column(db.Integer, autoincrement=True)
     type_code = db.Column(db.String(200), primary_key=True)
 
     def __repr__(self):
@@ -36,16 +34,12 @@ class ArtType(db.Model):
 
         return f"<art type={self.type_code}>"
 
-    def as_dict(self):
-        return {"id": self.type_id,
-                "text": self.type_code}
 
 class ArtMedium(db.Model):
     """Art medium/media description."""
 
     __tablename__ = "art_mediums"
 
-    medium_id = db.Column(db.Integer, autoincrement=True)
     medium_code = db.Column(db.String(200), primary_key=True)
 
     def __repr__(self):
@@ -54,8 +48,7 @@ class ArtMedium(db.Model):
         return f"<art medium={self.medium_code}>"
 
     def as_dict(self):
-        return {"id": self.medium_id,
-                "text": self.medium_code}
+        return {"medium": self.medium_code}
 
 
 class Tag(db.Model):
@@ -83,8 +76,8 @@ class ArtTag(db.Model):
         return f"<art tag={self.tag_code}>"
 
     def as_dict(self):
-        return {"id": self.tag_id,
-                "text": self.tag_code}
+        return {"tag": self.tag_code}
+
 
 
 
@@ -128,7 +121,7 @@ class Artwork(db.Model):
     art_title = db.Column(db.String(200), nullable=False)
     art_image = db.Column(db.String(200), nullable=False) # image url
     art_thumb = db.Column(db.String(200), nullable=False) # image url
-    obj_date = db.Column(db.String(200), nullable=True)
+
 
 
     def __repr__(self):
@@ -137,8 +130,7 @@ class Artwork(db.Model):
         return f"<art title={self.art_title}>"
 
     def as_dict(self):
-        return {"id": self.artwork_id,
-                "text": self.art_title}
+        return {"artwork": self.art_title}
 
 #### Helper Functions 
 
