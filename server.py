@@ -3,7 +3,7 @@ from jinja2 import StrictUndefined
 from haishoku.haishoku import Haishoku
 from PIL import Image
 
-from flask import Flask, flash, render_template, redirect, jsonify, request, url_for
+from flask import Flask, flash, render_template, redirect, jsonify, request, url_for, session
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
 
@@ -49,26 +49,43 @@ def index():
 #     session['fav_number'] = 64
 
 #     return render_template('basic-set-session.html')
+ 
+
+# @app.after_request
+# def store_visted_urls():
+#     session['urls'].append(request.url)
+#     if (len[session['urls']]) > 5:
+#         session['urls'].pop(0)
+#     session.modified = True
 
 
-@app.route('/session/get')
-def get_session():
-    """Get values out of the session."""
+# @app.route('/test')
+# def index():
 
-    img = session['fav_number']
+# store_urls = []
+# if 'urls' in session:
+# data = session['urls']
+# return  render_template('recent_pages.html',store_urls=store_urls)
 
-    return render_template('base.html',
-                           img=img)
+
+# @app.route('/session/get')
+# def get_session():
+#     """Get values out of the session."""
+
+#     img = session['fav_number']
+
+#     return render_template('base.html',
+#                            img=img)
 
 
-@app.route('/handle-session')
-def handle_session():
-    """Return agreeable response and save to session."""
+# @app.route('/handle-session')
+# def handle_session():
+#     """Return agreeable response and save to session."""
 
-    session['link'] = request.args['/artwork/<int:artwork_id>']
-    session['img'] = request.args['art_id.art_thumb']
+#     session['link'] = request.args['/artwork/<int:artwork_id>']
+#     session['img'] = request.args['art_id.art_thumb']
 
-    return session['link'], session['img']
+#     return session['link'], session['img']
 
 
 @app.route("/upload")
@@ -133,34 +150,40 @@ def search():
 #     return render_template("search-results.html", query=query)
 
 
-@app.route("/tags.json") 
+@app.route("/tags.json", methods=["GET"]) 
 def tag_dict():
 
-    tag_info = ArtTag.query.all()
-    # Receiving information from the Model.py
-    lst_tags = [t.as_dict() for t in tag_info]
+    # tag_info = ArtTag.query.all()
+    # # Receiving information from the Model.py
+    # lst_tags = [t.as_dict() for t in tag_info]
 
-    return jsonify(lst_tags)
+    term = request.args.get("term")
+
+    tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
+    tag_results = {"results": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
+    print(tag_results)
+    return jsonify(tag_results)
 
 
 
-@app.route("/types.json") 
-def type_dict():
+# @app.route("/types.json") 
+# def type_dict():
 
-    type_info = ArtType.query.all()
-    # Receiving information from the Model.py
-    lst_type = [t.as_dict() for t in type_info]
+#     type_info = ArtType.query.all()
+#     # Receiving information from the Model.py
+#     lst_type = [t.as_dict() for t in type_info]
 
-    return jsonify(lst_type)
+#     return jsonify(lst_type)
     
 
-# @app.route("/process.json", methods=["POST"])
-# def process():
-#     tag = request.form["tags.json"]
-#     if tag:
-#         return jsonify({"text": tag})
+@app.route("/process.json", methods=["POST"])
+def process():
+    tag = request.form["tags.json"]
 
-#     return jsonify({"error": "missing data"})
+    if tag:
+        return jsonify({"text": tag})
+
+    return jsonify({"error": "missing data"})
 
 
 @app.route("/artwork/<int:artwork_id>")

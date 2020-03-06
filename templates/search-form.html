@@ -12,24 +12,22 @@
 {% block content %}
 <form action="/search" method="POST">
   <label for="search">Search</label>
-  <select name="search" id="search" multiple="multiple" style="width: 50%"></select>
+  <select name="search" id="search" style="width: 50%"></select>
 </form>
 
 <script type="text/javascript">
-
-$('#search').select2({
-  ajax: {
-    url: '/tags.json', // Using JSON file at locally made route
-    dataType: 'json',
-    type: 'GET',
-    results: (data) => {
-        // Need to return in format in order to use Select2
-        return {'search_term': results.term}
-    },
-    placeholder: 'Search options...'
-
-  }
-});
+  $('#search').select2({
+    ajax: {
+      url: '/tags.json', // Using JSON file at locally made route
+      dataType: 'json',
+      type: 'GET',
+      results: (data) => {
+          // Need to return in format in order to use Select2
+          return {'term': data.term}
+      },
+      placeholder: 'Search options...'
+    }
+  });
 </script>
 
 
