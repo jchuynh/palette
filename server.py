@@ -137,7 +137,7 @@ def extract_user_palette(filename):
 
 ### Attempting Search Function
 
-@app.route("/search") # methods=["GET", "POST"]
+@app.route("/search-form") # methods=["GET", "POST"]
 def search():
 
     return render_template("search-form.html")
@@ -150,40 +150,49 @@ def search():
 #     return render_template("search-results.html", query=query)
 
 
-@app.route("/tags.json", methods=["GET"]) 
-def tag_dict():
-
-    # tag_info = ArtTag.query.all()
-    # # Receiving information from the Model.py
-    # lst_tags = [t.as_dict() for t in tag_info]
+@app.route("/search/artists-search", methods=["GET"]) 
+def artist_query():
+    """ """
 
     term = request.args.get("term")
 
+    artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
+
+    artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+
     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
-    tag_results = {"results": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
-    print(tag_results)
-    return jsonify(tag_results)
 
-
-
-# @app.route("/types.json") 
-# def type_dict():
-
-#     type_info = ArtType.query.all()
-#     # Receiving information from the Model.py
-#     lst_type = [t.as_dict() for t in type_info]
-
-#     return jsonify(lst_type)
+    artist_results['results'].extend([{"id": tag.tag_id, "text": tag.tag_code} for tag in tags])
     
 
-@app.route("/process.json", methods=["POST"])
-def process():
-    tag = request.form["tags.json"]
+    return jsonify(artist_results)
 
-    if tag:
-        return jsonify({"text": tag})
 
-    return jsonify({"error": "missing data"})
+@app.route("/search-test", methods=["GET"]) 
+def all_query():
+    """ """
+
+    term = request.args.get("term")
+
+    artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%'))
+    artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+
+    tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
+    tag_results = {"results": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
+
+    return render_template("search-form.html", tag_results=tag_results, artist_results=artist_results)
+
+
+
+@app.route("/search/types-search", methods=["GET"]) 
+def type_query():
+
+    term = request.args.get("term")
+
+    typs = ArtType.query.filter(ArtType.type_code.ilike(f'%{term}%')).all()
+    typ_results = {"results": [{"id": typ.type_id, "text": typ.type_code} for typ in typs]}
+
+    return jsonify(lst_type)
 
 
 @app.route("/artwork/<int:artwork_id>")
