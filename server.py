@@ -169,9 +169,7 @@ def all_query():
     search_results = jsonify({"results": results})
     print({"results": results}, "\n\n\n\n")
     # return make_response(jsonify({"results": results}), 201)
-    # return jsonify({"results": results})
-    return make_response(jsonify({"results": results}), 201)
-
+    return jsonify({"results": results})
 
 
 # @app.route("/search/artists-search", methods=["GET"]) 

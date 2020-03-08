@@ -23,11 +23,11 @@
       minimumInputLength: 3,
       type: 'GET',
       
-      data: function () {
-                return {
-                    json: JSON.stringify(term)
-                }
-            },
+      // data: function () {
+      //           return {
+      //               json: JSON.stringify(term)
+      //           }
+      //       },
       results: function (term) {
                       return {
                           results: $.map(term.fields, function (field, i) {
