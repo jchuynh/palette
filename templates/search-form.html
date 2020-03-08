@@ -22,15 +22,29 @@
       dataType: 'json',
       minimumInputLength: 3,
       type: 'GET',
-      data: function(term) {
-          // Need to return in format in order to use Select2
-          return {'term': term.term};
-      },
-    //   processResults: function(data) {
-    //       return { results: data };
-    // },
-  }
-  });
+      
+      data: function () {
+                return {
+                    json: JSON.stringify(term)
+                }
+            },
+      results: function (term) {
+                      return {
+                          results: $.map(term.fields, function (field, i) {
+                              return {
+                                  text: field.name,
+                                  children: $.map(field.children, function(child){
+                                      return {
+                                          id: child.id,
+                                          text: child.name
+                                      }
+                                  })
+                              }
+                          })
+                      }
+                  }
+            }}
+        );
 
 </script>
 

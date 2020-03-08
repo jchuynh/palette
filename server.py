@@ -4,7 +4,7 @@ from haishoku.haishoku import Haishoku
 from PIL import Image
 import collections
 
-from flask import Flask, flash, render_template, redirect, jsonify, request, url_for, session
+from flask import Flask, flash, render_template, redirect, jsonify, request, url_for, session, make_response
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
 
@@ -144,13 +144,6 @@ def search():
     return render_template("search-form.html")
 
 
-# @app.route("/search_results/<query>")
-# def search_results(query):
-#     results = Artworks.query.all()
-
-#     return render_template("search-results.html", query=query)
-
-
 # @app.route("/search/artists-search", methods=["GET"]) 
 # def artist_query():
 #     """ """
@@ -188,8 +181,11 @@ def all_query():
     results.append(title_search)
     
     search_results = jsonify({"results": results})
-    print(search_results, "\n\n\n\n")
-    return search_results
+    print({"results": results}, "\n\n\n\n")
+    # return make_response(jsonify({"results": results}), 201)
+    # return jsonify({"results": results})
+    return make_response(jsonify({"results": results}), 201)
+
 
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
