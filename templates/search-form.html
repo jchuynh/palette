@@ -11,41 +11,31 @@
 
 {% block content %}
 <form action="/search-form" method="POST">
-  <label for="search">Search</label>
+  <label for="search">Search </label>
   <select name="search" id="search" data-placeholder="Enter search" style="width: 50%"></select>
 </form>
+
 <script type="text/javascript">
-      $('#search').select2({
+  $('#search').select2({
     ajax: {
-      url: '/search-test',
+      url: '/search-test', // Using JSON file at locally made route
       dataType: 'json',
-      type: 'GET'
-</script>
-
-<select id="#search">
-  <optgroup label="Artists">
-    {% for item in tag_results %}
-    <option value="{{ item }}">{{ item }}</option>
-    {% endfor %}
-  </optgroup>
-
-<!-- <script type="text/javascript">
-    $('#search').select2({
-    ajax: {
-      url: '/search/artists-search', // Using JSON file at locally made route
-      dataType: 'json',
+      minimumInputLength: 3,
       type: 'GET',
-      results: (data) => {
-          return {'select2 term': data[0].text}
-}
-    }
+      data: function(term) {
+          // Need to return in format in order to use Select2
+          return {'term': term.term};
+      },
+    //   processResults: function(data) {
+    //       return { results: data };
+    // },
+  }
   });
 
-</script> -->
+</script>
 
 
-
-<!-- <script type="text/javascript" src=/static/js/search.js></script> -->
+<!-- <script type="text/javascript" src=/static/js/search_feat.js></script> -->
 
 
 {% endblock %}

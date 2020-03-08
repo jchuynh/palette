@@ -2,6 +2,7 @@ from jinja2 import StrictUndefined
 
 from haishoku.haishoku import Haishoku
 from PIL import Image
+import collections
 
 from flask import Flask, flash, render_template, redirect, jsonify, request, url_for, session
 from flask_debugtoolbar import DebugToolbarExtension
@@ -150,22 +151,19 @@ def search():
 #     return render_template("search-results.html", query=query)
 
 
-@app.route("/search/artists-search", methods=["GET"]) 
-def artist_query():
-    """ """
+# @app.route("/search/artists-search", methods=["GET"]) 
+# def artist_query():
+#     """ """
 
-    term = request.args.get("term")
+#     term = request.args.get("term")
 
-    artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
+#     artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
+#     artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
 
-    artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+#     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
+#     artist_results['results'].extend([{"id": tag.tag_id, "text": tag.tag_code} for tag in tags])
 
-    tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
-
-    artist_results['results'].extend([{"id": tag.tag_id, "text": tag.tag_code} for tag in tags])
-    
-
-    return jsonify(artist_results)
+#     return jsonify(artist_results)
 
 
 @app.route("/search-test", methods=["GET"]) 
@@ -174,26 +172,24 @@ def all_query():
 
     term = request.args.get("term")
 
-    artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%'))
-    artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+    artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
+    artist_search = {"text": "Artists", "children": [[{"id": artist.artist_id, "text": artist.artist_name}] for artist in artists]}
 
     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
-    tag_results = {"results": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
+    tag_search = {"text": "Tags", "children": [[{"id": tag.tag_id, "text": tag.tag_code}] for tag in tags]}
 
-    return render_template("search-form.html", tag_results=tag_results, artist_results=artist_results)
+    titles = Artwork.query.filter(Artwork.art_title.ilike(f'%{term}%')).all()
+    title_search = {"text": "Artwork Titles", "children": [[{"id": artwork.artwork_id, "text": artwork.art_title}] for artwork in titles]}
 
+    results = []
 
-
-@app.route("/search/types-search", methods=["GET"]) 
-def type_query():
-
-    term = request.args.get("term")
-
-    typs = ArtType.query.filter(ArtType.type_code.ilike(f'%{term}%')).all()
-    typ_results = {"results": [{"id": typ.type_id, "text": typ.type_code} for typ in typs]}
-
-    return jsonify(lst_type)
-
+    results.append(artist_search)
+    results.append(tag_search)
+    results.append(title_search)
+    
+    search_results = jsonify({"results": results})
+    print(search_results, "\n\n\n\n")
+    return search_results
 
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
