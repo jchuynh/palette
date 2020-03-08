@@ -144,20 +144,6 @@ def search():
     return render_template("search-form.html")
 
 
-# @app.route("/search/artists-search", methods=["GET"]) 
-# def artist_query():
-#     """ """
-
-#     term = request.args.get("term")
-
-#     artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
-#     artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
-
-#     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
-#     artist_results['results'].extend([{"id": tag.tag_id, "text": tag.tag_code} for tag in tags])
-
-#     return jsonify(artist_results)
-
 
 @app.route("/search-test", methods=["GET"]) 
 def all_query():
@@ -186,6 +172,21 @@ def all_query():
     # return jsonify({"results": results})
     return make_response(jsonify({"results": results}), 201)
 
+
+
+# @app.route("/search/artists-search", methods=["GET"]) 
+# def artist_query():
+#     """ """
+
+#     term = request.args.get("term")
+
+#     artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
+#     artist_results = {"results": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+
+#     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
+#     artist_results['results'].extend([{"id": tag.tag_id, "text": tag.tag_code} for tag in tags])
+
+#     return jsonify(artist_results)
 
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
