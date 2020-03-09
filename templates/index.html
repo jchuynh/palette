@@ -15,13 +15,13 @@
       {% for art in arts %}
         <div class="carousel-item {% if loop.index == 13 %} active {% endif %}">
           <a href="/artwork/{{ art.artwork_id }}">
-            <img src=" /{{ art.art_image }}" alt={{ art.art_title }}/>
+            <img src=" /{{ art.art_thumb }}" alt={{ art.art_title }}/>
           </a>
         </div>
-        <div class="carousel-item">
+<!--         <div class="carousel-item">
           <a href="/artwork/{{ art.artwork_id }}">
             <img src=" /{{ art.art_image }}" alt={{ art.art_title }}/>
-        </div>
+        </div> -->
 <!--           <h5>{{ art.art_title }}</h5> -->
       {% endfor %}
 
