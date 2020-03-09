@@ -9,11 +9,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
 
 from model import Artwork, Artist, ArtType, ArtTag, Tag, connect_to_db, db
+
 import upload
-# from search_form import SearchForm, connect_to_db, db
-
-# from search_form import SearchForm
-
+import urllib.request
 import requests
 import json 
 import os
@@ -30,10 +28,6 @@ app.secret_key = "whiteboardsareremarkable"
 
 app.jinja_env.undefined = StrictUndefined
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @app.route("/")
 def index():
@@ -43,50 +37,12 @@ def index():
 
     return render_template("index.html", arts=arts)
 
-# @app.route('/session/set')
-# def set_session():
-#     """Set value for session['fav_number']."""
+@app.route("/gallery")
+def display_all_artworks():
+    """ """
+    arts = Artwork.query.all()
 
-#     session['fav_number'] = 64
-
-#     return render_template('basic-set-session.html')
- 
-
-# @app.after_request
-# def store_visted_urls():
-#     session['urls'].append(request.url)
-#     if (len[session['urls']]) > 5:
-#         session['urls'].pop(0)
-#     session.modified = True
-
-
-# @app.route('/test')
-# def index():
-
-# store_urls = []
-# if 'urls' in session:
-# data = session['urls']
-# return  render_template('recent_pages.html',store_urls=store_urls)
-
-
-# @app.route('/session/get')
-# def get_session():
-#     """Get values out of the session."""
-
-#     img = session['fav_number']
-
-#     return render_template('base.html',
-#                            img=img)
-
-
-# @app.route('/handle-session')
-# def handle_session():
-#     """Return agreeable response and save to session."""
-
-#     session['link'] = request.args['/artwork/<int:artwork_id>']
-#     session['img'] = request.args['art_id.art_thumb']
-
-#     return session['link'], session['img']
+    return render_template("gallery.html", arts=arts)    
 
 
 @app.route("/upload")
@@ -94,6 +50,11 @@ def upload_image():
     """Displays uploads page"""
 
     return render_template("upload.html")
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/upload", methods=["POST"])
@@ -152,13 +113,13 @@ def all_query():
     term = request.args.get("term")
 
     artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
-    artist_search = {"text": "Artists", "children": [[{"id": artist.artist_id, "text": artist.artist_name}] for artist in artists]}
+    artist_search = {"text": "Artists", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
 
     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
-    tag_search = {"text": "Tags", "children": [[{"id": tag.tag_id, "text": tag.tag_code}] for tag in tags]}
+    tag_search = {"text": "Tags", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
 
     titles = Artwork.query.filter(Artwork.art_title.ilike(f'%{term}%')).all()
-    title_search = {"text": "Artwork Titles", "children": [[{"id": artwork.artwork_id, "text": artwork.art_title}] for artwork in titles]}
+    title_search = {"text": "Artwork Titles", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
 
     results = []
 
@@ -167,7 +128,7 @@ def all_query():
     results.append(title_search)
     
     search_results = jsonify({"results": results})
-    print({"results": results}, "\n\n\n\n")
+    # print({"results": results}, "\n\n\n\n")
     # return make_response(jsonify({"results": results}), 201)
     return jsonify({"results": results})
 
@@ -186,13 +147,39 @@ def all_query():
 
 #     return jsonify(artist_results)
 
+
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
-    art_id = Artwork.query.get(artwork_id)
+    # Get the art id to display information about each piece.
+    artwork = Artwork.query.get(artwork_id)
 
-    return render_template("artwork_detail.html", art_id=art_id)
+    if 'visit' not in session:
+        session['visit'] = []
+
+    if artwork.artwork_id not in session['visit']:
+        session['visit'].append(artwork.artwork_id)
+    session.modified = True
+
+    # List to hold Artwork id's
+    data = []
+
+    # Get the visit dictionary out of the session or an empty one.
+    visit = session.get('visit', {})
+
+    # Loop over the visit dictionary
+    for artwork_id in session['visit']:
+        
+        # Get the Artwork Object corresponding to this id
+        site = Artwork.query.get(artwork_id)
+
+        # Add Artwork object to list
+        data.append(site)
+
+    return render_template("artwork_detail.html", 
+                            visit=data,
+                            art_id=artwork)
 
 
 @app.route("/tags/<tag_code>")

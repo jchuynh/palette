@@ -12,9 +12,11 @@
 {% block content %}
 
 
-{% if {{ session['url'] }} is not none %}
-     {% include "recent_pages.html" %}
-{% endif %}
+      {% if session['urls'] is not none %}
+        <p>{{ visit }}</p>
+        {% else %}
+        <p>Recently Viewed</p>
+      {% endif %}
 
 
 {% endblock %}

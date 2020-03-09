@@ -12,7 +12,7 @@
 {% block content %}
 <form action="/search-form" method="POST">
   <label for="search">Search </label>
-  <select name="search" id="search" data-placeholder="Enter search" style="width: 50%"></select>
+  <select name="search" id="search" data-placeholder="Enter at least one letter." style="width: 50%"></select>
 </form>
 
 <script type="text/javascript">
@@ -20,7 +20,6 @@
     ajax: {
       url: '/search-test', // Using JSON file at locally made route
       dataType: 'json',
-      minimumInputLength: 3,
       type: 'GET',
       
       // data: function () {
@@ -45,6 +44,10 @@
                   }
             }}
         );
+
+
+// document.getElementById("search").value="term"
+// document.forms[0].submit()
 
 </script>
 

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %} The Gallery {% endblock %}
+
+{% block head %}
+    <script src="/static/js/index.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+{% endblock %}
+
+{% block content %}
+
+      {% for art in arts %}
+      <div id="gallery">
+        <div id="gallery-container"
+          <a href="/artwork/{{ art.artwork_id }}">
+            <img src=" /{{ art.art_thumb }}" class="gallery-crop" alt={{ art.art_title }}/>
+          </a>
+
+          <h5>{{ art.art_title }}</h5>
+          <div>
+        </div>
+      {% endfor %}
+
+{% endblock %}

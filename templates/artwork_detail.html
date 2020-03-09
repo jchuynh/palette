@@ -8,15 +8,20 @@
 </head>
 
 <body>
-  <h1>{{ art_id.art_title }}</h1>
-  <h2>{{ art_id.artist.artist_name }}</h2>
+  <h1 class="detail-title">{{ art_id.art_title }}</h1>
+  <h2 class="detail-artist">{{ art_id.artist.artist_name }}</h2>
 
   <a href="/{{ art_id.art_image }}">
-    <img src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
+    <img class="detail" src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
   </a>
 
-  {% for item in art_id.tags %}
-    <a href="/tags/{{ item.tag_code }}"><p>{{ item.tag_code }}</p></a>
+
+    {% for item in art_id.tags %}
+      <div id="tag-display">
+      <a href="/tags/{{ item.tag_code }}" class="tag-link">
+        <span class="tag">{{ item.tag_code }}</span>
+      </a>
+      </div>
     {% endfor %}
 
       <p><b>Medium:</b> {{ art_id.medium_code }}</p>
@@ -25,25 +30,38 @@
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
   {% for rgb in art_id.palette_code[-5:] %}
-    <div class="swatch" 
-      style="background-color: rgb{{ rgb.c_palette }};">
+    <div id=swatch-palette> 
+      <div id=swatch-container>
+        <div class="swatch"
+        style="background-color: rgb{{ rgb.c_palette }}">
+        </div>
+        <span class="swatch-rgb">{{ rgb.c_palette }}</span>
+      </div>
     </div>
-    <h5>{{ rgb.c_palette }}</h5>
   {% endfor %}
 
   <br/>
   <br/>
   <!--To get the first 3 RGB codes from the swatch-->
-  {% for rgb in art_id.palette_code[:3] %}
+<!--   {% for rgb in art_id.palette_code[:3] %}
       <div class="swatch" 
         style="background-color: rgb{{ rgb.c_palette }};">
       </div>
       <h5>{{ rgb.c_palette }}</h5>
-  {% endfor %}
+  {% endfor %} -->
+
+
+<!--       {% for data in visit %}
+      <div>
+        <p><a href="/artwork/{{ data.artwork_id }}">
+          <img src="/{{ data.art_thumb }}" alt={{ art_id.art_title }}>
+  </a></p>
+        {% else %}
+        <p>You haven't viewed anything else yet.</p>
+      {% endfor %} -->
 
   </div>
 
-  <script src="magnific-popup/jquery.magnific-popup.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </body>
 {% endblock %} 

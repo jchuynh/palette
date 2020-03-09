@@ -3,29 +3,38 @@
 {% block title %} The Artist's Color Palette {% endblock %}
 {% block head %}
     <script src="/static/js/index.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 
 {% block content %}
   <body>
+    <h1>Artist's Palette</h1>
 
-    <!-- search bar test -->
-
-<!--     <div class="search-box">
-        <input type="text" placeholder="artist">
-    </div>
-
-    <br>
-    <br> -->
-    
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
       {% for art in arts %}
-          
+        <div class="carousel-item {% if loop.index == 13 %} active {% endif %}">
           <a href="/artwork/{{ art.artwork_id }}">
-          <img src=" /{{ art.art_thumb }}" alt={{ art.art_title }}/>
+            <img src=" /{{ art.art_image }}" alt={{ art.art_title }}/>
           </a>
-
-          <h5>{{ art.art_title }}</h5>
-
+        </div>
+        <div class="carousel-item">
+          <a href="/artwork/{{ art.artwork_id }}">
+            <img src=" /{{ art.art_image }}" alt={{ art.art_title }}/>
+        </div>
+<!--           <h5>{{ art.art_title }}</h5> -->
       {% endfor %}
 
+  <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+
+  </div>
+</div>
   </body>
 {% endblock %}

@@ -1,27 +1,159 @@
- h1 {
-    color: black;
-    font-family: Garamond;
- }
 
- h2 {
-    font-family: Garamond;
- }
-
- .gallery {
-    display: flex;
-    flex-direction: row;
-    flex: wrap;
-    justify-content: center;
-    align-content: center 
+ #gallery {
+  display: flex;
+  flex-direction: row;
+  flex: wrap;
+  justify-content: center;
+  align-content: center;
 }
+
+#gallery-container {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  width: 360px;
+}
+
+.gallery-crop {
+  object-fit: cover;
+  width: 360px;
+  height: 264px;
+}
+
+
 .img:hover {
     border: 10px;
     border-color: black;
 }
 
 .swatch {
-    width: 100px;
-    height: 100px;
+  width: 168px;
+  height: 141px;
+  background-color: #e2ceb2;
+  display: inline-block;
 
 }
 
+div.swatch {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+
+.swatch-rgb {
+  display: block;
+  font-family: HelveticaNeue;
+  font-size: 16px;
+  font-style: normal;
+  line-height: normal;
+  text-align: center;
+  color: #101010
+}
+
+/* To set th RGB and swatch together */
+#swatch-container {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  width: 170px;
+}
+
+/* To get RGB palettes into a row */
+#swatch-palette {
+  position: center;
+  display: inline-block;
+}
+
+
+.tag {
+  width: 80px;
+  height: 23px;
+  border-radius: 3px;
+  background-color: #dcccb4;
+}
+
+#tag-display {
+  position: center;
+  display: inline-block;
+}
+
+#tag-container {
+  vertical-align: top;
+  width: 170px;
+}
+
+a.tag-link: {
+  width: 64px;
+  height: 15px;
+  font-family: HelveticaNeue;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #533200;
+}
+
+.detail-title {
+  width: 455px;
+  height: 120px;
+  font-family: HelveticaNeue;
+  font-size: 30px;
+  font-weight: bold;
+  font-stretch: condensed;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: var(--text-color);
+  display: block;
+}
+
+img.detail {
+  display: block;
+  /* float: right allows items to text wrap */
+  float: right;  
+  /* Stops the wrapping */
+  clear: right;
+
+}
+.detail-artist {
+  width: 161px;
+  height: 24px;
+  font-family: HelveticaNeue;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  display: block;
+}
+
+.medium {
+  width: 455px;
+  height: 20px;
+  font-family: HelveticaNeue;
+  font-size: 16px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+
+.medium .text-style-1 {
+  color: #888888;
+}
+
+.detail-img-border {
+  width: 552px;
+  height: 635px;
+  background-color: #ffffff;
+}
+
+.navbar {
+  width: 1440px;
+  height: 80px;
+  background-color: #dcccb4;
+}
