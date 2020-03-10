@@ -9,11 +9,11 @@
 {% block content %}
   <body>
     <h1>Artist's Palette</h1>
-
-    <div id="carousel" class="carousel slide" data-ride="carousel">
+    
+    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
   <div class="carousel-inner">
       {% for art in arts %}
-        <div class="carousel-item {% if loop.index == 13 %} active {% endif %}">
+        <div class="carousel-item {% if loop.index == 5 %} active {% endif %}">
           <a href="/artwork/{{ art.artwork_id }}">
             <img src=" /{{ art.art_thumb }}" alt={{ art.art_title }}/>
           </a>

@@ -11,5 +11,5 @@ $("img").hover(
 
 );
 
-// creating a serach function
+<div class="carousel" data-interval="10000">
 

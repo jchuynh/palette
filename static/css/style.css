@@ -1,8 +1,41 @@
 
 
-#carousel-inner img {
-  margin: auto;
+#carousel {
+  width: none;
+  height: 350px;
 }
+
+
+/*.carousel-inner{ 
+  max-width: 100%;
+}*/
+
+.carousel-inner img {
+/*  display: inline-block;*/
+  width: none;
+  min-width: 100%;
+  height: 500px;
+  /* Keeps the actual size of the iamge in carousel */
+  /*  object-fit: contain;*/
+  /* Keeps aspect ratio but fills in the carousel */
+  object-fit: cover;
+  object-position: 0 0
+}
+
+.item img {
+  visibility: hidden;
+}
+
+.carousel-item {
+  background-size: cover;
+  background-position: 50% 50%;
+  width: 100%;
+  height: 100%;
+  background-color: #101010;
+}
+
+
+
 
  .gallery {
   display: flex;
@@ -19,10 +52,32 @@
   width: 360px;
 }
 
+.gallery-title {
+  height: 300px;
+  width: 360px;
+}
+
+.gallery-center {
+  display: center;
+}
+
 img.gallery-crop {
   object-fit: cover;
   width: 360px;
   height: 264px;
+}
+
+.floated_img {
+  float: left;
+  padding: 10px;
+
+}
+
+.grid {
+  display: grid;
+  grid-template-columns : repeat(3,1fr);
+  grid-template-rows: repeat(2, 20vw);
+  grid-gap: 10px;
 }
 
 .img:hover {

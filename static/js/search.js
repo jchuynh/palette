@@ -34,3 +34,11 @@ $('#search').on('submit', () => {
 });
 
 
+// (function (data) {
+//   // Here we should have the data object
+//   $option.text(data.text).val(data.id); // update the text that is displayed (and maybe even the value)
+//   $option.removeData(); // remove any caching data that might be associated
+//   $select.trigger('change'); // notify JavaScript components of possible changes
+// });
+
+
