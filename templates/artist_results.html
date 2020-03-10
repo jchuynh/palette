@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %} Tag Results {% endblock %}
+{% block title %} Artist Results {% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 
+<!-- NEED TO CHANGE TO ADAPT TO ARTIST -->
   {% block content %}
     {% for tag in tag.artworks %}
     <div class="gallery">

@@ -1,6 +1,6 @@
 
 
-#carousel {
+#carousel-inner img {
   margin: auto;
 }
 
@@ -19,7 +19,7 @@
   width: 360px;
 }
 
-.gallery-crop {
+img.gallery-crop {
   object-fit: cover;
   width: 360px;
   height: 264px;
@@ -55,7 +55,7 @@ div.swatch {
 }
 
 /* To set th RGB and swatch together */
-#swatch-container {
+.swatch-container {
   vertical-align: top;
   display: inline-block;
   text-align: center;
@@ -63,7 +63,7 @@ div.swatch {
 }
 
 /* To get RGB palettes into a row */
-#swatch-palette {
+.swatch-palette {
   position: center;
   display: inline-block;
 }
@@ -157,4 +157,9 @@ img.detail {
   width: 1440px;
   height: 80px;
   background-color: #dcccb4;
+}
+
+#search {
+  display: block;
+
 }

@@ -1,58 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %} Search {% endblock %}
+
 {% block head %}
+<head>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
 
 {% endblock %}
 
 
 {% block content %}
 <form action="/search-form" method="POST">
-  <label for="search">Search </label>
-  <select name="search" id="search" data-placeholder="Enter at least one letter." style="width: 50%"></select>
+<!--   <label for="search">Search</label> -->
+  <select name="search" id="search" data-placeholder="Enter letters to search categories below." style="width: 50%"></select>
 </form>
 
-<script type="text/javascript">
-  $('#search').select2({
-    ajax: {
-      url: '/search-test', // Using JSON file at locally made route
-      dataType: 'json',
-      type: 'GET',
-      
-      // data: function () {
-      //           return {
-      //               json: JSON.stringify(term)
-      //           }
-      //       },
-      results: function (term) {
-                      return {
-                          results: $.map(term.fields, function (field, i) {
-                              return {
-                                  text: field.name,
-                                  children: $.map(field.children, function(child){
-                                      return {
-                                          id: child.id,
-                                          text: child.name
-                                      }
-                                  })
-                              }
-                          })
-                      }
-                  }
-            }}
-        );
+<button class="btn-submit">Submit</button>
 
-
-// document.getElementById("search").value="term"
-// document.forms[0].submit()
-
-</script>
-
-
-<!-- <script type="text/javascript" src=/static/js/search_feat.js></script> -->
-
+<script type="text/javascript" src=/static/js/search.js></script>
 
 {% endblock %}

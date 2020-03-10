@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} User Palette {% endblock %}
+{% block title %} Your Palette {% endblock %}
 
 {% block content %}
 <head>
@@ -8,16 +8,21 @@
 </head>
 
 <body>
-
-    <img src="/static/user_images/{{ filename }}" alt={{ filename }}>
+    <img src="/static/user_images/{{ filename }}" class="gallery-crop" alt={{ filename }}>
 
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
-  {% for item in u_color_pal %}
-    <div class="swatch" 
-      style="background-color: rgb{{ item }};">
+
+    {% for item in u_color_pal %}
+    <div class=swatch-palette> 
+      <div class=swatch-container>
+        <div class="swatch"
+        style="background-color: rgb{{ item }}">
+        </div>
+        <h5>{{ item }}</h5>
+      </div>
     </div>
-    <h5>{{ item }}</h5>
   {% endfor %}
+
 </body>
 {% endblock %}

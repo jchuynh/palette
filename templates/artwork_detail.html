@@ -4,7 +4,7 @@
 
 {% block content %}
 <head>
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css"/>
 </head>
 
 <body>
@@ -30,8 +30,8 @@
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
   {% for rgb in art_id.palette_code[-5:] %}
-    <div id=swatch-palette> 
-      <div id=swatch-container>
+    <div class=swatch-palette> 
+      <div class=swatch-container>
         <div class="swatch"
         style="background-color: rgb{{ rgb.c_palette }}">
         </div>
@@ -51,14 +51,14 @@
   {% endfor %} -->
 
 
-<!--       {% for data in visit %}
+      {% for data in visit %}
       <div>
         <p><a href="/artwork/{{ data.artwork_id }}">
-          <img src="/{{ data.art_thumb }}" alt={{ art_id.art_title }}>
+          <img src="/{{ data.art_thumb }}" class="gallery-crop" alt={{ art_id.art_title }}>
   </a></p>
         {% else %}
         <p>You haven't viewed anything else yet.</p>
-      {% endfor %} -->
+      {% endfor %}
 
   </div>
 

@@ -177,6 +177,11 @@ def artwork_detail(artwork_id):
         # Add Artwork object to list
         data.append(site)
 
+
+    if(len(data) > 5):
+        data.pop(0)
+
+
     return render_template("artwork_detail.html", 
                             visit=data,
                             art_id=artwork)
