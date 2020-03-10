@@ -99,10 +99,41 @@ def extract_user_palette(filename):
 
 ### Attempting Search Function
 
-@app.route("/search-form") # methods=["GET", "POST"]
+@app.route("/search-form", methods=["GET"])
 def search():
 
-    return render_template("search-form.html")
+    # return render_template("search-form.html")
+    search_result = request.form.get("search")
+
+    redirect("/search-form")
+
+
+# @app.route("/search_results", methods=["POST"])
+# def search_results():
+
+#     search_result = request.forms.get("search")
+#     print(search_result, "\n\n\n\n")
+
+#     return search_result
+
+
+@app.route("/search-form", methods=["POST", "GET"])
+def search_items(search_result):
+
+    search_result = request.forms.get("search")
+    # query db in background 
+    # render new template w/ query results 
+
+    all_dicts = {}
+    for d in results:
+        all_dicts[d[text]] = [sub_d[text] for sub_d in d[children]]
+
+        user_input = search
+
+        group_input = [key for key in all_dicts if user_input in all_dicts[key]][0]
+
+        print(group_input, '\n\n\n\n\n')
+
 
 
 

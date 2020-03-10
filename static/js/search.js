@@ -25,13 +25,14 @@ $('#search').select2({
       );
 
 
-const searchTerm = document.getElementById("search").value;
 
-$('#search').on('submit', () => {
-  $.get('/search-form', {searchTerm: id}, (res) => {
-    $('#search').html(res);
-  });
-});
+
+// $('#search').on('submit', () => {
+//   const searchTerm = document.getElementById("search").value;
+//   $.post('/search-form', {searchTerm: }, (res) => {
+//     $('#search').html(res);
+//   });
+// });
 
 
 // (function (data) {
