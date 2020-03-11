@@ -1,12 +1,10 @@
 "use strict";
 
-// To enlarge image into a new pop-up window
-$("img").ready(function() {
-  $(".image-link").magnificPopup({type:"image"});
-});
-
-  $('.test-popup-link').magnificPopup({
-    type: 'image'
-    // other options
-  });
-
+function viewFunction() {
+  document.getElementById("#visit-hide").style.display='none';
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}

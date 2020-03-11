@@ -2,14 +2,18 @@
 
 {% block title %} Upload Personal Image {% endblock %}
 
-{% block head %} {% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="/static/css/style.css">
+{% endblock %}
 
 {% block content %}
     <body>
+
     <h1>Upload Personal Image</h1>
+
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
-</body>
+    </body>
 {% endblock %}

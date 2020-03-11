@@ -8,6 +8,8 @@
 </head>
 
 <body>
+
+
   <h1 class="detail-title">{{ art_id.art_title }}</h1>
   <h2 class="detail-artist">{{ art_id.artist.artist_name }}</h2>
 
@@ -50,18 +52,21 @@
       <h5>{{ rgb.c_palette }}</h5>
   {% endfor %} -->
 
+  <button onclick = "viewFunction()">Recently Visited</button>
 
       {% for data in visit %}
-      <div>
-        <p><a href="/artwork/{{ data.artwork_id }}">
-          <img src="/{{ data.art_thumb }}" class="gallery-crop" alt={{ art_id.art_title }}>
-  </a></p>
+<!--       <div id="visit-hide"> -->
+      <div class="visit-view">
+        <a href="/artwork/{{ data.artwork_id }}">
+          <img src="/{{ data.art_thumb }}" class="visit-crop" alt={{ art_id.art_title }}></a>
         {% else %}
         <p>You haven't viewed anything else yet.</p>
+      </div>
+<!--     </div> -->
       {% endfor %}
 
-  </div>
-
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script type="text/javascript"src="/static/js/artwork_detail.js"></script>
 </body>
 {% endblock %} 

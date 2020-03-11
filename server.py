@@ -102,21 +102,9 @@ def extract_user_palette(filename):
 @app.route("/search-form", methods=["GET"])
 def user_search():
 
-    # search = request.form.get("search")
-
-    # if button was submitted with the value of the term
-    # redirect("search-results")
 
     return render_template("search-form.html")
 
-
-# @app.route("/search_results", methods=["POST"])
-# def search_results():
-
-#     search_result = request.forms.get("search")
-#     print(search_result, "\n\n\n\n")
-
-#     return search_result
 
 @app.route("/search")
 def user_search_1():
@@ -140,12 +128,15 @@ def search_items():
     # render new template w/ query results 
 
     user_input = request.args.get("text")
-    print(request.args, user_input, "\n\n\n\n")
+
     results = None
+
     tag = Tag.query.filter_by(tag_code=user_input).first()
     artist = Artist.query.filter_by(artist_name=user_input).first()
     title = Artwork.query.filter_by(art_title=user_input).first()
- 
+    
+    print(title)
+
     if tag:
         results = {'type' : 'tag',
                     'artworks' : []}
@@ -168,54 +159,10 @@ def search_items():
 
     if title:
         results = {'type' : 'title',
-                    'artist' : title.artist,
                     'url' : title.art_thumb,
-                'art_id' : title.artwork_id}
+                    'art_id' : title.artwork_id}
 
     return jsonify(results)
-        # for artwork in tag.artworks:
-            # results['artworks'].append({
-            #     'url' : artwork.art_thumb,
-            #     'art_id' : artwork.artwork_id
-            #     })
-
-    # artist_search = {"text": "artist", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
-    # tag_search = {"text": "tags", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
-    # title_search = {"text": "Artworks", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
-
-    # results = []
-
-    # results.append(artist_search)
-    # results.append(tag_search)
-    # results.append(title_search)
-
-
-    # # resutls = {"results": results}
-
-    # for d in results:
-
-    #     # Adding the all children dictionaries into a new dictionary
-    #     all_dicts[d["text"]] = [sub_d["text"] for sub_d in d["children"]]
-    # print(results)
-    # print(all_dicts)
-    # # if user_input is the key for the new dictionary
-    # # retrieve the first item 
-
-    # found_input = [key for key in all_dicts if user_input in all_dicts[key]]
-    # return jsonify(found_input)
-    # # if the user_input is in titles 
-    # if found_input in titles:
-    #     title = Artwork.query.filter_by(art_title=found_input).get(artwork_id)
-    #     return render_template(f"/artworks/{title}")
-
-    # if found_input in tags:
-    #     tag = Tag.query.filter_by(found_input).get(tag_code)
-    #     return render_template(f"/tags/{tag}")
-
-    # if found_input in artists:
-    #     artist = Artist.query.filter_by(found_input).get(artist_id)
-    #     return render_template(f"/artists/{artist_id}")
-
 
 
 @app.route("/search-test", methods=["GET", "POST"]) 
