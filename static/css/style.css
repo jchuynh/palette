@@ -201,15 +201,24 @@ img.detail {
 }
 
 .visit-view {
-  position: center;
+/*  position: center;*/
   display: inline-block;
+  text-align: center;
+
+}
+
+.visit-container {
+  display: inline-block;
+  text-align: center;
 }
 
 .visit-crop {
   object-fit: cover;
   width: 180px;
   height: 132px;
+  padding: 5px;
 }
+
 
 #search_id {
   display: block;

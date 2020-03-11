@@ -1,10 +1,17 @@
 "use strict";
 
-function viewFunction() {
-  document.getElementById("#visit-hide").style.display='none';
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-}
+
+$(document).ready(function(){
+
+    $(".toggle-btn").click(function(){
+        $("#visit-hide").toggle();
+    });
+});
+
+
+$(document).ready(function(){
+
+    $(".toggle-btn-rgb").click(function(){
+        $("#swatch-hide").toggle();
+    });
+});
