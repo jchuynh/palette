@@ -89,6 +89,13 @@ p {
   padding: 0.5px;
 }
 
+body {
+  width: 1440px;
+  height: 1024px;
+  background-color: #ececec;
+}
+
+
 #page-wrap {
      width: 1100px;
      margin: 0 auto;
@@ -134,6 +141,7 @@ p {
   display: inline-block;
   text-align: center;
   width: 360px;
+  float: right;
 }
 
 .gallery-title {
@@ -152,6 +160,15 @@ img.gallery-crop {
   padding: 5px;
 }
 
+.gallery-row {
+  display: flex;
+}
+
+.gallery-col {
+  flex: 33.33%;
+  padding: 5px;
+}
+
 .set_img {
   display: inline-block;
 
@@ -162,10 +179,22 @@ img.gallery-crop {
   display: block;
 }
 
-.artwork-details {
-  display: inline-block;
-  float: left;
+.artwork:after {
+  content: "";
+  display: table;
+  clear: both;
 }
+
+.artwork-details {
+  float: left;
+  width: 50%;
+}
+
+.artwork-details-img {
+  float: left;
+  width: 50%;
+}
+
 .palettes {
 /*  position: relative;*/
   display: inline-block;
@@ -200,7 +229,8 @@ div.swatch {
   font-style: normal;
   line-height: normal;
   text-align: center;
-  color: #101010
+  color: #101010;
+
 }
 
 /* To set th RGB and swatch together */
@@ -227,7 +257,7 @@ div.swatch {
   line-height: normal;
   letter-spacing: normal;
   color: #343434;
-  background-color: #dcccb4;
+  background-color: #d8cfd0;
   display: inline-block;
   padding: 5px;
 
@@ -258,7 +288,7 @@ a.tag-link: {
 
 #detail-title {
   font-family: HelveticaNeue;
-  font-size: 30px;
+  font-size: 36px;
   font-weight: bold;
   font-stretch: condensed;
   font-style: normal;
@@ -271,23 +301,9 @@ a.tag-link: {
 
 
 img.detail {
-  display: block;
-  /* float: right allows items to text wrap */
-  float: right;  
-  /* Stops the wrapping */
-  clear: right;
   max-width: 527px;
   max-height: 610px;
 }
-
-.detail-border {
-  width: 552px;
-  height: 635px;
-  background-color: #ffffff;
-  float: right;
-  vertical-align: center;
-}
-
 
 #detail-artist {
   font-family: HelveticaNeue;
@@ -321,10 +337,10 @@ img.detail {
   color: #888888;
 }
 
-.detail-img-border {
+/*.detail-img-border {
   width: 552px;
   height: 635px;
-  background-color: #ffffff;
+  background-color: #ffffff;*/
 }
 
 .visit-view {
@@ -349,10 +365,20 @@ img.detail {
 #visit-hide {
   display: none;
 }
+
 .upload {
   display: block;
   text-align: center;
   vertical-align: center;
+}
+
+#center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  max-width: 300px;
+  max-height: 300px;
 }
 
 .upload-title {

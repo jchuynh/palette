@@ -14,8 +14,7 @@
 <br>
 
 <div class="artwork">
-
-<section class="artwork-details">
+<div class="artwork-details" id="details-info">
   <h1 id="detail-title">{{ art_id.art_title }}</h1>
   <h2 id="detail-artist">{{ art_id.artist.artist_name }}</h2>
 
@@ -28,22 +27,23 @@
       </a>
       </div>
     {% endfor %}
-
-
+    <br>
+    <br>
 
       <p><b>Medium:</b> {{ art_id.medium_code }}<br>
       <b>Art Type:</b> {{ art_id.type_code }}<br>
       <b>Object Year:</b> {{ art_id.obj_date }}</p>
-  </section>
+  </div>
 
 
-<section class="detail-border">
+<div class="artwork-details-img">
   <a href="/{{ art_id.art_image }}">
     <img class="detail" src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
   </a>
-</section>
+</div>
 </div>
 
+<br>
 
 <div class="palettes">
   <!--To get the last 5 RGB codes from the color palette-->
@@ -59,7 +59,7 @@
     </section>
   {% endfor %}
 
-<button type="button" class="toggle-btn-rgb">More Colors</button> 
+  <button type="button" class="toggle-btn-rgb">More Colors</button> 
 
   <!--To get the first 3 RGB codes from the swatch-->
 
