@@ -8,21 +8,25 @@
 </head>
 
 <body>
+  <div id="page-wrap">
+  <br>
+  <section class="detail-border">
     <img src="/static/user_images/{{ filename }}" class="gallery-crop" alt={{ filename }}>
-
+</section>
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
-
+<div class="u-palettes">
     {% for item in u_color_pal %}
-    <div class=swatch-palette> 
-      <div class=swatch-container>
+    <div class="swatch-palette"> 
+      <div class="swatch-container">
         <div class="swatch"
         style="background-color: rgb{{ item }}">
         </div>
-        <h5>{{ item }}</h5>
+        <span class="swatch-rgb">{{ item }}</span>
       </div>
     </div>
   {% endfor %}
-
+</div>
+</div>
 </body>
 {% endblock %}

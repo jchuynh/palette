@@ -1,3 +1,99 @@
+@font-face {
+  font-family: HelveticaNeue;
+  src: local(HelveticaNeue),
+    url(/path/to/HelveticaNeue.woff2) format("woff2"),
+    url(/path/to/HelveticaNeue.woff) format("woff"),
+    url(/path/to/HelveticaNeue.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: HelveticaNeue;
+  src: local(HelveticaNeue),
+    url(/path/to/HelveticaNeue.woff2) format("woff2"),
+    url(/path/to/HelveticaNeue.woff) format("woff"),
+    url(/path/to/HelveticaNeue.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: HelveticaNeue;
+  src: local(HelveticaNeue-Medium),
+    url(/path/to/HelveticaNeue-Medium.woff2) format("woff2"),
+    url(/path/to/HelveticaNeue-Medium.woff) format("woff"),
+    url(/path/to/HelveticaNeue-Medium.ttf) format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: HelveticaNeue;
+  src: local(HelveticaNeue-CondensedBold),
+    url(/path/to/HelveticaNeue-CondensedBold.woff2) format("woff2"),
+    url(/path/to/HelveticaNeue-CondensedBold.woff) format("woff"),
+    url(/path/to/HelveticaNeue-CondensedBold.ttf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: condensed;
+}
+
+@font-face {
+  font-family: HelveticaNeue;
+  src: local(HelveticaNeue-Bold),
+    url(/path/to/HelveticaNeue-Bold.woff2) format("woff2"),
+    url(/path/to/HelveticaNeue-Bold.woff) format("woff"),
+    url(/path/to/HelveticaNeue-Bold.ttf) format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  font-family: PingFangSC;
+  src: local(PingFangSC-Semibold),
+    url(/path/to/PingFangSC-Semibold.woff2) format("woff2"),
+    url(/path/to/PingFangSC-Semibold.woff) format("woff"),
+    url(/path/to/PingFangSC-Semibold.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+
+h1 {
+  font-family: HelveticaNeue;
+  font-size: 30px;
+  font-weight: bold;
+  font-stretch: condensed;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+}
+
+h2 {
+  font-family: HelveticaNeue;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+p {
+  padding: 0.5px;
+}
+
+#page-wrap {
+     width: 1100px;
+     margin: 0 auto;
+}
+
 
 .navbar {
   width: 1440px;
@@ -53,6 +149,7 @@ img.gallery-crop {
   object-fit: cover;
   width: 360px;
   height: 264px;
+  padding: 5px;
 }
 
 .set_img {
@@ -60,18 +157,28 @@ img.gallery-crop {
 
 }
 
-/*.grid {
-  display: grid;
-  grid-template-columns : repeat(3,1fr);
-  grid-template-rows: repeat(2, 20vw);
-  grid-gap: 10px;
-}*/
-
-.img:hover {
-    border: 10px;
-    border-color: black;
+.artwork {
+/*  position: absolute;*/
+  display: block;
 }
 
+.artwork-details {
+  display: inline-block;
+  float: left;
+}
+.palettes {
+/*  position: relative;*/
+  display: inline-block;
+}
+
+/*.img:hover {
+    border: 10px;
+    border-color: black;
+}*/
+
+#swatch-hide {
+  display: none;
+}
 .swatch {
   width: 168px;
   height: 141px;
@@ -112,15 +219,25 @@ div.swatch {
 
 
 .tag {
-  width: 80px;
-  height: 23px;
-  border-radius: 3px;
+  font-family: HelveticaNeue;
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #343434;
   background-color: #dcccb4;
+  display: inline-block;
+  padding: 5px;
+
 }
+
 
 #tag-display {
   position: center;
-  display: inline-block;
+  display: inline;
+
 }
 
 #tag-container {
@@ -129,8 +246,6 @@ div.swatch {
 }
 
 a.tag-link: {
-  width: 64px;
-  height: 15px;
   font-family: HelveticaNeue;
   font-size: 12px;
   font-weight: 500;
@@ -141,7 +256,7 @@ a.tag-link: {
   color: #101010;
 }
 
-.detail-title {
+#detail-title {
   font-family: HelveticaNeue;
   font-size: 30px;
   font-weight: bold;
@@ -153,16 +268,28 @@ a.tag-link: {
   display: block;
 }
 
+
+
 img.detail {
   display: block;
   /* float: right allows items to text wrap */
   float: right;  
   /* Stops the wrapping */
   clear: right;
-
+  max-width: 527px;
+  max-height: 610px;
 }
 
-.detail-artist {
+.detail-border {
+  width: 552px;
+  height: 635px;
+  background-color: #ffffff;
+  float: right;
+  vertical-align: center;
+}
+
+
+#detail-artist {
   font-family: HelveticaNeue;
   font-size: 20px;
   font-weight: 500;
@@ -219,9 +346,33 @@ img.detail {
   padding: 5px;
 }
 
+#visit-hide {
+  display: none;
+}
+.upload {
+  display: block;
+  text-align: center;
+  vertical-align: center;
+}
+
+.upload-title {
+  display: block;
+  text-align: center;
+  vertical-align: center;
+}
+
+.u-palettes {
+  display: block;
+}
 
 #search_id {
   display: block;
   width: 500px;
 
+}
+
+.search-center {
+  display: block;
+  text-align: center;
+  vertical-align: center;
 }

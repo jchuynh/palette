@@ -8,12 +8,13 @@
 
 {% block content %}
     <body>
-
-    <h1>Upload Personal Image</h1>
-
+        <br>
+    <h1><span class="upload-title">Upload Personal Image</span></h1>
+<div class="upload">
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
+</div>
     </body>
 {% endblock %}

@@ -14,16 +14,23 @@
 
 
 {% block content %}
+<br>
+<br>
+<h1><span class="upload-title">Search for Artworks</span></h1>
 
+<section class="search-center">
 
 <form action="/search-results" id="search_form" method="POST">
   <select name="search" id="search_id" data-placeholder="Enter letters to search categories below." width=80%>
   </select>
 <input type="submit" class="btn-submit">
 </form>
-
 <div id="search"></div> 
 
+</section>
+<br>
+<br>
+<br>
 <script type="text/javascript" src="/static/js/search.js"></script>
 
 {% endblock %}

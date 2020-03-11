@@ -9,48 +9,61 @@
 
 <body>
 
+<div id="page-wrap">
+<br>
+<br>
 
-  <h1 class="detail-title">{{ art_id.art_title }}</h1>
-  <h2 class="detail-artist">{{ art_id.artist.artist_name }}</h2>
+<div class="artwork">
 
-  <a href="/{{ art_id.art_image }}">
-    <img class="detail" src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
-  </a>
-
+<section class="artwork-details">
+  <h1 id="detail-title">{{ art_id.art_title }}</h1>
+  <h2 id="detail-artist">{{ art_id.artist.artist_name }}</h2>
 
     {% for item in art_id.tags %}
       <div id="tag-display">
+  
       <a href="/tags/{{ item.tag_code }}" class="tag-link">
+
         <span class="tag">{{ item.tag_code }}</span>
       </a>
       </div>
     {% endfor %}
 
-      <p><b>Medium:</b> {{ art_id.medium_code }}</p>
-      <p><b>Art Type:</b> {{ art_id.type_code }}</p>
-      <p><b>Object Year:</b>{{ art_id.obj_date }}</p>
 
+
+      <p><b>Medium:</b> {{ art_id.medium_code }}<br>
+      <b>Art Type:</b> {{ art_id.type_code }}<br>
+      <b>Object Year:</b> {{ art_id.obj_date }}</p>
+  </section>
+
+
+<section class="detail-border">
+  <a href="/{{ art_id.art_image }}">
+    <img class="detail" src="/{{ art_id.art_thumb }}" alt={{ art_id.art_title }}>
+  </a>
+</section>
+</div>
+
+
+<div class="palettes">
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
   {% for rgb in art_id.palette_code[-5:] %}
-    <div class="swatch-palette"> 
+    <section class="swatch-palette"> 
       <div class="swatch-container">
         <div class="swatch"
         style="background-color: rgb{{ rgb.c_palette }}">
         </div>
         <span class="swatch-rgb">{{ rgb.c_palette }}</span>
       </div>
-    </div>
+    </section>
   {% endfor %}
-
-  <br/>
-  <br/>
 
 <button type="button" class="toggle-btn-rgb">More Colors</button> 
 
   <!--To get the first 3 RGB codes from the swatch-->
 
-  <div id="swatch-hide">
+  <section id="swatch-hide">
     {% for rgb in art_id.palette_code[:3] %}
     <div class="swatch-palette"> 
       <div class="swatch-container">
@@ -61,10 +74,11 @@
       </div>
     </div>
     {% endfor %}
-   </div>
+   </section>
 
+</div>
 
-
+<section class="views">
   <button type="button" class="toggle-btn">Recently Viewed</button> 
 
   <div id="visit-hide">
@@ -78,7 +92,8 @@
       {% endfor %}
     </div>
 
-
+</div>
+</section>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
