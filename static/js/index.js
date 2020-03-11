@@ -11,5 +11,5 @@ $("img").hover(
 
 );
 
-<div class="carousel" data-interval="10000">
+// <div class="carousel" data-interval="10000">
 

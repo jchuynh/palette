@@ -14,12 +14,18 @@
 
 
 {% block content %}
-<form action="/search-form" method="POST">
+
+
+<form action="/search-results" id="search_form" method="POST">
 <!--   <label for="search">Search</label> -->
-  <select name="search" id="search" data-placeholder="Enter letters to search categories below." style="width: 50%"></select>
+  <select name="search" id="search_id" data-placeholder="Enter letters to search categories below." style="width: 50%">
+  </select>
+<input type="submit" class="btn-submit">
 </form>
 
-<button class="btn-submit">Submit</button>
+<div id="search"></div> 
+
+
 
 <script type="text/javascript" src=/static/js/search.js></script>
 

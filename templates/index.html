@@ -8,31 +8,8 @@
 
 {% block content %}
   <body>
-    <h1>"Welcome to palette"</h1>
 
-    <div id="carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-  <div class="carousel-inner">
-      {% for art in arts %}
-        <div class="carousel-item {% if loop.index == 5 %} active {% endif %}">
-          <a href="/artwork/{{ art.artwork_id }}">
-            <img src=" /{{ art.art_thumb }}" alt={{ art.art_title }}/>
-          </a>
-        </div>
-<!--         <div class="carousel-item">
-          <a href="/artwork/{{ art.artwork_id }}">
-            <img src=" /{{ art.art_image }}" alt={{ art.art_title }}/>
-        </div> -->
-<!--           <h5>{{ art.art_title }}</h5> -->
-      {% endfor %}
-
-  <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+    <a img src="/static/app_images/palette"</a>
 
   </div>
 </div>

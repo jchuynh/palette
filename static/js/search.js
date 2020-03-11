@@ -1,7 +1,7 @@
 "use strict";
 
 
-$('#search').select2({
+$('#search_id').select2({
   ajax: {
     url: '/search-test', // Using JSON file at locally made route
     dataType: 'json',
@@ -21,18 +21,30 @@ $('#search').select2({
                         })
                     }
                 }
-          }}
+          }
+        }
       );
 
 
-
-
-// $('#search').on('submit', () => {
-//   const searchTerm = document.getElementById("search").value;
-//   $.post('/search-form', {searchTerm: }, (res) => {
-//     $('#search').html(res);
-//   });
-// });
+$('#search_form').on('submit', (evt) => {
+  console.log(evt.target.innerHTML)
+  evt.preventDefault();
+  const data = {
+    'text': $("#search_id").children()[0].label};
+    console.log(data);
+  $.get('/search-results', data, (res) => {
+    console.log(res);
+    
+    if (res.type == "artist" || res.type =="tag"){
+      for (let art of res.artworks) {
+        $('#search').append(`
+          <a href="/artwork/${art.art_id}">
+          <img src="/${art.url}" class="gallery-crop" alt=${art.art_id}/>
+          </a>`);
+      }
+    }
+  });
+});
 
 
 // (function (data) {

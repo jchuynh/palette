@@ -99,13 +99,15 @@ def extract_user_palette(filename):
 
 ### Attempting Search Function
 
-# @app.route("/search-form", methods=["POST"])
-# def search():
+@app.route("/search-form", methods=["GET"])
+def user_search():
 
-#     # return render_template("search-form.html")
-#     search_result = request.form.get("search")
+    # search = request.form.get("search")
 
-#     redirect("/search-form")
+    # if button was submitted with the value of the term
+    # redirect("search-results")
+
+    return render_template("search-form.html")
 
 
 # @app.route("/search_results", methods=["POST"])
@@ -116,72 +118,120 @@ def extract_user_palette(filename):
 
 #     return search_result
 
+@app.route("/search")
+def user_search_1():
 
-@app.route("/search-form", methods=["POST", "GET"])
+    search = request.args.get("term")
+
+    # if button was submitted with the value of the term
+    # redirect("search-results")
+
+    # get the search term 
+
+    # display the results back on the page
+
+    return render_template("search-form.html", search=search)
+
+
+@app.route("/search-results", methods=["GET", "POST"])
 def search_items():
 
-    # search_result = request.forms.get("search")
     # query db in background 
     # render new template w/ query results 
 
-    user_input = request.form.get("search")
-
-    titles = Artwork.query.filter_by(art_title).all()
-    tags = Tag.query.get(tag_code).all()
-    artists = Artist.query.filter(artist_name).all()
+    user_input = request.args.get("text")
+    print(request.args, user_input, "\n\n\n\n")
+    results = None
+    tag = Tag.query.filter_by(tag_code=user_input).first()
+    artist = Artist.query.filter_by(artist_name=user_input).first()
+    title = Artwork.query.filter_by(art_title=user_input).first()
  
-    all_dicts = {}
+    if tag:
+        results = {'type' : 'tag',
+                    'artworks' : []}
+        for artwork in tag.artworks:
+            results['artworks'].append({
+                'url' : artwork.art_thumb,
+                'art_id' : artwork.artwork_id
+                })
+         
 
-    artist_search = {"text": "artist", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
-    tag_search = {"text": "tags", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
-    title_search = {"text": "Artworks", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
-
-    results = []
-
-    results.append(artist_search)
-    results.append(tag_search)
-    results.append(title_search)
-
-
-
-    for d in results:
-
-        all_dicts[d[text]] = [sub_d[text] for sub_d in d[children]]
-
-        found_input = [key for key in all_dicts if user_input in all_dicts[key]][0]
-
-        if found_input in titles:
-            title = Artwork.query.filter_by(art_title=found_input).get(artwork_id)
-            return render_template(f"/artworks/{title}")
-
-        if found_input in tags:
-            tag = Tag.query.filter_by(found_input).get(tag_code)
-            return render_template(f"/tags/{tag}")
-
-        if found_input in artists:
-            artist = Artist.query.filter_by(found_input).get(artist_id)
-            return render_template(f"/artists/{artist_id}")
+    if artist:
+        results = {'type' : 'artist',
+                    'artworks' : []}
+        for artwork in artist.artworks:
+            results['artworks'].append({
+                'url' : artwork.art_thumb,
+                'art_id' : artwork.artwork_id
+                })
 
 
-        print(group_input, '\n\n\n\n\n')
+    if title:
+        results = {'type' : 'title',
+                    'artist' : title.artist,
+                    'url' : title.art_thumb,
+                'art_id' : title.artwork_id}
 
+    return jsonify(results)
+        # for artwork in tag.artworks:
+            # results['artworks'].append({
+            #     'url' : artwork.art_thumb,
+            #     'art_id' : artwork.artwork_id
+            #     })
+
+    # artist_search = {"text": "artist", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+    # tag_search = {"text": "tags", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
+    # title_search = {"text": "Artworks", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
+
+    # results = []
+
+    # results.append(artist_search)
+    # results.append(tag_search)
+    # results.append(title_search)
+
+
+    # # resutls = {"results": results}
+
+    # for d in results:
+
+    #     # Adding the all children dictionaries into a new dictionary
+    #     all_dicts[d["text"]] = [sub_d["text"] for sub_d in d["children"]]
+    # print(results)
+    # print(all_dicts)
+    # # if user_input is the key for the new dictionary
+    # # retrieve the first item 
+
+    # found_input = [key for key in all_dicts if user_input in all_dicts[key]]
+    # return jsonify(found_input)
+    # # if the user_input is in titles 
+    # if found_input in titles:
+    #     title = Artwork.query.filter_by(art_title=found_input).get(artwork_id)
+    #     return render_template(f"/artworks/{title}")
+
+    # if found_input in tags:
+    #     tag = Tag.query.filter_by(found_input).get(tag_code)
+    #     return render_template(f"/tags/{tag}")
+
+    # if found_input in artists:
+    #     artist = Artist.query.filter_by(found_input).get(artist_id)
+    #     return render_template(f"/artists/{artist_id}")
 
 
 
 @app.route("/search-test", methods=["GET", "POST"]) 
 def all_query():
     """ """
-
+ 
     term = request.args.get("term")
 
     artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
-    artist_search = {"text": "artist", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+    artist_search = {"text": "Artist Name", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
 
     tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
-    tag_search = {"text": "tags", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
+    tag_search = {"text": "Tags (descriptions)", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
 
     titles = Artwork.query.filter(Artwork.art_title.ilike(f'%{term}%')).all()
-    title_search = {"text": "Artworks", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
+    title_search = {"text": "Artwork Titles", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
 
     results = []
 
@@ -196,7 +246,7 @@ def all_query():
 
 
 
-@app.route("/artworks/<int:artwork_id>")
+@app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
