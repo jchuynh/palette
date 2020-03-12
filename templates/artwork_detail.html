@@ -3,10 +3,13 @@
 {% block title %} {{ art_id.art_title }} {% endblock %}
 
 {% block content %}
+{% block head %}
 <head>
   <link rel="stylesheet" href="/static/css/style.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather|Open+Sans&display=swap" rel="stylesheet">
 </head>
-
+{% endblock %}
 <body>
 
 <div id="page-wrap">
@@ -95,19 +98,19 @@
 
 
 <br>
-
   <button type="button" class="toggle-btn">Recently Viewed</button> 
-
+<br>
+<br>
   <div id="visit-hide">
-    {% for data in visit %}
-      <div class="visit-view">
+    <div class="visit-view">
+      {% for data in visit %}
         <div class="visit-container"
           <a href="/artwork/{{ data.artwork_id }}">
             <img src="/{{ data.art_thumb }}" class="visit-crop" alt={{ art_id.art_title }}></a>
         </div>
-      </div>
-      {% endfor %}
+    {% endfor %}
     </div>
+  </div>
 
 </section>
 
