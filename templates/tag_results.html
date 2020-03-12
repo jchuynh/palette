@@ -5,6 +5,7 @@
 {% block head %}
     <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
+
 <div id="page-wrap">
   {% block content %}
     {% for tag in tag.artworks %}
@@ -20,4 +21,5 @@
     </div>
     {% endfor %}
   </div>
+  
   {% endblock %}

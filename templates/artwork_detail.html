@@ -43,42 +43,59 @@
 </div>
 </div>
 
-<br>
 
-<div class="palettes">
-  <!--To get the last 5 RGB codes from the color palette-->
-  <!--I personally perferred the last 5-->
-  {% for rgb in art_id.palette_code[-5:] %}
-    <section class="swatch-palette"> 
+<br>
+ <br/>
+  <button type="button" class="toggle-btn-rgb">More Colors</button> 
+  <br/>
+
+<div class="wrapper">
+{% for rgb in art_id.palette_code[-5:] %}
+    <div class="swatch-palette"> 
       <div class="swatch-container">
         <div class="swatch"
         style="background-color: rgb{{ rgb.c_palette }}">
         </div>
         <span class="swatch-rgb">{{ rgb.c_palette }}</span>
       </div>
-    </section>
+    </div>
   {% endfor %}
-
-  <button type="button" class="toggle-btn-rgb">More Colors</button> 
-
   <!--To get the first 3 RGB codes from the swatch-->
 
-  <section id="swatch-hide">
+  <div id="swatch-hide">
     {% for rgb in art_id.palette_code[:3] %}
     <div class="swatch-palette"> 
       <div class="swatch-container">
         <div class="swatch"
-          style="background-color: rgb{{ rgb.c_palette }};">
+          style="background-color: rgb{{ rgb.c_palette }}">
         </div>
           <span class="swatch-rgb">{{ rgb.c_palette }}</span>
       </div>
     </div>
     {% endfor %}
-   </section>
-
+   </div>
 </div>
 
-<section class="views">
+<!-- <div class="palettes">
+    <section class="swatch-palette"> 
+          <div class="swatch-container">
+             {% for rgb in art_id.palette_code[-5:] %}
+          <div class="swatch" style="background-color: rgb{{ rgb.c_palette }}"></div>
+          <span class="swatch-rgb">{{ rgb.c_palette }}</span>
+             {% endfor %}
+              </div>
+      <div id="swatch-hide" class="swatch-hide">
+      {% for rgb in art_id.palette_code[:3] %}
+        <div class="swatch" style="background-color: rgb{{ rgb.c_palette }}"></div>
+          <span class="swatch-rgb">{{ rgb.c_palette }}</span>
+    {% endfor %}
+            </div>
+      </section>
+      </div> -->
+
+
+<br>
+
   <button type="button" class="toggle-btn">Recently Viewed</button> 
 
   <div id="visit-hide">
@@ -92,7 +109,6 @@
       {% endfor %}
     </div>
 
-</div>
 </section>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

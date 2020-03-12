@@ -195,29 +195,16 @@ img.gallery-crop {
   width: 50%;
 }
 
-.palettes {
-/*  position: relative;*/
-  display: inline-block;
-}
-
-/*.img:hover {
-    border: 10px;
-    border-color: black;
-}*/
-
-#swatch-hide {
-  display: none;
-}
 .swatch {
-  width: 168px;
-  height: 141px;
+  width: 120px;
+  height: 100px;
   background-color: #e2ceb2;
   display: inline-block;
+  border: 5px solid #f2f2f2;
 
 }
 
 div.swatch {
-  vertical-align: top;
   display: inline-block;
   text-align: center;
 }
@@ -230,7 +217,12 @@ div.swatch {
   line-height: normal;
   text-align: center;
   color: #101010;
+}
 
+/* All palettes */
+.palettes {
+  /*position: absolute;*/
+  display: inline-block;
 }
 
 /* To set th RGB and swatch together */
@@ -238,7 +230,6 @@ div.swatch {
   vertical-align: top;
   display: inline-block;
   text-align: center;
-  width: 170px;
 }
 
 /* To get RGB palettes into a row */
@@ -247,6 +238,31 @@ div.swatch {
   display: inline-block;
 }
 
+/* For the hidden rgb codes */
+.swatch-hide {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+
+#swatch-hide {
+  display: none;
+/*  position: absolute;*/
+/*  left: -999px;*/
+}
+
+.toggle-btn-rgb {
+  background-color: #ececec;
+  color: #343434;
+  border: 1px solid #343434;
+  text-align: center;
+  display: block;
+}
+
+.wrapper {
+  display: flex;
+  border: 1px;
+}
 
 .tag {
   font-family: HelveticaNeue;
@@ -299,7 +315,6 @@ a.tag-link: {
 }
 
 
-
 img.detail {
   max-width: 527px;
   max-height: 610px;
@@ -314,11 +329,6 @@ img.detail {
   line-height: normal;
   letter-spacing: normal;
   display: block;
-}
-
-.search-center {
-  display: inline-block;
-  text-align: center;
 }
 
 .medium {
@@ -344,9 +354,8 @@ img.detail {
 }
 
 .visit-view {
-/*  position: center;*/
   display: inline-block;
-  text-align: center;
+
 
 }
 
@@ -364,6 +373,14 @@ img.detail {
 
 #visit-hide {
   display: none;
+}
+
+.toggle-btn-visit {
+  background-color: #ececec;
+  color: #343434;
+  border: 1px solid #343434;
+  display: block;
+  text-align: center;
 }
 
 .upload {
@@ -391,6 +408,17 @@ img.detail {
   display: block;
 }
 
+.upload-swatch {
+  position: center;
+  display: inline-block;
+}
+
+.upload-container {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+
 #search_id {
   display: block;
   width: 500px;
@@ -402,3 +430,4 @@ img.detail {
   text-align: center;
   vertical-align: center;
 }
+
