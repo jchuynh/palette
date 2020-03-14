@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <a href="https://github.com/jchuynh/color-palette-demo">
-    <img alt="Palette" src="/static/app_images/logo-git.png" width="50%">
+    <img alt="Palette" src="https://github.com/jchuynh/palette/blob/master/static/app_images/palette-dashed-circle.png" width="50%">
   </a>
   <br>Palette<br>
 </h1>
