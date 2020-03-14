@@ -1,15 +1,17 @@
 from jinja2 import StrictUndefined  
 
-from flask import Flask, flash, render_template, redirect, jsonify, request, url_for
+from haishoku.haishoku import Haishoku
+from PIL import Image
+import collections
+
+from flask import Flask, flash, render_template, redirect, jsonify, request, url_for, session, make_response
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.utils import secure_filename
 
 from model import Artwork, Artist, ArtType, ArtTag, Tag, connect_to_db, db
+
 import upload
-# from search_form import SearchForm, connect_to_db, db
-
-# from search_form import SearchForm
-
+import urllib.request
 import requests
 import json 
 import os
@@ -26,10 +28,6 @@ app.secret_key = "whiteboardsareremarkable"
 
 app.jinja_env.undefined = StrictUndefined
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @app.route("/")
 def index():
@@ -39,12 +37,24 @@ def index():
 
     return render_template("index.html", arts=arts)
 
+@app.route("/gallery")
+def display_all_artworks():
+    """ """
+    arts = Artwork.query.all()
+
+    return render_template("gallery.html", arts=arts)    
+
 
 @app.route("/upload")
 def upload_image():
     """Displays uploads page"""
 
     return render_template("upload.html")
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/upload", methods=["POST"])
@@ -60,55 +70,126 @@ def upload_submit():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.abspath(f"static/user_images/{filename}"))
+        user_img = file.save(os.path.abspath(f"static/user_images/{filename}"))
 
-        return redirect("/")
+        return extract_user_palette(filename)
 
-        # (url_for('uploaded_file', filename=filename))
+
+@app.route("/upload/user-palette")
+def extract_user_palette(filename):
+
+    def new_image(mode, size, color):
+        return Image.new(mode, size, color)
+
+    file = f"static/user_images/{filename}"
+
+    hai = Haishoku.loadHaishoku(file)
+    palette = Haishoku.getPalette(file)
+
+    u_color_pal = []
+
+    for item in palette:
+        c_pal = item[1]
+        pal = new_image('RGB', (100, 100), c_pal)
+        u_color_pal.append(c_pal)
+
+    return render_template("user-palette.html", filename=filename, 
+                                                u_color_pal=u_color_pal)
+
 
 ### Attempting Search Function
 
-@app.route("/form") # methods=["GET", "POST"]
-def form():
-    form = SearchForm()
-    # if request.method == "POST" and form.validate_on_submit():
-    #     return redirect((url_for("search_results", query=form.search)))
-    return render_template("search-form.html", form=form)
+@app.route("/search-form", methods=["GET"])
+def user_search():
 
 
-    # desriptions = db.session.query(ArtTag).filter_by(tag_code).all()
-    # artists = db.session.query(Artist).filter_by(artist_name).all()
-    # titles = db.session.query(Artworks).filter_by(artist_title).all()
+    return render_template("search-form.html")
 
 
-# @app.route("/search_results/<query>")
-# def search_results(query):
-#     results = Artworks.query.all()
+@app.route("/search")
+def user_search_1():
 
-#     return render_template("search-results.html", query=query)
+    search = request.args.get("term")
+
+    # if button was submitted with the value of the term
+    # redirect("search-results")
+
+    # get the search term 
+
+    # display the results back on the page
+
+    return render_template("search-form.html", search=search)
 
 
-@app.route("/tags") 
-def tag_dict():
+@app.route("/search-results", methods=["GET", "POST"])
+def search_items():
 
-    tag_info = ArtTag.query.all()
-    # To get a list of 
+    # query db in background 
+    # render new template w/ query results 
 
-    for t in tag_info:
-        lst_tags = t.as_dict()
+    user_input = request.args.get("text")
 
-    # lst_tags = [r.as_dict() for r in descript]
+    results = None
 
-    return jsonify(lst_tags)
+    tag = Tag.query.filter_by(tag_code=user_input).first()
+    artist = Artist.query.filter_by(artist_name=user_input).first()
+    title = Artwork.query.filter_by(art_title=user_input).first()
     
+    print(title)
 
-@app.route("/process", methods=["POST"])
-def process():
-    tag = request.form["tag"]
     if tag:
-        return jsonify({"tag": tag})
+        results = {'type' : 'tag',
+                    'artworks' : []}
+        for artwork in tag.artworks:
+            results['artworks'].append({
+                'url' : artwork.art_thumb,
+                'art_id' : artwork.artwork_id
+                })
+         
 
-    return jsonify({"error": "missing data"})
+    if artist:
+        results = {'type' : 'artist',
+                    'artworks' : []}
+        for artwork in artist.artworks:
+            results['artworks'].append({
+                'url' : artwork.art_thumb,
+                'art_id' : artwork.artwork_id
+                })
+
+
+    if title:
+        results = {'type' : 'title',
+                    'url' : title.art_thumb,
+                    'art_id' : title.artwork_id}
+
+    return jsonify(results)
+
+
+@app.route("/search-test", methods=["GET", "POST"]) 
+def all_query():
+    """ """
+ 
+    term = request.args.get("term")
+
+    artists = Artist.query.filter(Artist.artist_name.ilike(f'%{term}%')).all()
+    artist_search = {"text": "Artist Name", "children": [{"id": artist.artist_id, "text": artist.artist_name} for artist in artists]}
+
+    tags = ArtTag.query.filter(ArtTag.tag_code.ilike(f'%{term}%')).all()
+    tag_search = {"text": "Tags (descriptions)", "children": [{"id": tag.tag_id, "text": tag.tag_code} for tag in tags]}
+
+    titles = Artwork.query.filter(Artwork.art_title.ilike(f'%{term}%')).all()
+    title_search = {"text": "Artwork Titles", "children": [{"id": artwork.artwork_id, "text": artwork.art_title} for artwork in titles]}
+
+    results = []
+
+    results.append(artist_search)
+    results.append(tag_search)
+    results.append(title_search)
+    
+    # search_results = jsonify({"results": results})
+    # print({"results": results}, "\n\n\n\n")
+    # return make_response(jsonify({"results": results}), 201)
+    return jsonify({"results": results})
 
 
 
@@ -116,42 +197,50 @@ def process():
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
 
-    art_id = Artwork.query.get(artwork_id)
+    # Get the art id to display information about each piece.
+    artwork = Artwork.query.get(artwork_id)
 
-    return render_template("artwork_detail.html", art_id=art_id)
+    if 'visit' not in session:
+        session['visit'] = []
+
+    if artwork.artwork_id not in session['visit']:
+        session['visit'].append(artwork.artwork_id)
+    session.modified = True
+
+    # List to hold Artwork id's
+    data = []
+
+    # Get the visit dictionary out of the session or an empty one.
+    visit = session.get('visit', {})
+
+    # Loop over the visit dictionary
+    for artwork_id in session['visit']:
+        
+        # Get the Artwork Object corresponding to this id
+        site = Artwork.query.get(artwork_id)
+
+        # Add Artwork object to list
+        data.append(site)
+
+    # When the items in the list is greater than 5, remove the first recently 
+    # visited items
+        if(len(data) > 5):
+            data.pop(0)
+
+
+    return render_template("artwork_detail.html", 
+                            visit=data,
+                            art_id=artwork)
 
 
 @app.route("/tags/<tag_code>")
 def all_tag(tag_code):
+    """When tags are selected in the artwork details page"""
 
     tag = Tag.query.get(tag_code)
-    # arts = Artwork.query.all()
 
     return render_template("tag_results.html", tag=tag)
 
-# @app.route("/title/<title>")
-# def all_tag(tag_code):
-
-#     title = Artwork.query.filter_by(art_title)
-#     # arts = Artwork.query.all()
-
-#     return render_template("title_results.html", title=title)
-
-# @app.route("/artist/<artist_name>")
-# def all_tag(tag_code):
-
-#     artist = Artwork.query.get(tag_code)
-#     # arts = Artwork.query.all()
-
-#     return render_template("artist_results.html", artist=artist)
-
-# @app.route("/medium/<medium_code>")
-# def all_tag(tag_code):
-
-#     medium = Artwork.query.get(tag_code)
-#     # arts = Artwork.query.all()
-
-#     return render_template("medium_results.html", medium=medium)
 
 if __name__ == "__main__":
     app.debug = True

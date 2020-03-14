@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} User Palette {% endblock %}
+{% block title %} Your Palette {% endblock %}
 
 {% block content %}
 <head>
@@ -8,37 +8,28 @@
 </head>
 
 <body>
+  <div id="page-wrap">
+  <br>
 
-
-
-
-    <img src="/static/user_images/{{ filename }}" alt={{ filename }}>
-
-
-
-
+  <h1>Here's your're personal color palette!</h1>
+  <br>
+  <section class="artwork-details">
+    <img src="/static/user_images/{{ filename }}" class ="detail" alt={{ filename }}>
+</section>
   <!--To get the last 5 RGB codes from the color palette-->
   <!--I personally perferred the last 5-->
-  {% for rgb in art_id.palette_code[-5:] %}
-    <div class="swatch" 
-      style="background-color: rgb{{ rgb.c_palette }};">
-    </div>
-    <h5>{{ rgb.c_palette }}</h5>
-  {% endfor %}
-
-  <br/>
-  <br/>
-  <!--To get the first 3 RGB codes from the swatch-->
-  {% for rgb in art_id.palette_code[:3] %}
-      <div class="swatch" 
-        style="background-color: rgb{{ rgb.c_palette }};">
+<div class="u-palettes">
+    {% for item in u_color_pal %}
+    <div class="swatch-palette"> 
+      <div class="swatch-container">
+        <div class="swatch"
+        style="background-color: rgb{{ item }}">
+        </div>
+        <span class="swatch-rgb">{{ item }}</span>
       </div>
-      <h5>{{ rgb.c_palette }}</h5>
+    </div>
   {% endfor %}
-
-  </div>
-
-  <script src="magnific-popup/jquery.magnific-popup.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</div>
+</div>
 </body>
 {% endblock %}

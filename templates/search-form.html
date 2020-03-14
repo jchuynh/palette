@@ -1,23 +1,36 @@
 {% extends 'base.html' %}
 
 {% block title %} Search {% endblock %}
+
 {% block head %}
+<head>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
 
 {% endblock %}
-{% block content %}
-<body>
-  <form id="search" class="form-inline">
-    {{ form.csrf_token }} <!--Requires Flask's Secret Key to use form-->
-      <div class="form-group">
-        <!-- Bootstrap - form control-->
-        {{ form.search(class="form-control")}} <button type="submit" 
-        class="btn btn-info">Submit</button>
-      </div>
-  </form>
 
-  <div id="result"></div>
-  <script type="text/javascript" src="/static/js/search.js"></script>
-</body>
+
+{% block content %}
+<br>
+<br>
+<h1><span class="upload-title">Search for Artworks</span></h1>
+
+<section class="search-center">
+
+<form action="/search-results" id="search_form" method="POST">
+  <select name="search" id="search_id" data-placeholder="Enter letters to search categories below." width=80%>
+  </select>
+<input type="submit" class="btn-submit">
+</form>
+<div id="search"></div> 
+
+</section>
+<br>
+<br>
+<br>
+<script type="text/javascript" src="/static/js/search.js"></script>
 
 {% endblock %}

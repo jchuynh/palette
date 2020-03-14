@@ -1,4 +1,4 @@
-
+"use strict";
 // creating a border around an image during hover
 
 $("img").hover(
@@ -11,5 +11,5 @@ $("img").hover(
 
 );
 
-// creating a serach function
+// <div class="carousel" data-interval="10000">
 

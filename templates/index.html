@@ -3,29 +3,15 @@
 {% block title %} The Artist's Color Palette {% endblock %}
 {% block head %}
     <script src="/static/js/index.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 
 {% block content %}
   <body>
 
-    <!-- search bar test -->
+    <a img src="/static/app_images/palette-logo5.png"</a>
 
-<!--     <div class="search-box">
-        <input type="text" placeholder="artist">
-    </div>
-
-    <br>
-    <br> -->
-    
-      {% for art in arts %}
-          
-          <a href="/artwork/{{ art.artwork_id }}">
-          <img src=" /{{ art.art_thumb }}" alt={{ art.art_title }}/>
-          </a>
-
-          <h5>{{ art.art_title }}</h5>
-
-      {% endfor %}
-
+  </div>
+</div>
   </body>
 {% endblock %}

@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
 
-{% block title %}  {% endblock %}
-{% block content %}
+{% block title %} Tag Results {% endblock %}
 
-{% for tag in tag.artworks %}
-
-  <a href="/artwork/{{ tag.artwork_id }}">
-    <img src=" /{{ tag.art_thumb }}" alt={{ tag.art_title }}/>
-  </a>
-
-  <h5>{{ tag.art_title }}</h5>
-{% endfor %}
-
-
-
-  
+{% block head %}
+    <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
+
+<div id="page-wrap">
+  <br>
+  <br>
+  {% block content %}
+    {% for tag in tag.artworks %}
+    <div class="gallery">
+      <div class="gallery-container">
+        <a href="/artwork/{{ tag.artwork_id }}">
+          <img src=" /{{ tag.art_thumb }}" class="gallery-crop" alt={{ tag.art_title }}/>
+        </a>
+
+      <h5>{{ tag.art_title }}</h5>
+
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  
+  {% endblock %}

@@ -3,44 +3,54 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
 
+  <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
   <!-- Loading Bootstrap 4 -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
   <!-- Loading Stylesheet -->
   <link rel="style" href="/static/css/style.css"/>
+  
   <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
+
   {% block head %}
   {% endblock %}
+
 </head>
 
+
 <body>
+  
 
   <!-- Load Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
-  <a class="navbar-brand" href="#">Artist Palette</a>
+  <nav class="navbar navbar-expand-lg navbar-fixed-top">
+  <a class="navbar-brand" href="/gallery"><img src="/static/app_images/palette-circle.png"></a>
+
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+<!--       <li class="nav-item active">
+        <a class="nav-link" href="/gallery">Gallery</a>
+      </li> -->
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/upload">Upload</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">About</a>
+        <a class="nav-link" href="/search-form">Search</a>
       </li>
-          <li class="nav-item">
-      <a class="nav-link" href="#">Gallery</a>
-    </li>
     </ul>
   </div>
 </nav>
 
+<div id="page-wrap">
+</div>
 
+</body>
 
   {% block content %} 
 

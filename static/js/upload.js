@@ -1,3 +1,5 @@
+"use strict";
+
 // File for uploading user images 
 
 // Event listeners for submiting file
@@ -24,4 +26,4 @@ handleFileUploadSubmit(evt) {
      // Do something once upload is complete
      console.log('success');
   });
-}
+}``

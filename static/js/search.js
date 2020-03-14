@@ -1,48 +1,57 @@
-$("form").on("submit", function(evt){
-    $.ajax({
-        data: {
-            tag : $("#tag").val()
-        },
-        type: "POST",
-        url: "/process"
-    })
-});
+"use strict";
 
 
-$(document).ready(function(){
-    var tags=[];
-
-    function searchTags() {
-        $.getJSON("/tags", function(data) {
-            for (var i = 0; i < data.length; i++) {
-                tags.push(data[i].name);
+$('#search_id').select2({
+  ajax: {
+    url: '/search-test', // Using JSON file at locally made route
+    dataType: 'json',
+    type: 'GET',
+    results: function (term) {
+                    return {
+                        results: $.map(term.fields, function (field, i) {
+                            return {
+                                text: field.name,
+                                children: $.map(field.children, function(child){
+                                    return {
+                                        id: child.id,
+                                        text: child.name
+                                    }
+                                })
+                            }
+                        })
+                    }
+                }
+          }
         }
+      );
 
-    // function searchTitle() {
-    //     $.getJSON("/title", function(data) {
-    //         for (var i = 0; i < data.length; i++) {
-    //             tags.push(data[i].name);
-    // }
 
-    // function searchArtist() {
-    //     $.getJSON("/artist", function(data) {
-    //         for (var i = 0; i < data.length; i++) {
-    //             tags.push(data[i].name);
-    // }
-
-    // function searchMedium() {
-    //     $.getJSON("/medium", function(data) {
-    //         for (var i = 0; i < data.length; i++) {
-    //             tags.push(data[i].name);
-    // }
-
-});
-};
-
-searchTags();
-
-$("#tag").autocomplete ({
-    source: tags,
+$('#search_form').on('submit', (evt) => {
+  console.log(evt.target.innerHTML)
+  evt.preventDefault();
+  const data = {
+    'text': $("#search_id").children()[0].label};
+    console.log(data);
+  $.get('/search-results', data, (res) => {
+    console.log(res);
+     
+    if (res.type == "artist" || res.type == "tag"){
+      for (let art of res.artworks) {
+        $('#search').append(`
+          <a href="/artwork/${art.art_id}">
+          <img src="/${art.url}" class="gallery-crop" alt=${art.art_id}/>
+          </a>`);
+}
+    if (res.type === "title") {
+          `<a href="/artwork/${res.artwork_id}">
+           <img src="/${res.art_thumb}" class="gallery-crop" alt=${res.artwork_id}/>
+           </a>`;
+        
+        }
+      }    
     });
+  });
 
-});
+
+
+

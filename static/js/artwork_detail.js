@@ -1,11 +1,17 @@
+"use strict";
 
-// To enlarge image into a new pop-up window
-$("img").ready(function() {
-  $(".image-link").magnificPopup({type:"image"});
+
+$(document).ready(function(){
+
+    $(".toggle-btn").click(function(){
+        $("#visit-hide").toggle();
+    });
 });
 
-  $('.test-popup-link').magnificPopup({
-    type: 'image'
-    // other options
-  });
 
+$(document).ready(function(){
+
+    $(".toggle-btn-rgb").click(function(){
+        $("#swatch-hide").toggle();
+    });
+});
