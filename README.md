@@ -28,6 +28,9 @@ Before beginning her new career as a software engineer at Hackbright Academy, Je
 * CSS
 * Bootstrap
 * jQuery
+* Python Imaging Library
+* Haishoku Tool
+* Select2
 
 ## <a name="features"></a>Features
 
