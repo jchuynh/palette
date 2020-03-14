@@ -26,4 +26,4 @@ handleFileUploadSubmit(evt) {
      // Do something once upload is complete
      console.log('success');
   });
-}
+}``

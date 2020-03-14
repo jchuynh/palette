@@ -12,9 +12,9 @@
 {% endblock %}
 <body>
 
+<br>
+<br>
 <div id="page-wrap">
-<br>
-<br>
 
 <div class="artwork">
 <div class="artwork-details" id="details-info">
@@ -103,17 +103,18 @@
 <br>
   <div id="visit-hide">
     <div class="visit-view">
-      {% for data in visit %}
-        <div class="visit-container"
+<!--       {% for data in visit %}
+        <div class="visit-container" -->
           <a href="/artwork/{{ data.artwork_id }}">
             <img src="/{{ data.art_thumb }}" class="visit-crop" alt={{ art_id.art_title }}></a>
-        </div>
+<!--         </div> -->
     {% endfor %}
     </div>
   </div>
 
 </section>
 
+</div>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
     <script type="text/javascript"src="/static/js/artwork_detail.js"></script>
