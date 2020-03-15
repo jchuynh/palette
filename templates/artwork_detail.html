@@ -48,11 +48,11 @@
 
 
 <br>
- <br/>
+<!--  <br/>
   <button type="button" class="toggle-btn-rgb">More Colors</button> 
-  <br/>
+  <br/> -->
 
-<div class="wrapper">
+<!-- <div class="wrapper">
 {% for rgb in art_id.palette_code[-5:] %}
     <div class="swatch-palette"> 
       <div class="swatch-container">
@@ -62,10 +62,10 @@
         <span class="swatch-rgb">{{ rgb.c_palette }}</span>
       </div>
     </div>
-  {% endfor %}
+  {% endfor %} -->
   <!--To get the first 3 RGB codes from the swatch-->
 
-  <div id="swatch-hide">
+<!--   <div id="swatch-hide">
     {% for rgb in art_id.palette_code[:3] %}
     <div class="swatch-palette"> 
       <div class="swatch-container">
@@ -77,34 +77,32 @@
     </div>
     {% endfor %}
    </div>
-</div>
+</div> -->
 
-<!-- <div class="palettes">
-    <section class="swatch-palette"> 
-          <div class="swatch-container">
-             {% for rgb in art_id.palette_code[-5:] %}
-          <div class="swatch" style="background-color: rgb{{ rgb.c_palette }}"></div>
-          <span class="swatch-rgb">{{ rgb.c_palette }}</span>
-             {% endfor %}
-              </div>
-      <div id="swatch-hide" class="swatch-hide">
-      {% for rgb in art_id.palette_code[:3] %}
-        <div class="swatch" style="background-color: rgb{{ rgb.c_palette }}"></div>
-          <span class="swatch-rgb">{{ rgb.c_palette }}</span>
-    {% endfor %}
-            </div>
-      </section>
-      </div> -->
+<div class="wrapper">
+{% for rgb in art_id.palette_code %}
+    <div class="swatch-palette"> 
+      <div class="swatch-container">
+        <div class="swatch"
+        style="background-color: rgb{{ rgb.c_palette }}">
+        </div>
+        <span class="swatch-rgb">{{ rgb.c_palette }}</span>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 
 
 <br>
-  <button type="button" class="toggle-btn">Recently Viewed</button> 
+<div class="toggle-btn">
+  <button type="button">Recently Viewed</button> 
+</div>
 <br>
 <br>
   <div id="visit-hide">
     <div class="visit-view">
-<!--       {% for data in visit %}
-        <div class="visit-container" -->
+      {% for data in visit %}
+<!--         <div class="visit-container" -->
           <a href="/artwork/{{ data.artwork_id }}">
             <img src="/{{ data.art_thumb }}" class="visit-crop" alt={{ art_id.art_title }}></a>
 <!--         </div> -->

@@ -1,0 +1,1 @@
+export app.secret_key = "firefoxes&goldenmonkeys"

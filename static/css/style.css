@@ -132,6 +132,7 @@ img.gallery-crop {
 .artwork-details-img {
   float: left;
   width: 50%;
+/*  max-height: 480px;*/
 }
 
 .swatch {
@@ -202,6 +203,9 @@ div.swatch {
 
 .wrapper {
   display: flex;
+  justify-content: center;
+  width: 100%;
+
 }
 
 .tag {
@@ -257,7 +261,7 @@ a.tag-link: {
 
 img.detail {
   max-width: 527px;
-  max-height: 610px;
+  max-height: 525px;
 }
 
 #detail-artist {
@@ -287,17 +291,10 @@ img.detail {
   color: #888888;
 }
 
-/*.detail-img-border {
-  width: 552px;
-  height: 635px;
-  background-color: #ffffff;*/
-}
 
 .visit-view {
   display: inline-block;
   position: center;
-
-
 }
 
 .visit-container {

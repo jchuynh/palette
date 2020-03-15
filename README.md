@@ -31,6 +31,7 @@ Before beginning her new career as a software engineer at Hackbright Academy, Je
 * Python Imaging Library
 * Haishoku Tool
 * Select2
+* Werkzeug-Utlities
 
 ## <a name="features"></a>Features
 

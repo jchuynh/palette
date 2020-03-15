@@ -239,7 +239,7 @@ def all_tag(tag_code):
 
     tag = Tag.query.get(tag_code)
 
-    return render_template("tag_results.html", tag=tag)
+    return render_template("tag_results.html", tag=tag, tag_code=tag_code)
 
 
 if __name__ == "__main__":

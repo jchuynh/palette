@@ -9,7 +9,11 @@
 <div id="page-wrap">
   <br>
   <br>
+
   {% block content %}
+  <br>
+  <h1>Tag: {{ tag_code }}</h1>
+  <br>
     {% for tag in tag.artworks %}
     <div class="gallery">
       <div class="gallery-container">
