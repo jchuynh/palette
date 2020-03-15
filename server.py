@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
 
 app = Flask(__name__)
 
-app.secret_key = "firefoxes&goldenmonkeys"
+app.secret_key = "app.secret_key"
 
 # app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
