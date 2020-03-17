@@ -63,4 +63,6 @@ Palette has some features that would continue to help provide the information:
 * Increase the artwork database to include more museums.
 * Creating a user login to save color swatches and/or palettes of your choice.
 * Increase search box queries to include year and type of artwork.
+* Making the web app a responsive site.
+* Further deconstructing painting to show only outlines of brushstrokes.
 
