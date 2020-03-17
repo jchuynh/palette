@@ -23,7 +23,7 @@ handleFileUploadSubmit(evt) {
     // Handle unsuccessful uploads
     console.log(error);
   }, () => {
-     // Do something once upload is complete
+     // When upload is complete
      console.log('success');
   });
 }``

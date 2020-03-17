@@ -3,23 +3,27 @@
 {% block title %} Upload Personal Image {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 
 {% block content %}
-    <body>
-        <br>
-    <h1><span class="upload-title">Create your own color palette!</span></h1>
-    <p><span class="upload-title">Please upload either a .jpg or .jpeg file.</span></p>
-<br>
-<div class="upload">
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
-    </form>
-</div>
-<section>
+  <body>
+    <br>
+      <h1>
+        <span class="upload-title">Create your own color palette!</span>
+      </h1>
+      <p>
+        <span class="upload-title">Please upload either a .jpg or .jpeg file.</span>
+      </p>
+    <br>
+      <div class="upload">
+        <form method=post enctype=multipart/form-data>
+          <input type=file name=file>
+          <input type=submit value=Upload>
+        </form>
+      </div>
+  <section>
     <img src="/static/app_images/upload-img.png" id="center"/>
-</section>
-    </body>
+  </section>
+  </body>
 {% endblock %}

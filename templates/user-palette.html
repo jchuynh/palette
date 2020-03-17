@@ -3,33 +3,32 @@
 {% block title %} Your Palette {% endblock %}
 
 {% block content %}
-<head>
-  <link rel="stylesheet" href="/static/css/style.css">
-</head>
+  <head>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
 
-<body>
-  <div id="page-wrap">
-  <br>
+  <body>
+    <div id="page-wrap">
+    <br>
 
-  <h1>Here's your personal color palette!</h1>
-  <br>
-  <section class="artwork-details">
-    <img src="/static/user_images/{{ filename }}" class ="detail" alt={{ filename }}>
-</section>
-  <!--To get the last 5 RGB codes from the color palette-->
-  <!--I personally perferred the last 5-->
-<div class="u-palettes">
-    {% for item in u_color_pal %}
-    <div class="swatch-palette"> 
-      <div class="swatch-container">
-        <div class="swatch"
-        style="background-color: rgb{{ item }}">
+      <h1>Here's your personal color palette!</h1>
+      <br>
+        <section class="artwork-details">
+          <img src="/static/user_images/{{ filename }}" class ="detail" alt={{ filename }}>
+        </section>
+
+        <div class="u-palettes">
+          {% for item in u_color_pal %}
+            <div class="swatch-palette"> 
+              <div class="swatch-container">
+                <div class="swatch"
+                 style="background-color: rgb{{ item }}">
+                </div>
+                  <span class="swatch-rgb">{{ item }}</span>
+              </div>
+            </div>
+          {% endfor %}
         </div>
-        <span class="swatch-rgb">{{ item }}</span>
       </div>
-    </div>
-  {% endfor %}
-</div>
-</div>
-</body>
+  </body>
 {% endblock %}

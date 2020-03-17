@@ -70,4 +70,6 @@ Palette has some features that would continue to help provide the information:
 * Increase search box queries to include year and type of artwork.
 * Making the web app a responsive site.
 * Further deconstructing painting to show only outlines of brushstrokes.
+* Save users' uploads to a cloud service
+* Deploy website 
 
