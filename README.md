@@ -44,6 +44,8 @@ The visitors are directed to artwork's details. The left contains text informati
 #### Tags
 Tags are located under the artist's name. When selecting the tags, the visitor will be redirected to another 'mini' gallery with all the artworks that have the same tag. This allows the visitor to view similar artworks based on a tag description.
 
+![Exploring with Tags](/static/gifs/tags.gif)
+
 #### Color Palette
 There are five visible color swatches of the color palette. The visitor can also select the "More Colors" button, to view the 3 more swatches. By keeping some the colors hidden, the visitor will have time to view the dominant colors and see where in the artwork is that color. 
 
@@ -53,9 +55,12 @@ With all the available artworks that the visitor viewed, the "Recently Viewed" b
 ### Search Page
 Visitors can search the gallery by artist, a tag description, and the title of an artwork. The information will be populated based on the visitor's search term. 
 
+![Searching for artwork](/static/gifs/search.gif)
 
 ### Upload Page: Be your own inspiration
 When a visitor is feeling inspired, they can upload their own image. The uploaded image will be processed in the same way as the artworks and will provide the full eight color swatches.
+
+![Uploading Images](/static/gifs/upload.gif)
 
 
 ## <a name="future"></a>Future Features
