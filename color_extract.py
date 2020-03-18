@@ -1,21 +1,21 @@
 
-from haishoku.haishoku import Haishoku
-from PIL import Image
-# from seed import seed.load_artworks
 import requests
 import sys
 import json
 import os # want to make a new directory/folder for each set of color palettes
 
+from haishoku.haishoku import Haishoku
+from PIL import Image
+
+
 
 img_path = "https://images.metmuseum.org/CRDImages/as/web-large/DP122117.jpg"
 
-
-hai = Haishoku.loadHaishoku(img_path) 
 #returns a Haishoku instance, used to read the file
+hai = Haishoku.loadHaishoku(img_path) 
+
 
 palette = Haishoku.getPalette(img_path) # (percentage of color (RGB values))
-# print(palette)
 
 def new_image(mode, size, color): 
     return Image.new(mode, size, color)

@@ -1,11 +1,9 @@
-import upload
 import urllib.request
 import requests
 import json
 import os
 import collections
 
-from jinja2 import StrictUndefined  
 from haishoku.haishoku import Haishoku
 from PIL import Image
 
@@ -15,6 +13,7 @@ from werkzeug.utils import secure_filename
 
 from model import Artwork, Artist, ArtType, ArtTag, Tag, connect_to_db, db
 
+from jinja2 import StrictUndefined  
 
 
 # Allowed extensions for users to upload images
@@ -30,7 +29,7 @@ app.jinja_env.undefined = StrictUndefined
 # @app.route("/")
 # def index():
 #     """Displays homepage."""
-
+()
 #     arts = Artwork.query.all()
 
 #     return render_template("index.html", arts=arts)
