@@ -34,12 +34,12 @@ app.jinja_env.undefined = StrictUndefined
 
 #     return render_template("index.html", arts=arts)
 
-@app.route("/gallery")
+@app.route("/index")
 def display_all_artworks():
     """Displays all available artworks."""
     arts = Artwork.query.all()
 
-    return render_template("gallery.html", arts=arts)
+    return render_template("index.html", arts=arts)
 
 
 @app.route("/upload")
