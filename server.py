@@ -176,6 +176,7 @@ def all_query():
     return jsonify({"results": results})
 
 
+
 @app.route("/artwork/<int:artwork_id>")
 def artwork_detail(artwork_id):
     """Displays more information on single artwork."""
@@ -226,7 +227,7 @@ def all_tag(tag_code):
 
 
 if __name__ == "__main__":
-    app.debug = True
+    app.debug = False
     connect_to_db(app)
     # DebugToolbarExtension(app)
-    app.run(host="0.0.0.0")
+    app.run(threaded=True) # host="0.0.0.0"
