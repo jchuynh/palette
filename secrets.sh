@@ -1,1 +1,1 @@
-export app.secret_key="tadahfoxesandgoldenmonkeys"
+export app.secret_key="np\xdc\xb5:\xc4\t\xd7\xb6\x84\x99\x07\xa7g\x8b\xd2R\xd5\x07\x97Z'8\x9d"
