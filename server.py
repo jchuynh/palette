@@ -17,13 +17,13 @@ from jinja2 import StrictUndefined
 
 
 # Allowed extensions for users to upload images
-ALLOWED_EXTENSIONS = {"jpg", "jpeg"}
+ALLOWED_EXTENSIONS={"jpg", "jpeg"}
 
 app = Flask(__name__)
 
-app.secret_key = "app.secret_key" # Exporting from secrets.sh
+app.secret_key="app.secret_key" # Exporting from secrets.sh
 
-app.jinja_env.undefined = StrictUndefined
+app.jinja_env.undefined=StrictUndefined
 
 
 # @app.route("/")
@@ -227,7 +227,7 @@ def all_tag(tag_code):
 
 
 if __name__ == "__main__":
-    app.debug = False
+    app.debug=False
     connect_to_db(app)
     # DebugToolbarExtension(app)
     app.run() # host="0.0.0.0" #threaded=True
