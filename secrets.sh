@@ -1,1 +1,1 @@
-export app.secret_key='tadahfoxesandgoldenmonkeys'
+export app.secret_key="tadahfoxesandgoldenmonkeys"
