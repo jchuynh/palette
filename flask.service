@@ -1,5 +1,5 @@
 [Unit]
-Description=Palette
+Description=palette-web-app
 After=network.target
 
 [Service]
