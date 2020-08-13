@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 
 from model import Artwork, Artist, ArtType, ArtTag, Tag, connect_to_db, db
 
-from jinja2 import StrictUndefined  
+from jinja2 import StrictUndefined
 
 
 # Allowed extensions for users to upload images
@@ -21,9 +21,9 @@ ALLOWED_EXTENSIONS={"jpg", "jpeg"}
 
 app = Flask(__name__)
 
-app.secret_key='app.secret_key' # Exporting from secrets.sh
+app.secret_key = 'app.secret_key' # Exporting from secrets.sh
 
-app.jinja_env.undefined=StrictUndefined
+app.jinja_env.undefined = StrictUndefined
 
 
 # @app.route("/")
@@ -230,4 +230,4 @@ if __name__ == "__main__":
     app.debug=False
     connect_to_db(app)
     # DebugToolbarExtension(app)
-    app.run() # host="0.0.0.0" #threaded=True
+    app.run() #host="0.0.0.0" threaded=True
