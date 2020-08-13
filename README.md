@@ -3,7 +3,7 @@
   <a href="https://github.com/jchuynh/color-palette-demo">
     <img alt="Palette" src="https://github.com/jchuynh/palette/blob/master/static/app_images/palette-dashed-circle.png" width="50%">
   </a>
-  <br>Palette<br> [Check it out!](http://palette.jessicahuynh.com/index)
+  <br>[Palette](http://palette.jessicahuynh.com/index)<br>
 </h1>
 
 
