@@ -21,7 +21,7 @@ ALLOWED_EXTENSIONS={"jpg", "jpeg"}
 
 app = Flask(__name__)
 
-app.secret_key = 'app.secret_key' # Exporting from secrets.sh
+app.secret_key = 'SECRET_KEY' # Exporting from secrets.sh
 
 app.jinja_env.undefined = StrictUndefined
 
